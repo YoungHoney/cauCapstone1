@@ -14,7 +14,7 @@ import java.util.List;
 public class Clan {
 
     @EmbeddedId
-
+    @Column(length=2)
     private ClanId clanid;
 
 
