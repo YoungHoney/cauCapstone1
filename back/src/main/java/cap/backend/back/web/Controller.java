@@ -1,4 +1,4 @@
-package cap.backend.back.API;
+package cap.backend.back.web;
 
 import org.springframework.web.bind.annotation.RestController;
 
