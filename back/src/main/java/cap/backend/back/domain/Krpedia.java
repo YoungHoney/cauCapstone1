@@ -1,5 +1,9 @@
 package cap.backend.back.domain;
 
+import cap.backend.back.domain.gptresults.Govsequence;
+import cap.backend.back.domain.gptresults.Lifesummary;
+import cap.backend.back.domain.gptresults.Mbti;
+import cap.backend.back.domain.gptresults.Privatehistory;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,6 +15,21 @@ public class Krpedia {
     @OneToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="person_id")
     private Person person; //인물과 양방향 일대일
+
+
+//각 gpt 결과들에대해 결과들만 사전내용을 알도록 함
+//    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
+//    private Lifesummary lifesummary; //활동요약과 양방향 일대일
+//
+//    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
+//    private Govsequence govsequence; //관직순서와 양방향 일대일
+//
+//    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
+//    private Mbti mbti; //mbti식 요약과 양방향 일대일
+//
+//    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
+//    private Privatehistory privatehistory; //개인사건과 양방향 일대일
+
 
 
     @Column(length=10)

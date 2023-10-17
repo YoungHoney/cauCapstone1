@@ -35,7 +35,5 @@ class PersonRepositoryTest {
 
     }
 
-    @Test
-    void findOne() {
-    }
+
 }

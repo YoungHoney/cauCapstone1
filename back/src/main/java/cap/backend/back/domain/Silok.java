@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Silok {
     @Id
-    @JoinColumn()
+    private Long id;
 
 
 

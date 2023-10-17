@@ -1,6 +1,5 @@
 package cap.backend.back.domain.govrank;
 
-import cap.backend.back.domain.compositekey.GovmatchId;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,16 +7,21 @@ import lombok.Data;
 @Data
 public class Govmatch {
 
-    @EmbeddedId
-    private GovmatchId govmatchId;
 
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="oldname",insertable = false,updatable = false)
+    @Id
+    @GeneratedValue
+    @Column(name="Govmatch_id")
+    private Long id;
+
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="oldname")
     private Oldgov oldgov;
 
-    @ManyToOne
-    @JoinColumn(name="modernname",insertable = false,updatable = false)
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="modernname")
     private Moderngov moderngov;
+
 
 
 }

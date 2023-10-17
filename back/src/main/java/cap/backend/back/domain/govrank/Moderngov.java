@@ -1,12 +1,14 @@
 package cap.backend.back.domain.govrank;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Data
 public class Moderngov {
     @Id
     @Column(name="modernname")
@@ -25,6 +27,6 @@ public class Moderngov {
     private byte[] personpicture;
 
 
-
-
+    @OneToMany(mappedBy = "moderngov")
+    private List<Govmatch> govmatches=new ArrayList<>();
 }
