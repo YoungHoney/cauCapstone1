@@ -24,6 +24,5 @@ public class Mbti {
 
 
     @OneToMany(mappedBy = "mbti")
-    @JoinColumn(name="mbti")
     private List<Silok> siloks=new ArrayList<>();
 }

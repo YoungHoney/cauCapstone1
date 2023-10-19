@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@Rollback(false)
+//@Rollback(false)
 class PersonRepositoryTest {
 
     @Autowired

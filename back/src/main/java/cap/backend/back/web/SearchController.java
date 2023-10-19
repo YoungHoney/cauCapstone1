@@ -1,5 +1,6 @@
 package cap.backend.back.web;
 
+import cap.backend.back.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 @Slf4j
 public class SearchController {
+
+
+
+
     @PostMapping
     public String searchByName(@RequestParam String name, RedirectAttributes redirectAttributes){
         /*db에 있는 경우
@@ -46,6 +51,8 @@ public class SearchController {
         /*
         해당하는 초성으로 시작하는 본관 목록 들고오기
          */
+
+
         log.info("letter={}, clan={}", letter, clan);
         return "hello";
     }

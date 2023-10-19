@@ -21,7 +21,6 @@ public class Lifesummary {
     private String contents;
 
     @OneToMany(mappedBy = "lifesummary")
-    @JoinColumn(name="lifesummary")
     private List<Silok> siloks=new ArrayList<>();
 
 

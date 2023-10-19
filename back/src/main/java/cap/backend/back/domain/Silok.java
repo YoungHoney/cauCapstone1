@@ -17,19 +17,19 @@ public class Silok {
     private Long p_id;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="person_id")
+    @JoinColumn(name="person_id",insertable = false,updatable = false)
     private Govsequence govsequence;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="person_id")
+    @JoinColumn(name="person_id",insertable = false,updatable = false)
     private Lifesummary lifesummary;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="person_id")
+    @JoinColumn(name="person_id",insertable = false,updatable = false)
     private Mbti mbti;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="person_id")
+    @JoinColumn(name="person_id",insertable = false,updatable = false)
     private Privatehistory privatehistory;
 
 

@@ -3,6 +3,9 @@ package cap.backend.back.repository;
 import cap.backend.back.domain.govrank.Govmatch;
 import cap.backend.back.domain.govrank.Moderngov;
 import cap.backend.back.domain.govrank.Oldgov;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +14,29 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@Rollback(false)
+//@Rollback(false)
 class GovRepositoryTest {
 
-    @Autowired
+    @Autowired //before each에서 새로 넣어줘서 리프레시
     GovRepository govRepository;
+
+    @AfterEach
+    void setting() {
+        govRepository=new GovRepository();
+
+
+    }
 
 
 
@@ -74,6 +89,36 @@ class GovRepositoryTest {
 
 
     }
+
+    @Test
+    @Transactional
+    void 사진_들어가나_테스트() throws IOException {
+        Moderngov mgov1=new Moderngov();
+
+        mgov1.setName("법무부장관");
+        mgov1.setRank("장관급");
+        mgov1.setPersonname("한동훈");
+        mgov1.setIswarrior(false);
+
+        try (InputStream input = getClass().getResourceAsStream("/HanDongHun.png")) {
+            byte[] photoData = IOUtils.toByteArray(input);
+            mgov1.setPersonpicture(photoData);
+
+            govRepository.save(mgov1);
+        } catch (IOException e) {
+            // 이미지 로딩 또는 변환 중에 문제가 발생했습니다.
+            e.printStackTrace();
+        }
+
+       // System.out.println("findModerngov(\"\") = " + govRepository.findModerngov("법무부장관"));
+        assertEquals(mgov1.getPersonpicture(),govRepository.findModerngov("법무부장관").getPersonpicture());
+
+
+
+
+    }
+
+
 
 
 

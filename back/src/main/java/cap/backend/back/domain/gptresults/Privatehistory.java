@@ -21,7 +21,6 @@ public class Privatehistory {
 
 
     @OneToMany(mappedBy = "privatehistory")
-    @JoinColumn(name="privatehistory")
     private List<Silok> siloks=new ArrayList<>();
 
 }

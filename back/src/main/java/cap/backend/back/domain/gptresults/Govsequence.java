@@ -26,7 +26,6 @@ public class Govsequence {
 
 
     @OneToMany(mappedBy = "govsequence")
-    @JoinColumn(name="govsequence")
     private List<Silok> siloks=new ArrayList<>();
 
     private int sequnce_num;
