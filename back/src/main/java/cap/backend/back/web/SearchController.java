@@ -105,7 +105,7 @@ public class SearchController {
 
 
         log.info("letter={}, clan={}", letter, clan);
-       // return "hello";
+
         return ResponseEntity.ok("heelo");
     }
 }

@@ -44,6 +44,10 @@ public class SearchService {
 
     }
 
+    public Clan findClanByWholeName(String clanwholename) {
+        return personRepository.findClanByWholeName(clanwholename);
+    }
+
 
 
 
