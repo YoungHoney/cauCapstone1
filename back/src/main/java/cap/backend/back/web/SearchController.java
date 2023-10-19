@@ -4,15 +4,20 @@ package cap.backend.back.web;
 import cap.backend.back.domain.Clan;
 import cap.backend.back.domain.Person;
 import cap.backend.back.repository.PersonRepository;
+import cap.backend.back.domain.compositekey.ClanId;
+import cap.backend.back.repository.PersonRepository;
+
 import cap.backend.back.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,19 +57,53 @@ public class SearchController {
     }
     @GetMapping("/initial/{letter}")
     public CollectionModel<EntityModel<Clan>> searchByInitial(@PathVariable String letter){
-        List<EntityModel<Clan>> clans = searchService.findClansByLetter(letter).stream()
+        ClanId clan1=new ClanId();
+        clan1.setClanHangul("해평");
+        clan1.setSurnameHangul("윤");
+        clan1.setSurnameHanja("海平");
+
+
+
+        ClanId clan2=new ClanId();
+        clan2.setClanHangul("파평");
+        clan2.setSurnameHangul("윤");
+        clan2.setSurnameHanja("巴平");
+
+        Clan clan_1=new Clan();
+        clan_1.setClanid(clan1);
+        clan_1.setCho('ㅇ');
+
+        Clan clan_2=new Clan();
+        clan_2.setClanid(clan2);
+        clan_2.setCho('ㅇ');
+
+        List<Clan> ls=new ArrayList<>();
+        ls.add(clan_1);
+        ls.add(clan_2);
+
+        List<EntityModel<Clan>> clans=  ls.stream()
                 .map(clan -> EntityModel.of(clan,
                         linkTo(methodOn(SearchController.class).searchByInitialClan(letter,
                                 clan.getClanid().getClanHangul()+clan.getClanid().getSurnameHangul()+"씨")).withSelfRel(),
                         linkTo(methodOn(SearchController.class).searchByInitial(letter)).withRel("initial")))
                         .collect(Collectors.toList());
+
+
+
+
+
+
+>>>>>>> refs/remotes/origin/main
         return CollectionModel.of(clans, linkTo(methodOn(SearchController.class).searchByInitial(letter)).withSelfRel());
 
     }
+
+
+
     @GetMapping("/initial/{letter}/{clan}")
     //clan optional value로 만들어서 합치는 것도 가능할 듯
     public EntityModel<SearchClanResponse> searchByInitialClan(@PathVariable String letter, @PathVariable String clan){
-        String tempClan;
+        String tempClan = null;
         if (clan.endsWith("씨")) {
             // 마지막 글자(씨)를 제외한 나머지 문자열을 추출
             tempClan = clan.substring(0, clan.length() - 1);
@@ -75,6 +114,5 @@ public class SearchController {
 
 
         log.info("letter={}, clan={}", letter, clan);
-        return "hello";
     }
 }

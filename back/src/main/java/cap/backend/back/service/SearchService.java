@@ -29,7 +29,7 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<Clan> findClansByLetter(String Letter) {
+    public List<Clan> findClansByLetter(char Letter) {
         return personRepository.findClansByLetter(Letter);
 
     }
@@ -42,6 +42,10 @@ public class SearchService {
         }
         else return true;
 
+    }
+
+    public Clan findClanByWholeName(String clanwholename) {
+        return personRepository.findClanByWholeName(clanwholename);
     }
 
 

@@ -3,6 +3,7 @@ package cap.backend.back.repository;
 
 import cap.backend.back.domain.Clan;
 import cap.backend.back.domain.Person;
+import cap.backend.back.domain.compositekey.ClanId;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,12 +13,20 @@ import java.util.List;
 @Repository
 public class PersonRepository {
 
+
     @PersistenceContext
     EntityManager em;
 
     public Long save(Person person) {
         em.persist(person);
+
         return person.getId();
+    }
+
+    public ClanId saveClan(Clan clan) {
+        em.persist(clan);
+
+        return clan.getClanid();
     }
 
 
@@ -76,10 +85,20 @@ public class PersonRepository {
     }
 
 
-    public List<Clan> findClansByLetter(String letter) {
-        return em.createQuery("select c from Clan c where c.clanid.surnameHangul=:Letter",Clan.class)
+    public List<Clan> findClansByLetter(char letter) {
+        return em.createQuery("select c from Clan c where c.cho=:Letter",Clan.class)
                 .setParameter("Letter",letter)
                 .getResultList();
+    }
+
+    public Clan findClanByWholeName(String clanwholename) { //string "해평윤" -> 해평윤씨 clan 반환
+        String clanHangulTemp=clanwholename.substring(0,2);
+        String surnameHangulTemp=clanwholename.substring(2);
+
+        return em.createQuery("select c from Clan c where c.clanid.clanHangul=:Clanhangul and c.clanid.surnameHangul=:Surnamehangul",Clan.class)
+                .setParameter("Clanhangul",clanHangulTemp)
+                .setParameter("Surnamehangul",surnameHangulTemp)
+                .getSingleResult();
     }
 
 
