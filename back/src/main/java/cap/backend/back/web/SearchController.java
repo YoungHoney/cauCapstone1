@@ -1,10 +1,9 @@
 package cap.backend.back.web;
 
-<<<<<<< HEAD
-=======
+
 import cap.backend.back.domain.Clan;
+import cap.backend.back.domain.Person;
 import cap.backend.back.repository.PersonRepository;
->>>>>>> origin
 import cap.backend.back.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,16 +57,21 @@ public class SearchController {
                         linkTo(methodOn(SearchController.class).searchByInitialClan(letter,
                                 clan.getClanid().getClanHangul()+clan.getClanid().getSurnameHangul()+"씨")).withSelfRel(),
                         linkTo(methodOn(SearchController.class).searchByInitial(letter)).withRel("initial")))
-                        .toList();
+                        .collect(Collectors.toList());
         return CollectionModel.of(clans, linkTo(methodOn(SearchController.class).searchByInitial(letter)).withSelfRel());
 
     }
     @GetMapping("/initial/{letter}/{clan}")
     //clan optional value로 만들어서 합치는 것도 가능할 듯
-    public String searchByInitialClan(@PathVariable String letter, @PathVariable String clan){
-        /*
-        해당하는 초성으로 시작하는 본관 목록 들고오기
-         */
+    public EntityModel<SearchClanResponse> searchByInitialClan(@PathVariable String letter, @PathVariable String clan){
+        String tempClan;
+        if (clan.endsWith("씨")) {
+            // 마지막 글자(씨)를 제외한 나머지 문자열을 추출
+            tempClan = clan.substring(0, clan.length() - 1);
+        } else {
+        }
+        Clan a = searchService.findClanByWholeName(tempClan);
+        List<EntityModel<Person>> ancestors = searchService.findPersonnamesByClan(a);
 
 
         log.info("letter={}, clan={}", letter, clan);
