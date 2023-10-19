@@ -21,7 +21,7 @@ class PersonRepositoryTest {
 
     @Test
     @Transactional
-    void PersonRepository잘저장되는지테스트() {
+    void 사람저장_잘되나_테스트() {
 
         Person person1=new Person();
         person1.setName("손흥민");

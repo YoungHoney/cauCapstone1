@@ -19,7 +19,8 @@ public class Mbti {
     private String mbti;
 
 
-    private String mbticontents;
+    @Column(name="mbticontents")
+    private String contents;
 
 
     @OneToMany(mappedBy = "mbti")

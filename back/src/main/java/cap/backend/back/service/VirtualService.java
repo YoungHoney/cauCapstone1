@@ -1,4 +1,4 @@
 package cap.backend.back.service;
 
-public class service {
+public class VirtualService {
 }
