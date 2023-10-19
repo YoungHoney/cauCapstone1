@@ -12,12 +12,18 @@ import java.util.List;
 @Repository
 public class PersonRepository {
 
+
     @PersistenceContext
     EntityManager em;
 
     public Long save(Person person) {
         em.persist(person);
         return person.getId();
+    }
+
+    public void saveClan(Clan clan) {
+        em.persist(clan);
+
     }
 
 
@@ -76,8 +82,8 @@ public class PersonRepository {
     }
 
 
-    public List<Clan> findClansByLetter(String letter) {
-        return em.createQuery("select c from Clan c where c.clanid.surnameHangul=:Letter",Clan.class)
+    public List<Clan> findClansByLetter(char letter) {
+        return em.createQuery("select c from Clan c where c.cho=:Letter",Clan.class)
                 .setParameter("Letter",letter)
                 .getResultList();
     }

@@ -29,7 +29,7 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<Clan> findClansByLetter(String Letter) {
+    public List<Clan> findClansByLetter(char Letter) {
         return personRepository.findClansByLetter(Letter);
 
     }
