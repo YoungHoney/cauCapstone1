@@ -2,7 +2,11 @@ package cap.backend.back.domain.gptresults;
 
 
 import cap.backend.back.domain.Krpedia;
+import cap.backend.back.domain.Silok;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Lifesummary {
@@ -16,7 +20,9 @@ public class Lifesummary {
     @Column(name="lifesummarycontents")
     private String contents;
 
-
+    @OneToMany(mappedBy = "lifesummary")
+    @JoinColumn(name="lifesummary")
+    private List<Silok> siloks=new ArrayList<>();
 
 
 
