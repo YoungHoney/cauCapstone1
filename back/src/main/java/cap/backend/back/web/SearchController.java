@@ -34,10 +34,9 @@ public class SearchController {
 
     @PostMapping
     public String searchByName(@RequestParam String name, RedirectAttributes redirectAttributes){
-
-        /*db에 있는 경우
-        return "redirect:/ancestor/{id}";
-         */
+        if(searchService.isPersoninDBByName(name)) {
+            return "redirect:/ancestor/{id}";
+        }
 
         /* db에는 없고 민족에는 있는 경우
         //작업수행 후
@@ -90,11 +89,6 @@ public class SearchController {
 
 
 
-
-
-
-
-
         return CollectionModel.of(clans, linkTo(methodOn(SearchController.class).searchByInitial(letter)).withSelfRel());
 
     }
@@ -108,6 +102,7 @@ public class SearchController {
             tempClan = clan.substring(0, clan.length() - 1);
         } else {//오류 코드 나중에 구현해야하면 하면 될듯
         }
+        //tempClan은 해평윤 string. 해평윤 가지고 해평윤씨 type을 db에 꺼냄
         Clan a = searchService.findClanByWholeName(tempClan);
 
         //밑의 ancestor가 string이라 List<EntityModel<Person>>이 아니라 string이다
@@ -124,6 +119,7 @@ public class SearchController {
                         linkTo(methodOn(SearchController.class).searchByInitial(letter)).withRel("initial")))
                 .collect(Collectors.toList());
 
+        //map 사용?
         SearchClanResponse searchClanResponse = new SearchClanResponse(ancestors, clans);
 
         return EntityModel.of(searchClanResponse,

@@ -2,6 +2,7 @@ package cap.backend.back.domain;
 
 
 import cap.backend.back.domain.compositekey.ClanId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import java.util.List;
 public class Clan {
 
     @Transient
+    @JsonIgnore
     private static final char[] CHO =
             {'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'};
 
@@ -31,11 +33,11 @@ public class Clan {
     private ClanId clanid;
 
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "clan")
     private List<Person> persons=new ArrayList<>();
 
-
+    @JsonIgnore
     private char cho;
 
 

@@ -1,6 +1,7 @@
 package cap.backend.back.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,8 @@ public class Person {
 
 
     @OneToOne(mappedBy="person",fetch=FetchType.LAZY)
+
+    @JsonIgnore
     private Krpedia krpedia; //사전과 양방향 일대일
 
     @Column(length=10)
