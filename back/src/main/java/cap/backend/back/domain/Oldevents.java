@@ -18,6 +18,7 @@ public class Oldevents {
     @Column(name="oldeventname")
     private String name;
 
+    @Column(name="oldeventsyear")
     private int year;
 
 }

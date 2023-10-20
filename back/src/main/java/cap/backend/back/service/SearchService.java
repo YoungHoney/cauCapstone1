@@ -29,9 +29,7 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public long findIdByName(String personname) {
-        return personRepository.findPersonInDBByName(personname).getId();
-    }
+
 
     public List<Clan> findClansByLetter(char Letter) {
         return personRepository.findClansByLetter(Letter);

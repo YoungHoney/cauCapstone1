@@ -24,7 +24,7 @@ public class Moderngov {
 
     @Lob
     @Column(name="modernpersonpicture")
-    private byte[] personpicture;
+    private String personpicture;
 
 
     @OneToMany(mappedBy = "moderngov")

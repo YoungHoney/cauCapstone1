@@ -32,6 +32,9 @@ public class Silok {
     @JoinColumn(name="person_id",insertable = false,updatable = false)
     private Privatehistory privatehistory;
 
+    @Column(name="silokcontents")
+    private String contents;
+
 
 
 

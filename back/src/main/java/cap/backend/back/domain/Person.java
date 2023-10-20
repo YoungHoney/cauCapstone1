@@ -28,6 +28,9 @@ public class Person {
     @Column(length=10)
     private String name;
 
+    @Lob
+    private String personpicture;
+
     private int birthyear;
 
     private int deathyear;

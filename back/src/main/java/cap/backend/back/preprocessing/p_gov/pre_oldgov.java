@@ -1,6 +1,8 @@
 package cap.backend.back.preprocessing.p_oldevents;
 
 import cap.backend.back.domain.Oldevents;
+import cap.backend.back.domain.govrank.Oldgov;
+import cap.backend.back.repository.GovRepository;
 import cap.backend.back.repository.OldEventsRepository;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +22,12 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class pre_oldevents {
+public class pre_oldgov {
 
 
 
-    private final OldEventsRepository oldeventsrepository;
-   // String path = "rawdata\\oldevents\\joseonEvents.csv";
+    private final GovRepository govRepository;
+
     String csvSplitBy = ",";
 
 
@@ -37,22 +39,34 @@ public class pre_oldevents {
 
 
         try {
-            br = Files.newBufferedReader(Paths.get(System.getProperty("user.dir"),"src","main","resources","rawdata","oldevents","joseonEvents.csv"), StandardCharsets.UTF_8);
+            br = Files.newBufferedReader(Paths.get(System.getProperty("user.dir"),"src","main","resources","rawdata","oldgov","oldgovlist.csv"), StandardCharsets.UTF_8);
             String line = "";
 
 
             while ((line = br.readLine()) != null) {
                 List<String> stringList = new ArrayList<>();
                 String stringArray[] = line.split(csvSplitBy);
-                
-                String temps=stringArray[0].substring(0,4);
-                System.out.println("temps = " + temps);
 
-                Oldevents temp=new Oldevents();
-                temp.setYear(Integer.parseInt(temps));
-                temp.setName(stringArray[1]);
+                //String temps=stringArray[0].substring(0,4);
+                //System.out.println(stringArray[0]+"   "+stringArray[1]+"   "+stringArray[2]);
 
-                oldeventsrepository.save(temp);
+                Oldgov temp=new Oldgov();
+                temp.setName(stringArray[0]);
+                temp.setRank(stringArray[2]);
+                temp.setGovmatches(null);
+
+                if(stringArray[1].equals("문관")) {
+                    temp.setIswarrior(false);
+                } else {
+                    temp.setIswarrior(true);
+                }
+
+
+                if(govRepository.findOldgov(temp.getName())==null) {
+                    govRepository.save(temp);
+                }
+
+
 
 
                 stringList = Arrays.asList(stringArray);

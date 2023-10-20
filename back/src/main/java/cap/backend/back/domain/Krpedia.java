@@ -7,6 +7,8 @@ import cap.backend.back.domain.gptresults.Privatehistory;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 public class Krpedia {
@@ -35,7 +37,7 @@ public class Krpedia {
     private String surnameHangul;
 
     @Lob
-    private byte[] personpicture;
+    private String personpicture;
 
     private String definition; //정의
     private String description; //개설
@@ -53,8 +55,8 @@ public class Krpedia {
 //    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
 //    private Mbti mbti; //mbti식 요약과 양방향 일대일
 //
-//    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
-//    private Privatehistory privatehistory; //개인사건과 양방향 일대일
+    @OneToMany(mappedBy = "krpedia")
+    private List<Privatehistory> privatehistory; //개인사건과 양방향 일대일
 
 
 

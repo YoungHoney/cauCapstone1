@@ -18,6 +18,8 @@ public class Oldgov {
     private String rank;
     private boolean iswarrior;
 
+
+
     @OneToMany(mappedBy = "oldgov")
     private List<Govmatch> govmatches=new ArrayList<>();
 

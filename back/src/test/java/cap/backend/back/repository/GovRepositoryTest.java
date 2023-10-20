@@ -90,33 +90,33 @@ class GovRepositoryTest {
 
     }
 
-    @Test
-    @Transactional
-    void 사진_들어가나_테스트() throws IOException {
-        Moderngov mgov1=new Moderngov();
-
-        mgov1.setName("법무부장관");
-        mgov1.setRank("장관급");
-        mgov1.setPersonname("한동훈");
-        mgov1.setIswarrior(false);
-
-        try (InputStream input = getClass().getResourceAsStream("/rawdata/moderngov/HanDongHun.png")) {
-            byte[] photoData = IOUtils.toByteArray(input);
-            mgov1.setPersonpicture(photoData);
-
-            govRepository.save(mgov1);
-        } catch (IOException e) {
-            // 이미지 로딩 또는 변환 중에 문제가 발생했습니다.
-            e.printStackTrace();
-        }
-
-       // System.out.println("findModerngov(\"\") = " + govRepository.findModerngov("법무부장관"));
-        assertEquals(mgov1.getPersonpicture(),govRepository.findModerngov("법무부장관").getPersonpicture());
-
-
-
-
-    }
+//    @Test
+//    @Transactional
+//    void 사진_들어가나_테스트() throws IOException {
+//        Moderngov mgov1=new Moderngov();
+//
+//        mgov1.setName("법무부장관");
+//        mgov1.setRank("장관급");
+//        mgov1.setPersonname("한동훈");
+//        mgov1.setIswarrior(false);
+//
+//        try (InputStream input = getClass().getResourceAsStream("/rawdata/moderngov/HanDongHun.png")) {
+//            byte[] photoData = IOUtils.toByteArray(input);
+//            mgov1.setPersonpicture(photoData);
+//
+//            govRepository.save(mgov1);
+//        } catch (IOException e) {
+//            // 이미지 로딩 또는 변환 중에 문제가 발생했습니다.
+//            e.printStackTrace();
+//        }
+//
+//       // System.out.println("findModerngov(\"\") = " + govRepository.findModerngov("법무부장관"));
+//        assertEquals(mgov1.getPersonpicture(),govRepository.findModerngov("법무부장관").getPersonpicture());
+//
+//
+//
+//
+//    }
 
 
 

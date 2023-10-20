@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class Privatehistory {
     @Id
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="person_id")
     private Krpedia krpedia;
 
@@ -22,5 +22,8 @@ public class Privatehistory {
 
     @OneToMany(mappedBy = "privatehistory")
     private List<Silok> siloks=new ArrayList<>();
+
+    @Column(name="privatehistorycontents")
+    private String contents;
 
 }

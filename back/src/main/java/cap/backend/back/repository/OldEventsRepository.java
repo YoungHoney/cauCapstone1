@@ -18,4 +18,9 @@ public class OldEventsRepository {
         return em.createQuery("select o from Oldevents o",Oldevents.class).getResultList();
     }
 
+    public long save(Oldevents o) {
+        em.persist(o);
+        return o.getId();
+    }
+
 }
