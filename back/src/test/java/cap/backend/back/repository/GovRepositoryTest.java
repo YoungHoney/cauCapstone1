@@ -100,7 +100,7 @@ class GovRepositoryTest {
         mgov1.setPersonname("한동훈");
         mgov1.setIswarrior(false);
 
-        try (InputStream input = getClass().getResourceAsStream("/HanDongHun.png")) {
+        try (InputStream input = getClass().getResourceAsStream("/rawdata/moderngov/HanDongHun.png")) {
             byte[] photoData = IOUtils.toByteArray(input);
             mgov1.setPersonpicture(photoData);
 

@@ -93,7 +93,7 @@ public class SearchController {
 
 
 
->>>>>>> refs/remotes/origin/main
+
         return CollectionModel.of(clans, linkTo(methodOn(SearchController.class).searchByInitial(letter)).withSelfRel());
 
     }
@@ -110,9 +110,11 @@ public class SearchController {
         } else {
         }
         Clan a = searchService.findClanByWholeName(tempClan);
-        List<EntityModel<Person>> ancestors = searchService.findPersonnamesByClan(a);
+        //List<EntityModel<Person>> ancestors = searchService.findPersonnamesByClan(a);
 
 
         log.info("letter={}, clan={}", letter, clan);
+
+        return null;
     }
 }
