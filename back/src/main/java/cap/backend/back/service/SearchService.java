@@ -43,7 +43,9 @@ public class SearchService {
         else return true;
 
     }
-
+    public long findIdByName(String personname) {
+        return personRepository.findPersonInDBByName(personname).getId();
+    }
     public Clan findClanByWholeName(String clanwholename) {
         return personRepository.findClanByWholeName(clanwholename);
     }

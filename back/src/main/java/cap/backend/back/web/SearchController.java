@@ -56,7 +56,7 @@ public class SearchController {
         return "hello";
     }
     @GetMapping("/initial/{letter}")
-    public CollectionModel<EntityModel<Clan>> searchByInitial(@PathVariable String letter){
+    public CollectionModel<EntityModel<Clan>> searchByInitial(@PathVariable char letter){
         ClanId clan1=new ClanId();
         clan1.setClanHangul("해평");
         clan1.setSurnameHangul("윤");
@@ -89,30 +89,37 @@ public class SearchController {
                         .collect(Collectors.toList());
 
 
-
-
-
-
->>>>>>> refs/remotes/origin/main
         return CollectionModel.of(clans, linkTo(methodOn(SearchController.class).searchByInitial(letter)).withSelfRel());
 
     }
 
-
-
     @GetMapping("/initial/{letter}/{clan}")
     //clan optional value로 만들어서 합치는 것도 가능할 듯
-    public EntityModel<SearchClanResponse> searchByInitialClan(@PathVariable String letter, @PathVariable String clan){
+    public EntityModel<SearchClanResponse> searchByInitialClan(@PathVariable char letter, @PathVariable String clan){
         String tempClan = null;
         if (clan.endsWith("씨")) {
             // 마지막 글자(씨)를 제외한 나머지 문자열을 추출
             tempClan = clan.substring(0, clan.length() - 1);
-        } else {
+        } else {//오류 코드 나중에 구현해야하면 하면 될듯
         }
         Clan a = searchService.findClanByWholeName(tempClan);
-        List<EntityModel<Person>> ancestors = searchService.findPersonnamesByClan(a);
+        //밑의 ancestor가 string이라 List<EntityModel<Person>>이 아니라 string이다
+        List<EntityModel<String>> ancestors = searchService.findPersonnamesByClan(a).stream().
+                map(ancestor -> EntityModel.of(ancestor, //ancestor는 스트링 객체가 아니다
+                        linkTo(methodOn(AncestorController.class).ancestors(searchService.findIdByName(ancestor), "real")).withSelfRel(),
+                        linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withRel("clan")))
+                        .collect(Collectors.toList());
 
+        List<EntityModel<Clan>> clans = searchService.findClansByLetter(letter).stream()
+                .map(clan1 -> EntityModel.of(clan1,
+                        linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withSelfRel(),
+                        linkTo(methodOn(SearchController.class).searchByInitial(letter)).withRel("initial")))
+                .collect(Collectors.toList());
 
-        log.info("letter={}, clan={}", letter, clan);
+        SearchClanResponse searchClanResponse = new SearchClanResponse(ancestors, clans);
+
+        return EntityModel.of(searchClanResponse,
+                linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withSelfRel());
+
     }
 }
