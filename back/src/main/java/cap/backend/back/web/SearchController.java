@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -56,38 +58,13 @@ public class SearchController {
     }
     @GetMapping("/initial/{letter}")
     public CollectionModel<EntityModel<Clan>> searchByInitial(@PathVariable char letter){
-        ClanId clan1=new ClanId();
-        clan1.setClanHangul("해평");
-        clan1.setSurnameHangul("윤");
-        clan1.setSurnameHanja("海平");
 
-
-
-        ClanId clan2=new ClanId();
-        clan2.setClanHangul("파평");
-        clan2.setSurnameHangul("윤");
-        clan2.setSurnameHanja("巴平");
-
-        Clan clan_1=new Clan();
-        clan_1.setClanid(clan1);
-        clan_1.setCho('ㅇ');
-
-        Clan clan_2=new Clan();
-        clan_2.setClanid(clan2);
-        clan_2.setCho('ㅇ');
-
-        List<Clan> ls=new ArrayList<>();
-        ls.add(clan_1);
-        ls.add(clan_2);
-
-        List<EntityModel<Clan>> clans=  ls.stream()
+        List<EntityModel<Clan>> clans=  searchService.findClansByLetter(letter).stream()
                 .map(clan -> EntityModel.of(clan,
                         linkTo(methodOn(SearchController.class).searchByInitialClan(letter,
                                 clan.getClanid().getClanHangul()+clan.getClanid().getSurnameHangul()+"씨")).withSelfRel(),
                         linkTo(methodOn(SearchController.class).searchByInitial(letter)).withRel("initial")))
                         .collect(Collectors.toList());
-
-
 
         return CollectionModel.of(clans, linkTo(methodOn(SearchController.class).searchByInitial(letter)).withSelfRel());
 
@@ -105,14 +82,20 @@ public class SearchController {
         //tempClan은 해평윤 string. 해평윤 가지고 해평윤씨 type을 db에 꺼냄
         Clan a = searchService.findClanByWholeName(tempClan);
 
-        //밑의 ancestor가 string이라 List<EntityModel<Person>>이 아니라 string이다
-        List<EntityModel<String>> ancestors = searchService.findPersonnamesByClan(a).stream().
-                map(ancestor -> EntityModel.of(ancestor, //ancestor는 스트링 객체가 아니다
-                        linkTo(methodOn(AncestorController.class).ancestors(searchService.findIdByName(ancestor), "real")).withSelfRel(),
-                        linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withRel("clan")))
-                        .collect(Collectors.toList());
+        //ancestor 이름과 그에 해당하는 결과 링크를 모아 반환
+        List<EntityModel<Map<String, Object>>> ancestors = searchService.findPersonnamesByClan(a).stream()
+                .map(ancestor -> {
+                    Map<String, Object> ancestorMap = new HashMap<>();
+                    ancestorMap.put("name", ancestor); // Assign a field name "name" to the payload
+                    return EntityModel.of(
+                            ancestorMap,
+                            linkTo(methodOn(AncestorController.class).ancestors(searchService.findIdByName(ancestor), "real")).withSelfRel(),
+                            linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withRel("clan"));
+                })
+                .collect(Collectors.toList());
 
 
+        //본관과 그에 해당하는 링크를 모아 반환
         List<EntityModel<Clan>> clans = searchService.findClansByLetter(letter).stream()
                 .map(clan1 -> EntityModel.of(clan1,
                         linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withSelfRel(),
