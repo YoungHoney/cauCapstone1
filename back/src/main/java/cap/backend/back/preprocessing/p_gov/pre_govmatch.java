@@ -20,6 +20,11 @@ public void doMatching() {
     Govmatch temp=new Govmatch();
     List<Oldgov> allList=govRepository.findAllOldgov();
 
+    for(Oldgov o : allList) {
+        temp.setOldgov(o);
+
+    }
+
 
 }
 
