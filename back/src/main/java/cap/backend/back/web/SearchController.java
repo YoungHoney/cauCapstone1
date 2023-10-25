@@ -105,7 +105,7 @@ public class SearchController {
         //tempClan은 해평윤 string. 해평윤 가지고 해평윤씨 type을 db에 꺼냄
         Clan a = searchService.findClanByWholeName(tempClan);
 
-        //밑의 ancestor가 string이라 List<EntityModel<Person>>이 아니라 string이다
+        //ancestor 이름과 그에 해당하는 결과 링크를 모아 반환
         List<EntityModel<String>> ancestors = searchService.findPersonnamesByClan(a).stream().
                 map(ancestor -> EntityModel.of(ancestor, //ancestor는 스트링 객체가 아니다
                         linkTo(methodOn(AncestorController.class).ancestors(searchService.findIdByName(ancestor), "real")).withSelfRel(),
@@ -113,6 +113,7 @@ public class SearchController {
                         .collect(Collectors.toList());
 
 
+        //본관과 그에 해당하는 링크를 모아 반환
         List<EntityModel<Clan>> clans = searchService.findClansByLetter(letter).stream()
                 .map(clan1 -> EntityModel.of(clan1,
                         linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withSelfRel(),
