@@ -50,6 +50,11 @@ public class GovRepository {
                 .getResultList();
     }
 
+    public List<Oldgov> findAllOldgov() {
+        return em.createQuery("select i from Oldgov i",Oldgov.class)
+                .getResultList();
+    }
+
 
 
 }

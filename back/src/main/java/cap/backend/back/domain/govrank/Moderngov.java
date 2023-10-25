@@ -22,7 +22,7 @@ public class Moderngov {
     @Column(name="modernpersonname")
     private String personname;
 
-    @Lob
+
     @Column(name="modernpersonpicture")
     private String personpicture;
 
