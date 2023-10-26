@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -35,26 +36,19 @@ public class SearchController {
     private final SearchService searchService;
 
     @PostMapping
-    public String searchByName(@RequestParam String name, RedirectAttributes redirectAttributes){
+    public ResponseEntity<String> searchByName(@RequestParam String name, RedirectAttributes redirectAttributes){
         if(searchService.isPersoninDBByName(name)) {
-            return "redirect:/ancestor/{id}";
+            // Ancestor found in the database
+            return ResponseEntity.status(HttpStatus.SEE_OTHER).header("Location", "/ancestor/"
+                    + searchService.findIdByName(name)).build();
         }
-
+        //ancestor not in DB
         /* db에는 없고 민족에는 있는 경우
-        //작업수행 후
-        redirectAttributes.addAttribute("id", savedItem.getId());
-        redirectAttributes.addAttribute("status", true);
-        return "redirect:/ancestor/{id}";
+        민족에서 정보 가져와 db 저장
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).header("Location", "/people/" + newId).build();
          */
-
-        /*db에도 없고 민족에도 없는 경우
-        error page
-         */
-        /*
-        아무 것도 안치고 검색창 검색 누르면?
-         */
-        log.info("name={}", name);
-        return "hello";
+        //db에도 없고 민족에도 없는 경우
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sorry, we don’t have any information about the person.");
     }
     @GetMapping("/initial/{letter}")
     public CollectionModel<EntityModel<Clan>> searchByInitial(@PathVariable char letter){
