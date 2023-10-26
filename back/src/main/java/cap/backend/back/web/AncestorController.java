@@ -21,7 +21,7 @@ import java.util.List;
 public class AncestorController {
     @GetMapping("/{id}")
     public ResponseEntity<?> ancestors(@PathVariable Long id, @RequestParam(defaultValue = "real") String type){
-
+    //is in DB by id도 필요(404 띄우기 위해)
         //id에 따라 person객체 반환하는 서비스 필요
         Person a;
 
