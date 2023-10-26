@@ -55,6 +55,11 @@ public class GovRepository {
                 .getResultList();
     }
 
+    public List<Moderngov> findAllModerngov() {
+        return em.createQuery("select i from Moderngov i",Moderngov.class)
+                .getResultList();
+    }
+
 
 
 }

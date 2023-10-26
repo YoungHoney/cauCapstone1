@@ -1,5 +1,6 @@
 package cap.backend.back.preprocessing;
 
+import cap.backend.back.preprocessing.p_gov.pre_govmatch;
 import cap.backend.back.preprocessing.p_gov.pre_moderngov;
 import cap.backend.back.preprocessing.p_oldevents.pre_oldevents;
 import cap.backend.back.preprocessing.p_oldevents.pre_oldgov;
@@ -15,12 +16,13 @@ public class PreProcessInit {
        pre_oldevents task1=context.getBean(pre_oldevents.class);
        pre_oldgov task2=context.getBean(pre_oldgov.class);
        pre_moderngov task3=context.getBean(pre_moderngov.class);
+       pre_govmatch task4=context.getBean(pre_govmatch.class);
 
 
-      // task1.saveCSV();
+       task1.saveCSV();
        task2.saveCSV();
        task3.saveCSV();
-
+       task4.doMatching();
 
     }
 }
