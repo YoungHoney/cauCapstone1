@@ -9,6 +9,7 @@ import cap.backend.back.domain.gptresults.Govsequence;
 import cap.backend.back.domain.gptresults.Lifesummary;
 import cap.backend.back.domain.gptresults.Mbti;
 import cap.backend.back.domain.gptresults.Privatehistory;
+import cap.backend.back.service.RealService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
@@ -27,6 +28,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 @Slf4j
 public class AncestorController {
+
+
+    private final RealService realservice;
+
     @GetMapping("/{id}")
     public EntityModel<SearchAncestorResponse> ancestors(@PathVariable Long id, @RequestParam(defaultValue = "real") String type){
         //id에 따라 person객체 반환하는 서비스 필요
@@ -52,6 +57,8 @@ public class AncestorController {
         ancestor.setJung(99);
         ancestor.setMae(98);
 
+        ancestor=realservice.findOne(7L); //매개변수로 넘어오는 id로 대체
+
         //id에 따라 타임라인을 위한 (년도, 설명)리스트 반환하는 서비스 필요
         Map<Integer, String> timeline = new HashMap<>();
         timeline.put(1566, "태어남");
@@ -60,6 +67,8 @@ public class AncestorController {
         timeline.put(1601, "좌의정 등극");
         timeline.put(1618, "영의정에 오르다");
         timeline.put(1638, "사망");
+
+        timeline=realservice.findPrivateHistoriesById(7L); //매개변수로 넘어오는 id로 대체
 
         //Lifesummary.contents를 위한 설명(String type)반환하는 서비스 필요
         String lifeSummary = "윤흔(尹昕, 1564년 10월 4일 - 1638년 12월 17일)은 조선시대 후기의 무신, 정치인이다." +
@@ -79,6 +88,8 @@ public class AncestorController {
                 " 윤웅렬(尹雄烈), 윤영렬(尹英烈) 형제는 그의 7대손, 윤치호는 그의 8대손이다. 이이·성혼·정철의 문인이다.";
 
 
+        lifeSummary=realservice.findLifeSummaryById(id);
+
         /* 조선사 주요 사건의 (년도, 이름) list 받환하는 서비스 필요(년도 오름차순 정렬)
         해당 id의 인물의 생 몰 년도를 이용해
         1. 생 o 몰 o: 생몰 이용해서 년도 제한하여 그 사이 사건 반환
@@ -93,6 +104,10 @@ public class AncestorController {
         mainEvents.put(1607, "메롱");
         mainEvents.put(1620, "하이");
 
+        mainEvents=realservice.findOldEventsById(7L); //매개변수로 넘어오는 id로 대체
+
+
+
 
         //(예전관직, 현대관직) list를 반환하는 서비스 필요(예전 것이 왼쪽에 가깝게)
         Map<String, String> govSequence = new HashMap<>();
@@ -102,13 +117,21 @@ public class AncestorController {
         govSequence.put("좌의정", "국회의장");
         govSequence.put("영의정", "국무총리");
 
+        govSequence=realservice.findGovSequenceById(7L); //매개변수로 넘어오는 id로 대체
+
+
+
         //현재 인물 사진 경로. 이건 서비스 만들 필요x person에서 뺴내면 된다
         String personPicPath = ancestor.getPersonpicture();
+        personPicPath=realservice.findPictureById(7L); //매개변수로 넘어오는 id로 대체
+
 
         //------------------(가상)-------------------
 
         //가상 페이지 현대인물사진 경로 반환하는 서비스 필요;
         String imaginaryPicPath = "www.imaginarypath.com";
+
+
 
         //해당하는 id의 mbti 타입을 string으로 반환
         //이건 id로 mbti객체 반환하는 서비스만 필요. 컨텐츠 꺼내는 건 여기서 하면 될듯

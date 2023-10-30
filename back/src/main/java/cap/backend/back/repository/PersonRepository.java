@@ -4,6 +4,7 @@ package cap.backend.back.repository;
 import cap.backend.back.domain.Clan;
 import cap.backend.back.domain.Person;
 import cap.backend.back.domain.compositekey.ClanId;
+import cap.backend.back.domain.gptresults.Privatehistory;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,6 +101,13 @@ public class PersonRepository {
                 .setParameter("Surnamehangul",surnameHangulTemp)
                 .getSingleResult();
     }
+
+    public String findPictureById(Long id) {
+        Person person=em.find(Person.class,id);
+        return person.getPersonpicture();
+    }
+
+
 
 
 

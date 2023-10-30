@@ -49,8 +49,8 @@ public class Krpedia {
 //    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
 //    private Lifesummary lifesummary; //활동요약과 양방향 일대일
 //
-//    @OneToMany(mappedBy = "krpedia",fetch=FetchType.LAZY)
-//    private Govsequence govsequence; //관직순서와 양방향 일대일
+    @OneToMany(mappedBy = "krpedia",fetch=FetchType.LAZY)
+    private List<Govsequence> govsequence; //관직순서와 양방향 일대일
 //
 //    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
 //    private Mbti mbti; //mbti식 요약과 양방향 일대일
