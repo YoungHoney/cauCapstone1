@@ -17,15 +17,14 @@ public class Person {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumns(value = {@JoinColumn(name = "clanHangul"),
-            @JoinColumn(name = "surnameHanja"),
-            @JoinColumn(name = "surnameHangul")})
+            @JoinColumn(name = "surnameHangul"),
+            @JoinColumn(name = "surnameHanja")})
     private Clan clan; //본관과 양방향 다대일
 
 
 
     @OneToOne(mappedBy="person",fetch=FetchType.LAZY)
-
-    @JsonIgnore
+    @JsonIgnore //api 응답에 불필요한 정보
     private Krpedia krpedia; //사전과 양방향 일대일
 
     @Column(length=10)

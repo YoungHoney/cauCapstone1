@@ -20,5 +20,9 @@ public class KrPediaRepository {
                 .getSingleResult();
     }
 
+    public void save(Krpedia krpedia) {
+        em.persist(krpedia);
+    }
+
 
 }

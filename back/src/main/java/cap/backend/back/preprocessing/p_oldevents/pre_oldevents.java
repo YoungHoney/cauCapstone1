@@ -46,7 +46,7 @@ public class pre_oldevents {
                 String stringArray[] = line.split(csvSplitBy);
                 
                 String temps=stringArray[0].substring(0,4);
-                System.out.println("temps = " + temps);
+
 
                 Oldevents temp=new Oldevents();
                 temp.setYear(Integer.parseInt(temps));

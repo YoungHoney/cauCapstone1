@@ -18,16 +18,13 @@ public class PersonRepository {
     @PersistenceContext
     EntityManager em;
 
-    public Long save(Person person) {
+    public void save(Person person) {
         em.persist(person);
-
-        return person.getId();
     }
 
-    public ClanId saveClan(Clan clan) {
+    public void saveClan(Clan clan) {
         em.persist(clan);
 
-        return clan.getClanid();
     }
 
 

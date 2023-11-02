@@ -11,11 +11,11 @@ import java.io.Serializable;
 @Embeddable
 public class ClanId implements Serializable {
 
-    @Column(length=2)
+    @Column
     private String clanHangul;
-    @Column(length=2)
+    @Column
     private String surnameHanja;
-    @Column(length=2)
+    @Column
     private String surnameHangul;
 
 

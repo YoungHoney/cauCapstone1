@@ -14,7 +14,7 @@ public class SearchAncestorResponse {
     private String lifeSummary;
     private  Map<Integer, String> timeline;
     private Map<Integer, String> mainEvents;
-    private Map<String, String> govSequence;
+    private Map<Integer, String> govSequence;
     private String personPicPath;
     private String imaginaryPicPath;
     private String mbti;

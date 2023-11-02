@@ -19,7 +19,7 @@ public class Privatehistory {
     private Krpedia krpedia;
 
 
-    private Integer year;
+    private Integer eventyear;
 
 
     @OneToMany(mappedBy = "privatehistory")

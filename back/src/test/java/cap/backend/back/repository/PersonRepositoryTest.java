@@ -30,9 +30,11 @@ class PersonRepositoryTest {
         Person person1=new Person();
         person1.setName("손흥민");
 
-        Long person1_id= personrepository.save(person1);
+        person1.setId(1L);
+        personrepository.save(person1);
 
-        Person isPerson1=personrepository.findOne(person1_id);
+
+        Person isPerson1=personrepository.findOne(1L);
 
         assertEquals(person1.getName(), isPerson1.getName());
 

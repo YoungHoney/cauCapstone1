@@ -14,10 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -40,7 +37,7 @@ public class RealService {
         Map<Integer,String> result=new HashMap<>();
 
         for(Privatehistory p:orgList) {
-            result.put(p.getYear(),p.getContents());
+            result.put(p.getEventyear(),p.getContents());
         }
 
         return result;
@@ -60,25 +57,43 @@ public class RealService {
         return result;
     }
 
-    public Map<String,String> findGovSequenceById(Long id) {
+    public Map<Integer,String> findGovSequenceById(Long id) {
         List<Govsequence> orgseq=govrepository.findGovSequenceById(id);
-        Random random=new Random();
+        Collections.sort(orgseq,new GovsequenceComparator()); //sequence의 순서 보장
 
-        Map<String,String> result=new HashMap<>();
+        int All_gov=orgseq.size(); //인물이 거친 모든 관직의 수
+        int seq=1;
+
+
+        Random random=new Random(id);
+
+        Map<Integer,String> result=new HashMap<>();
         for(Govsequence g : orgseq) {
             List<String> mgovList= govrepository.findModernsByOld(g.getOldgov().getName());
             int randInt=random.nextInt(mgovList.size());
-            result.put(g.getOldgov().getName(),mgovList.get(randInt));
+           // result.put(g.getOldgov().getName(),mgovList.get(randInt));
+            result.put(seq++,g.getOldgov().getName()+","+mgovList.get(randInt));
+
 
 
 
         }
 
         return result;
+    }
 
+    class GovsequenceComparator implements Comparator<Govsequence> {
 
-
-
+        @Override
+        public int compare(Govsequence o1, Govsequence o2) {
+            if(o1.getSequnce_num()>o2.getSequnce_num()) {
+                return 1;
+            }
+            else if(o1.getSequnce_num()<o2.getSequnce_num()) {
+                return -1;
+            }
+            else return 0;
+        }
     }
 
     public String findPictureById(Long id){

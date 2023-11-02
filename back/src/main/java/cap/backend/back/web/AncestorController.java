@@ -110,12 +110,12 @@ public class AncestorController {
 
 
         //(예전관직, 현대관직) list를 반환하는 서비스 필요(예전 것이 왼쪽에 가깝게)
-        Map<String, String> govSequence = new HashMap<>();
-        govSequence.put("종 9품", "9급 공무원");
-        govSequence.put("종 7품", "7급 공무원");
-        govSequence.put("병조판서", "5급 공무원");
-        govSequence.put("좌의정", "국회의장");
-        govSequence.put("영의정", "국무총리");
+        Map<Integer, String> govSequence = new HashMap<>();
+//        govSequence.put("종 9품", "9급 공무원");
+//        govSequence.put("종 7품", "7급 공무원");
+//        govSequence.put("병조판서", "5급 공무원");
+//        govSequence.put("좌의정", "국회의장");
+//        govSequence.put("영의정", "국무총리");
 
         govSequence=realservice.findGovSequenceById(7L); //매개변수로 넘어오는 id로 대체
 

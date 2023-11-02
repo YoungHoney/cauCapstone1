@@ -29,19 +29,21 @@ public class Krpedia {
 
     private int deathyear;
 
-    @Column(length=2)
+    @Column
     private String clanHangul;
-    @Column(length=2)
+    @Column
     private String surnameHanja;
-    @Column(length=2)
+    @Column
     private String surnameHangul;
 
     @Lob
     private String personpicture;
 
+    @Lob
     private String definition; //정의
+    @Lob
     private String description; //개설
-
+    @Lob
     private String maintext; //생애및활동사항
 
 
