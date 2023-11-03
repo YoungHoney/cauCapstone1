@@ -4,6 +4,7 @@ package cap.backend.back.repository;
 import cap.backend.back.domain.govrank.Govmatch;
 import cap.backend.back.domain.govrank.Moderngov;
 import cap.backend.back.domain.govrank.Oldgov;
+import cap.backend.back.domain.gptresults.Govsequence;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -57,6 +58,12 @@ public class GovRepository {
 
     public List<Moderngov> findAllModerngov() {
         return em.createQuery("select i from Moderngov i",Moderngov.class)
+                .getResultList();
+    }
+
+    public List<Govsequence> findGovSequenceById(Long id) {
+        return em.createQuery("select s from Govsequence s where s.id=:ID",Govsequence.class)
+                .setParameter("ID",id)
                 .getResultList();
     }
 

@@ -32,6 +32,12 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'commons-io:commons-io:2.11.0'
+
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	implementation 'org.jsoup:jsoup:1.16.1'
+	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.14.9'
+	implementation group: 'com.azure', name: 'azure-ai-openai',version: '1.0.0-beta.3'
+	implementation'org.slf4j:slf4j-simple:1.7.9'
 }
 
 tasks.named('test') {

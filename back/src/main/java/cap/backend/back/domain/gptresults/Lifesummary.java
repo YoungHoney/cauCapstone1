@@ -4,11 +4,13 @@ package cap.backend.back.domain.gptresults;
 import cap.backend.back.domain.Krpedia;
 import cap.backend.back.domain.Silok;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class Lifesummary {
 
     @Id

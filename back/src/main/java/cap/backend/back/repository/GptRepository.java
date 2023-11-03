@@ -25,9 +25,14 @@ public class GptRepository {
         return em.find(Privatehistory.class,id);
     }
 
-    public Lifesummary findLifesummaryById(Long id) {
-        return em.find(Lifesummary.class,id);
+    public List<Privatehistory> findPrivateHistoriesById(Long id) {
+        return em.createQuery("select h from Privatehistory h where h.id=:ID", Privatehistory.class)
+                .setParameter("ID",id)
+                .getResultList();
+    }
 
+    public Lifesummary findLifeSummaryById(Long id) {
+        return em.find(Lifesummary.class,id);
     }
 //----------^^^ 실화기반 페이지에서 사용^^^____________________
 

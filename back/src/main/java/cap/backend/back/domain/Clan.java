@@ -21,17 +21,12 @@ public class Clan {
     @Transient
     @JsonIgnore
     private static final char[] CHO =
-            {'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'};
-
-
-
-
-
+            {'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
+                    'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'};
 
     @EmbeddedId
    // @Column(length=2)
     private ClanId clanid;
-
 
     @JsonIgnore
     @OneToMany(mappedBy = "clan")
@@ -40,10 +35,7 @@ public class Clan {
     @JsonIgnore
     private char cho;
 
-
     public Clan(){}
-
-
 
     public void setChoByCho(String letter) {
         this.cho=letter.charAt(0);

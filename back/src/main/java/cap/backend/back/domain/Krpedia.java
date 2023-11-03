@@ -18,10 +18,6 @@ public class Krpedia {
     @JoinColumn(name="person_id")
     private Person person; //인물과 양방향 일대일
 
-
-
-
-
     @Column(length=10)
     private String name;
 
@@ -29,19 +25,21 @@ public class Krpedia {
 
     private int deathyear;
 
-    @Column(length=2)
+    @Column
     private String clanHangul;
-    @Column(length=2)
+    @Column
     private String surnameHanja;
-    @Column(length=2)
+    @Column
     private String surnameHangul;
 
     @Lob
     private String personpicture;
 
+    @Lob
     private String definition; //정의
+    @Lob
     private String description; //개설
-
+    @Lob
     private String maintext; //생애및활동사항
 
 
@@ -49,8 +47,8 @@ public class Krpedia {
 //    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
 //    private Lifesummary lifesummary; //활동요약과 양방향 일대일
 //
-//    @OneToMany(mappedBy = "krpedia",fetch=FetchType.LAZY)
-//    private Govsequence govsequence; //관직순서와 양방향 일대일
+    @OneToMany(mappedBy = "krpedia",fetch=FetchType.LAZY)
+    private List<Govsequence> govsequence; //관직순서와 양방향 일대일
 //
 //    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
 //    private Mbti mbti; //mbti식 요약과 양방향 일대일

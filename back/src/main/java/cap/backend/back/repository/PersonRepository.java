@@ -4,6 +4,7 @@ package cap.backend.back.repository;
 import cap.backend.back.domain.Clan;
 import cap.backend.back.domain.Person;
 import cap.backend.back.domain.compositekey.ClanId;
+import cap.backend.back.domain.gptresults.Privatehistory;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,16 +18,13 @@ public class PersonRepository {
     @PersistenceContext
     EntityManager em;
 
-    public Long save(Person person) {
+    public void save(Person person) {
         em.persist(person);
-
-        return person.getId();
     }
 
-    public ClanId saveClan(Clan clan) {
+    public void saveClan(Clan clan) {
         em.persist(clan);
 
-        return clan.getClanid();
     }
 
 
@@ -100,6 +98,13 @@ public class PersonRepository {
                 .setParameter("Surnamehangul",surnameHangulTemp)
                 .getSingleResult();
     }
+
+    public String findPictureById(Long id) {
+        Person person=em.find(Person.class,id);
+        return person.getPersonpicture();
+    }
+
+
 
 
 
