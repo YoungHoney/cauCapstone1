@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class OpenAiApi {
     public void OpenAItest() {
-        String token="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";
+        String token="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"; //지금은 바뀜, 새로 발급받아야함
         String endpoint="https://api.openai.com/v1/chat/completions";
 
         OkHttpClient client;

@@ -30,7 +30,7 @@ class PersonRepositoryTest {
         Person person1=new Person();
         person1.setName("손흥민");
 
-        person1.setId(1L);
+
         personrepository.save(person1);
 
 

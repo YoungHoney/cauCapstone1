@@ -36,8 +36,9 @@ public class AllExternApi {
     public void doAllThing() throws IOException, ParseException {
       //  azureApi.AzureAPItest();
        // krpediaApi.MinSajeon("박세채(朴世采)");
-       // openAiApi.OpenAItest();
+        openAiApi.OpenAItest();
       //  silLokApi.GOJONGDB();
+
     }
 
 

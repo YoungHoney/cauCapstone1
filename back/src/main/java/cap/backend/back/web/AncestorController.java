@@ -10,6 +10,7 @@ import cap.backend.back.domain.gptresults.Lifesummary;
 import cap.backend.back.domain.gptresults.Mbti;
 import cap.backend.back.domain.gptresults.Privatehistory;
 import cap.backend.back.service.RealService;
+import cap.backend.back.service.VirtualService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
@@ -31,6 +32,7 @@ public class AncestorController {
 
 
     private final RealService realservice;
+    private final VirtualService virtualService;
 
     @GetMapping("/{id}")
     public EntityModel<SearchAncestorResponse> ancestors(@PathVariable Long id, @RequestParam(defaultValue = "real") String type){
@@ -51,13 +53,20 @@ public class AncestorController {
         ancestor.setPersonpicture("www.hello.com");
         ancestor.setBirthyear(1564);
         ancestor.setDeathyear(1638);
-        ancestor.setTong(71);
-        ancestor.setMu(88);
-        ancestor.setJi(91);
-        ancestor.setJung(99);
-        ancestor.setMae(98);
 
-        ancestor=realservice.findOne(7L); //매개변수로 넘어오는 id로 대체
+        Integer[] Abilities= virtualService.getAbilityById(7L); //Govsequence의 id문제로 아직 테스트는 못함. 사실 실화부분이라 적당히 0같은거 넣고 가상부분에 넣어야함
+        ancestor.setTong(Abilities[0]);
+        ancestor.setMu(Abilities[1]);
+        ancestor.setJi(Abilities[2]);
+        ancestor.setJung(Abilities[3]);
+        ancestor.setMae(Abilities[4]);
+//        ancestor.setTong(71);
+//        ancestor.setMu(88);
+//        ancestor.setJi(91);
+//        ancestor.setJung(99);
+//        ancestor.setMae(98);
+
+      //  ancestor=realservice.findOne(7L); //매개변수로 넘어오는 id로 대체
 
         //id에 따라 타임라인을 위한 (년도, 설명)리스트 반환하는 서비스 필요
         Map<Integer, String> timeline = new HashMap<>();
@@ -68,7 +77,7 @@ public class AncestorController {
         timeline.put(1618, "영의정에 오르다");
         timeline.put(1638, "사망");
 
-        timeline=realservice.findPrivateHistoriesById(7L); //매개변수로 넘어오는 id로 대체
+        //timeline=realservice.findPrivateHistoriesById(7L); //매개변수로 넘어오는 id로 대체
 
         //Lifesummary.contents를 위한 설명(String type)반환하는 서비스 필요
         String lifeSummary = "윤흔(尹昕, 1564년 10월 4일 - 1638년 12월 17일)은 조선시대 후기의 무신, 정치인이다." +
@@ -88,7 +97,7 @@ public class AncestorController {
                 " 윤웅렬(尹雄烈), 윤영렬(尹英烈) 형제는 그의 7대손, 윤치호는 그의 8대손이다. 이이·성혼·정철의 문인이다.";
 
 
-        lifeSummary=realservice.findLifeSummaryById(id);
+//        lifeSummary=realservice.findLifeSummaryById(id);
 
         /* 조선사 주요 사건의 (년도, 이름) list 받환하는 서비스 필요(년도 오름차순 정렬)
         해당 id의 인물의 생 몰 년도를 이용해
@@ -104,26 +113,26 @@ public class AncestorController {
         mainEvents.put(1607, "메롱");
         mainEvents.put(1620, "하이");
 
-        mainEvents=realservice.findOldEventsById(7L); //매개변수로 넘어오는 id로 대체
+       // mainEvents=realservice.findOldEventsById(7L); //매개변수로 넘어오는 id로 대체
 
 
 
 
         //(예전관직, 현대관직) list를 반환하는 서비스 필요(예전 것이 왼쪽에 가깝게)
         Map<Integer, String> govSequence = new HashMap<>();
-//        govSequence.put("종 9품", "9급 공무원");
-//        govSequence.put("종 7품", "7급 공무원");
+        govSequence.put(1, "종 9품,9급 공무원");
+        govSequence.put(2, "종 7품,7급 공무원"); //실제론
 //        govSequence.put("병조판서", "5급 공무원");
 //        govSequence.put("좌의정", "국회의장");
 //        govSequence.put("영의정", "국무총리");
 
-        govSequence=realservice.findGovSequenceById(7L); //매개변수로 넘어오는 id로 대체
+     //   govSequence=realservice.findGovSequenceById(7L); //매개변수로 넘어오는 id로 대체
 
 
 
         //현재 인물 사진 경로. 이건 서비스 만들 필요x person에서 뺴내면 된다
         String personPicPath = ancestor.getPersonpicture();
-        personPicPath=realservice.findPictureById(7L); //매개변수로 넘어오는 id로 대체
+      //  personPicPath=realservice.findPictureById(7L); //매개변수로 넘어오는 id로 대체
 
 
         //------------------(가상)-------------------

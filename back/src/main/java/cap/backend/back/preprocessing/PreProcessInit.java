@@ -30,23 +30,25 @@ public class PreProcessInit {
        KrPediaApi krpediaApi=context.getBean(KrPediaApi.class);
        SilLokApi sl=context.getBean(SilLokApi.class);
 
-       //sl.GOJONGDB();
 
 
 
 
 
-//       task1.saveCSV(); // 조선시대 사건 세팅
-//       task2.saveCSV(); // 옛 관직 세팅
-//       task3.saveCSV(); //현대관직 세팅
-//       task4.doMatching(); //관직매칭해놓기
-     //  krpediaApi.getKrpediaInfo("이산해(李山海)");
 
 
-       demo.doDemoSetting("박세채(朴世采)","朴","박","반남");
-       demo.doDemoSetting("김상익(金尙翼)","金","김","강릉");
-       demo.doDemoSetting("권응수(權應銖)","權","권","안동");
-       demo.doDemoSetting("이산해(李山海)","李","이","한산");
+
+       task1.saveCSV(); // 조선시대 사건 세팅
+       task2.saveCSV(); // 옛 관직 세팅
+       task3.saveCSV(); //현대관직 세팅
+       task4.doMatching(); //관직매칭해놓기
+
+
+
+//       demo.doDemoSetting("박세채(朴世采)","朴","박","반남");
+//       demo.doDemoSetting("김상익(金尙翼)","金","김","강릉");
+//       demo.doDemoSetting("권응수(權應銖)","權","권","안동");
+//       demo.doDemoSetting("이산해(李山海)","李","이","한산");
 
 
 
