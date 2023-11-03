@@ -18,10 +18,6 @@ public class Krpedia {
     @JoinColumn(name="person_id")
     private Person person; //인물과 양방향 일대일
 
-
-
-
-
     @Column(length=10)
     private String name;
 

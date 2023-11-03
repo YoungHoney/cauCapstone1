@@ -97,7 +97,7 @@ public class AncestorController {
                 " 윤웅렬(尹雄烈), 윤영렬(尹英烈) 형제는 그의 7대손, 윤치호는 그의 8대손이다. 이이·성혼·정철의 문인이다.";
 
 
-//        lifeSummary=realservice.findLifeSummaryById(id);
+      //  lifeSummary=realservice.findLifeSummaryById(id);
 
         /* 조선사 주요 사건의 (년도, 이름) list 받환하는 서비스 필요(년도 오름차순 정렬)
         해당 id의 인물의 생 몰 년도를 이용해

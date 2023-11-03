@@ -12,7 +12,6 @@ public class Silok {
     @Column(name="silok_id")
     private Long id;
 
-
     @Column(name="person_id")
     private Long p_id;
 

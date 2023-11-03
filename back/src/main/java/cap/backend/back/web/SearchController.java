@@ -36,9 +36,10 @@ public class SearchController {
     private final SearchService searchService;
 
     @PostMapping
-    public ResponseEntity<String> searchByName(@RequestParam String name, RedirectAttributes redirectAttributes){
+    public ResponseEntity<String> searchByName(@RequestParam String name){
         if(searchService.isPersoninDBByName(name)) {
             // Ancestor found in the database
+            // 나중에 동명이인 처리하려면 서비스 확장해서 두명이상이면 다른 페이지 리다이렉트하게 하면 될 듯
             return ResponseEntity.status(HttpStatus.SEE_OTHER).header("Location", "/ancestor/"
                     + searchService.findIdByName(name)).build();
         }
@@ -61,7 +62,6 @@ public class SearchController {
                         .collect(Collectors.toList());
 
         return CollectionModel.of(clans, linkTo(methodOn(SearchController.class).searchByInitial(letter)).withSelfRel());
-
     }
 
     @GetMapping("/initial/{letter}/{clan}")
