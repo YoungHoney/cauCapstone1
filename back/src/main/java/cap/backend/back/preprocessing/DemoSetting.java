@@ -61,7 +61,7 @@ public class DemoSetting {
         person.setPersonpicture("resources/rawdata/ggg");
         person.setBirthyear(Integer.parseInt(pediaInfo[0]));
         person.setDeathyear(Integer.parseInt(pediaInfo[1]));
-        System.out.println(person.getClan().getClanid().getSurnameHanja());
+    
         person.setTong(99); //임시값
 
         personrepository.save(person); //krpedia보다 먼저 나와야함

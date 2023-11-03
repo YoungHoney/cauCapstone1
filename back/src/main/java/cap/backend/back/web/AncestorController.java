@@ -54,17 +54,17 @@ public class AncestorController {
         ancestor.setBirthyear(1564);
         ancestor.setDeathyear(1638);
 
-        Integer[] Abilities= virtualService.getAbilityById(7L); //Govsequence의 id문제로 아직 테스트는 못함. 사실 실화부분이라 적당히 0같은거 넣고 가상부분에 넣어야함
-        ancestor.setTong(Abilities[0]);
-        ancestor.setMu(Abilities[1]);
-        ancestor.setJi(Abilities[2]);
-        ancestor.setJung(Abilities[3]);
-        ancestor.setMae(Abilities[4]);
-//        ancestor.setTong(71);
-//        ancestor.setMu(88);
-//        ancestor.setJi(91);
-//        ancestor.setJung(99);
-//        ancestor.setMae(98);
+//        Integer[] Abilities= virtualService.getAbilityById(7L); //Govsequence의 id문제로 아직 테스트는 못함. 사실 실화부분이라 적당히 0같은거 넣고 가상부분에 넣어야함
+//        ancestor.setTong(Abilities[0]);
+//        ancestor.setMu(Abilities[1]);
+//        ancestor.setJi(Abilities[2]);
+//        ancestor.setJung(Abilities[3]);
+//        ancestor.setMae(Abilities[4]);
+        ancestor.setTong(71);
+        ancestor.setMu(88);
+        ancestor.setJi(91);
+        ancestor.setJung(99);
+        ancestor.setMae(98);
 
       //  ancestor=realservice.findOne(7L); //매개변수로 넘어오는 id로 대체
 

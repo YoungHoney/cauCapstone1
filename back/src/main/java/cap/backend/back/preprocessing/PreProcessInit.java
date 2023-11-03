@@ -45,7 +45,7 @@ public class PreProcessInit {
 
 
 
-//       demo.doDemoSetting("박세채(朴世采)","朴","박","반남");
+      demo.doDemoSetting("박세채(朴世采)","朴","박","반남");
 //       demo.doDemoSetting("김상익(金尙翼)","金","김","강릉");
 //       demo.doDemoSetting("권응수(權應銖)","權","권","안동");
 //       demo.doDemoSetting("이산해(李山海)","李","이","한산");
