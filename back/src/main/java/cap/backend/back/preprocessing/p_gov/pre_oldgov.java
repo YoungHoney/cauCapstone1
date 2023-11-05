@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -39,7 +36,9 @@ public class pre_oldgov {
 
 
         try {
-            br = Files.newBufferedReader(Paths.get(System.getProperty("user.dir"),"src","main","resources","rawdata","oldgov","oldgovlist.csv"), StandardCharsets.UTF_8);
+            InputStream is=getClass().getResourceAsStream("/rawdata/oldgov/oldgovlist.csv");
+            br = new BufferedReader(new InputStreamReader(is,StandardCharsets.UTF_8));
+
             String line = "";
 
 

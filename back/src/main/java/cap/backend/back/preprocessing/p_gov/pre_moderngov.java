@@ -29,7 +29,9 @@ public class pre_moderngov {
 
 
         try {
-            br = Files.newBufferedReader(Paths.get(System.getProperty("user.dir"),"src","main","resources","rawdata","moderngov","moderngovlist.csv"), StandardCharsets.UTF_8);
+            InputStream is=getClass().getResourceAsStream("/rawdata/moderngov/moderngovlist.csv");
+            br = new BufferedReader(new InputStreamReader(is,StandardCharsets.UTF_8));
+
             String line;
 
 

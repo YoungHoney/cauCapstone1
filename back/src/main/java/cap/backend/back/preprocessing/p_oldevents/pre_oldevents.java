@@ -7,12 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +35,8 @@ public class pre_oldevents {
 
 
         try {
-            br = Files.newBufferedReader(Paths.get(System.getProperty("user.dir"),"src","main","resources","rawdata","oldevents","joseonEvents.csv"), StandardCharsets.UTF_8);
+            InputStream is=getClass().getResourceAsStream("/rawdata/oldevents/joseonEvents.csv");
+            br = new BufferedReader(new InputStreamReader(is,StandardCharsets.UTF_8));
             String line = "";
 
 
