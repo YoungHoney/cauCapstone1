@@ -15,7 +15,7 @@ public class Person {
     @Column(name="person_id")
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumns(value = {@JoinColumn(name = "clanHangul"),
             @JoinColumn(name = "surnameHangul"),
             @JoinColumn(name = "surnameHanja")})

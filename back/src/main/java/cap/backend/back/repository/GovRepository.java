@@ -62,7 +62,7 @@ public class GovRepository {
     }
 
     public List<Govsequence> findGovSequenceById(Long id) {
-        return em.createQuery("select s from Govsequence s where s.id=:ID",Govsequence.class)
+        return em.createQuery("select s from Govsequence s where s.krpedia.person.id=:ID",Govsequence.class)
                 .setParameter("ID",id)
                 .getResultList();
     }

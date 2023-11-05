@@ -34,10 +34,17 @@ public class AllExternApi {
     private final SilLokApi silLokApi;
 
     public void doAllThing() throws IOException, ParseException {
-      //  azureApi.AzureAPItest();
+        long stime=System.currentTimeMillis();
+
+
        // krpediaApi.MinSajeon("박세채(朴世采)");
-        openAiApi.OpenAItest();
-      //  silLokApi.GOJONGDB();
+       // openAiApi.OpenAItest();
+
+
+        long etime=System.currentTimeMillis();
+
+        System.out.println("실행시간 = "+(etime=stime));
+
 
     }
 

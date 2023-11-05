@@ -5,15 +5,21 @@ import cap.backend.back.domain.Person;
 import cap.backend.back.domain.Silok;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
-@Getter
+@Getter @Setter
 public class Privatehistory {
-    @Id
+
+
+    @Id @GeneratedValue
+    private Long ph_id;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="person_id")
     private Krpedia krpedia;
@@ -25,6 +31,7 @@ public class Privatehistory {
     @OneToMany(mappedBy = "privatehistory")
     private List<Silok> siloks=new ArrayList<>();
 
+    @Lob
     @Column(name="privatehistorycontents")
     private String contents;
 

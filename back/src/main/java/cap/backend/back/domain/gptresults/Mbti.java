@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter@Setter
+@Getter @Setter
 public class Mbti {
 
     @Id
@@ -21,7 +21,7 @@ public class Mbti {
 
     private String mbti;
 
-
+    @Lob
     @Column(name="mbticontents")
     private String contents;
 

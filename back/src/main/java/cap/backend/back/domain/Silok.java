@@ -5,10 +5,13 @@ import cap.backend.back.domain.gptresults.Lifesummary;
 import cap.backend.back.domain.gptresults.Mbti;
 import cap.backend.back.domain.gptresults.Privatehistory;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter @Setter
 public class Silok {
-    @Id
+    @Id @GeneratedValue
     @Column(name="silok_id")
     private Long id;
 
@@ -31,6 +34,7 @@ public class Silok {
     @JoinColumn(name="person_id",insertable = false,updatable = false)
     private Privatehistory privatehistory;
 
+    @Lob
     @Column(name="silokcontents")
     private String contents;
 

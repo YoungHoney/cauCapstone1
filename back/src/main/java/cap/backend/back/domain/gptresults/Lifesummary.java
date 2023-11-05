@@ -5,12 +5,13 @@ import cap.backend.back.domain.Krpedia;
 import cap.backend.back.domain.Silok;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 public class Lifesummary {
 
     @Id
@@ -19,6 +20,7 @@ public class Lifesummary {
     private Krpedia krpedia;
 
 
+    @Lob
     @Column(name="lifesummarycontents")
     private String contents;
 

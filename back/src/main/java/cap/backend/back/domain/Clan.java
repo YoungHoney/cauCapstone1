@@ -29,7 +29,7 @@ public class Clan {
     private ClanId clanid;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clan")
+    @OneToMany(mappedBy = "clan",fetch=FetchType.EAGER)
     private List<Person> persons=new ArrayList<>();
 
     @JsonIgnore

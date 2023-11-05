@@ -15,19 +15,22 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Component
-@RequiredArgsConstructor
 public class SilLokApi {
-    public static List<SilokDocument> SilokExtractor(String keyword) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    // 곽영헌(郭永憲)
+    public List<SilokDocument> SilokExtractor(String keyword) throws IOException, NoSuchAlgorithmException, KeyManagementException {
         List<SilokDocument> silokDocuments = extractSilokDocument(keyword);
         for(SilokDocument silokDocument:silokDocuments){
+
             silokDocument.setContent(HtmlTextExtractor(makeRequestToSilok(silokDocument.getDci())));
         }
         return silokDocuments;
     }
-    private static String dciToUrl(String input) {
+    private String dciToUrl(String input) {
         String[] parts = input.split("_");
+
 
         String output1 = "k" + parts[2].substring(0, parts[2].length() - 1)
                 .toLowerCase() + "a";
@@ -42,7 +45,7 @@ public class SilLokApi {
         return "https://sillok.history.go.kr/id/"
                 + output1 + "_" + output2 + output3 + "_" + output4;
     }
-    private static Document makeRequestToSilok(String dci) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    private  Document makeRequestToSilok(String dci) throws IOException, NoSuchAlgorithmException, KeyManagementException {
         // Trust all certs
         TrustManager[] trustAllCerts = new TrustManager[] {
                 new X509TrustManager() {
@@ -68,6 +71,7 @@ public class SilLokApi {
         // Now you can access an https URL without having the certificate in the truststore
         Document doc = null;
         try {
+
             String URL = dciToUrl(dci);
             doc = Jsoup.connect(URL).get();
         } catch (IOException e) {
@@ -75,10 +79,12 @@ public class SilLokApi {
         }
         return doc;
     }
-    private static String HtmlTextExtractor(Document doc){
+    private String HtmlTextExtractor(Document doc){
         // Find the first <hr class="ins_view_line"> element
+       // System.out.println("doc = " + doc);
 
         Element element = doc.select("div.ins_view").get(0);
+       // System.out.println("element = " + element);
         StringBuilder extractedText = new StringBuilder();
 
         // Check if the element exists and process it further
@@ -95,11 +101,11 @@ public class SilLokApi {
         return extractedText.toString();
     }
 
-    public static List<SilokDocument> extractSilokDocument(String keyword) {
+    public List<SilokDocument> extractSilokDocument(String keyword) {
         List<SilokDocument> silokDocuments = new ArrayList<>();
 
         try {
-            Document document = makeRequestToSilok(keyword);
+            Document document = makeRequestToGoJongDB(keyword);
 
             // Select all <doc> elements
             Elements docElements = document.select("response > result > doc");
@@ -128,22 +134,30 @@ public class SilLokApi {
         return silokDocuments;
     }
 
-    private static int[] getRandomIndices(int maxRange, int count) {
+    private int[] getRandomIndices(int maxRange, int count) {
         if (count > maxRange) {
             count = maxRange;
         }
+        Random rd=new Random(1557L);
         int[] indices = new int[count];
         for (int i = 0; i < count; i++) {
             int randomIndex;
             do {
-                randomIndex = (int) (Math.random() * maxRange);
+//                double temp=Math.random();
+//                //randomIndex = (int) (temp * maxRange);
+
+
+                randomIndex=(int)(rd.nextDouble()*maxRange);
+
+
+
             } while (contains(indices, randomIndex));
             indices[i] = randomIndex;
         }
         return indices;
     }
     // Check if an array contains a specific value
-    private static boolean contains(int[] array, int value) {
+    private boolean contains(int[] array, int value) {
         for (int item : array) {
             if (item == value) {
                 return true;
@@ -151,7 +165,7 @@ public class SilLokApi {
         }
         return false;
     }
-    private static Document makeRequestToGoJongDB(String keyword) throws IOException {
+    private Document makeRequestToGoJongDB(String keyword) throws IOException {
         //keyword = 검색어 ex)윤흔  row = 검색 갯수
         String apiUrl = "http://db.itkc.or.kr/openapi/search?secId=JT_BD&keyword="
                 + keyword + "&start=0&rows=300";

@@ -6,16 +6,20 @@ import cap.backend.back.domain.Silok;
 import cap.backend.back.domain.govrank.Oldgov;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
-@Getter
+@Getter@Setter
 public class Govsequence {
 
     @Id
+    @GeneratedValue
+    private Long seq_id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="person_id")
     private Krpedia krpedia;

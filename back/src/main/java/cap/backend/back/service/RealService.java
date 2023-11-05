@@ -61,6 +61,7 @@ public class RealService {
         List<Govsequence> orgseq=govrepository.findGovSequenceById(id);
         Collections.sort(orgseq,new GovsequenceComparator()); //sequence의 순서 보장
 
+
         int All_gov=orgseq.size(); //인물이 거친 모든 관직의 수
         int seq=1;
 
