@@ -137,6 +137,7 @@ public class DemoSetting {
         krpedia.setDescription(pediaInfo[4]);
         krpedia.setMaintext(pediaInfo[5]);
 
+
         krpedia.setPerson(person); //krpedia -> person
 
 

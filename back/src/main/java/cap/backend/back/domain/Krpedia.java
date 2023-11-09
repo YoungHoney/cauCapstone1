@@ -36,23 +36,20 @@ public class Krpedia {
     private String personpicture;
 
     @Lob
+    @Column(columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String definition; //정의
     @Lob
+    @Column(columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String description; //개설
     @Lob
+    @Column(columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String maintext; //생애및활동사항
 
 
-//각 gpt 결과들에대해 결과들만 사전내용을 알도록 함
-//    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
-//    private Lifesummary lifesummary; //활동요약과 양방향 일대일
-//
+
     @OneToMany(mappedBy = "krpedia",fetch=FetchType.LAZY)
     private List<Govsequence> govsequence; //관직순서와 양방향 일대일
-//
-//    @OneToOne(mappedBy = "krpedia",fetch=FetchType.LAZY)
-//    private Mbti mbti; //mbti식 요약과 양방향 일대일
-//
+
     @OneToMany(mappedBy = "krpedia")
     private List<Privatehistory> privatehistory; //개인사건과 양방향 일대일
 

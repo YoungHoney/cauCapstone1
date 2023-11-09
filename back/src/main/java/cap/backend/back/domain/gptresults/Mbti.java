@@ -22,7 +22,7 @@ public class Mbti {
     private String mbti;
 
     @Lob
-    @Column(name="mbticontents")
+    @Column(name="mbticontents",columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String contents;
 
 
