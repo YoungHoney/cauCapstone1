@@ -17,10 +17,10 @@ import java.util.concurrent.TimeUnit;
 public class OpenAiApi {
 
 
-    private String token = "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";
+    private String token;
 
     public void OpenAItest() {
-        String token = "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"; //지금은 바뀜, 새로 발급받아야함
+
         String endpoint = "https://api.openai.com/v1/chat/completions";
 
         OkHttpClient client;

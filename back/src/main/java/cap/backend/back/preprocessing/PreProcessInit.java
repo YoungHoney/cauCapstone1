@@ -25,17 +25,6 @@ public class PreProcessInit {
        pre_govmatch task4=context.getBean(pre_govmatch.class);
        DemoSetting demo=context.getBean(DemoSetting.class);
 
-       OpenAiApi o=context.getBean(OpenAiApi.class);
-
-
-
-
-
-
-
-
-
-
 
 //
 //

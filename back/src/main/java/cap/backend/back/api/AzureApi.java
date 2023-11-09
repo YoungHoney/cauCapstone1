@@ -5,6 +5,8 @@ import com.azure.ai.openai.OpenAIClient;
 import com.azure.ai.openai.OpenAIClientBuilder;
 import com.azure.ai.openai.models.*;
 import com.azure.core.credential.AzureKeyCredential;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,16 +15,25 @@ import java.util.List;
 @Component
 public class AzureApi {
 
-    String azureOpenaiKey = "81ffb8af272b4a468f9eb8a7a3b5ae21";
-    String endpoint = "https://gpt4canadaletsgo.openai.azure.com/";
-    String deploymentOrModelId = "MainModel_1";
+    @Value("${azure.openaikey}")
+    String azureOpenaiKey;
+    @Value("${azure.endpoint}")
+    String endpoint;
+    @Value("${azure.model}")
+    String deploymentOrModelId;
     //MokModel gpt3.5
 
     //MainModel_1 gpt4
-    OpenAIClient client = new OpenAIClientBuilder()
-            .endpoint(endpoint)
-            .credential(new AzureKeyCredential(azureOpenaiKey))
-            .buildClient();
+
+    OpenAIClient client;
+
+    @PostConstruct
+    public void init() {
+        this.client = new OpenAIClientBuilder()
+                .endpoint(endpoint)
+                .credential(new AzureKeyCredential(azureOpenaiKey))
+                .buildClient();
+    }
 
 
     public void getGovsequence(String INFO) {
