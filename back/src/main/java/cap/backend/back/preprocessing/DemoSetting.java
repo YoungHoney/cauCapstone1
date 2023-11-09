@@ -338,7 +338,7 @@ public class DemoSetting {
 
 //        mbti.setMbti("ispj");
 //        mbti.setContents(azureApi.getMBTI(krpedia.getDefinition()+krpedia.getDescription()+krpedia.getMaintext()+
-//                silokInfo.get(0).getContent() +silokInfo.get(1).getContent()+silokInfo.get(2).getContent(),name)); 실제로 입력할때
+//                silokInfo.get(0).getContent() +silokInfo.get(1).getContent()+silokInfo.get(2).getContent(),name));
         switch(name) {
             case "박세채(朴世采)": {
                 mbti.setMbti("ISFJ");
@@ -409,7 +409,7 @@ public class DemoSetting {
 
         }
 
-        //^^ gpt 4개중 세번쨰, Mbti 입력
+       // ^^ gpt 4개중 세번쨰, Mbti 입력
 
 //        azureApi.getPrivateHistory(krpedia.getDefinition()+krpedia.getDescription()+krpedia.getMaintext()+
 //                silokInfo.get(0).getContent() +silokInfo.get(1).getContent()+silokInfo.get(2).getContent(),name); 실제로 입력할떄

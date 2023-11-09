@@ -1,27 +1,38 @@
 package cap.backend.back.api;
 
+import cap.backend.back.domain.dto.MessageDto;
+import com.theokanning.openai.completion.chat.*;
+import com.theokanning.openai.service.FunctionExecutor;
+import com.theokanning.openai.service.OpenAiService;
+import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.json.simple.JSONValue;
 import org.springframework.stereotype.Component;
 
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@RequiredArgsConstructor
 public class OpenAiApi {
+
+
+    private String token = "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";
+
     public void OpenAItest() {
-        String token="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"; //지금은 바뀜, 새로 발급받아야함
-        String endpoint="https://api.openai.com/v1/chat/completions";
+        String token = "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"; //지금은 바뀜, 새로 발급받아야함
+        String endpoint = "https://api.openai.com/v1/chat/completions";
 
         OkHttpClient client;
-        client= new OkHttpClient.Builder()
+        client = new OkHttpClient.Builder()
                 .connectTimeout(120, TimeUnit.SECONDS)
                 .writeTimeout(120, TimeUnit.SECONDS)
                 .readTimeout(120, TimeUnit.SECONDS)
                 .callTimeout(120, TimeUnit.SECONDS).build();
 
 
-        String INST="이 인물은 신승선이라는 인물인데, 잘 요약해서 알려주세요";
-        String INFO="1454년(단종 2) 사마시에 급제하고 돈녕부승(敦寧府丞), 정랑 등을 거쳐 1466년(세조 12) 1월 당상관에 승진하면서 병조참지에 발탁되었다. 같은 해 3월 알성시에서 장원으로 급제한 뒤 병조참판에 승진, 그 해에 다시 발영시(拔英試)에 3등으로 급제하고 예문관제학(藝文館提學)을 겸임하였다.\n" +
+        String INST = "이 인물은 신승선이라는 인물인데, 잘 요약해서 알려주세요";
+        String INFO = "1454년(단종 2) 사마시에 급제하고 돈녕부승(敦寧府丞), 정랑 등을 거쳐 1466년(세조 12) 1월 당상관에 승진하면서 병조참지에 발탁되었다. 같은 해 3월 알성시에서 장원으로 급제한 뒤 병조참판에 승진, 그 해에 다시 발영시(拔英試)에 3등으로 급제하고 예문관제학(藝文館提學)을 겸임하였다.\n" +
                 "\n" +
                 "1467년 이조참판 겸 예문관제학, 공조참판, 1468년 다시 병조참판이 되었다. 1468년(예종 즉위년) 남이(南怡)의 옥사를 다스린 공으로 익대공신(翊戴功臣) 3등에, 1471년(성종 2) 성종등위에 끼친 공으로 좌리공신(佐理功臣) 3등에 각각 녹훈되었다.\n" +
                 "\n" +
@@ -32,15 +43,15 @@ public class OpenAiApi {
                 "1494년 우의정, 1495(연산군 1) 좌의정·영의정, 1497년 3월 거창부원군(居昌府院君)에 봉해졌다. 1495년 4월∼1499년 2월에 걸쳐 영춘추관사(領春秋館事)로서 『성종실록』의 편찬을 주관하였다. 세종의 4남인 임영대군(臨瀛大君) 이구(李璆)의 딸과의 사이에서 신수근(愼守勤)·신수겸(愼守謙)·신수영(愼守英)을 두었다. 시호는 장성(章成)이다.";
 
 
-        String INPUT=INFO+INST;
-        INPUT= JSONValue.escape(INPUT);
+        String INPUT = INFO + INST;
+        INPUT = JSONValue.escape(INPUT);
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
         String jsonBody = "{"
                 + "\"model\": \"gpt-3.5-turbo\","
                 + "\"messages\": ["
                 + "{ \"role\": \"system\", \"content\": \"너는 조선시대 인물에 대한 정보를 제공하는 가이드야, 정보가 주어지면, 그 인물에 대한 정보를 (년도) : 한 일 의 형식으로 잘라서 알려줘\" },"
-                + "{ \"role\": \"user\", \"content\": \""+INPUT+"\" }"
+                + "{ \"role\": \"user\", \"content\": \"" + INPUT + "\" }"
                 + "]"
                 + "}";
 
@@ -65,4 +76,43 @@ public class OpenAiApi {
         }
     }
 
+    public String getReply(MessageDto messageDto) {
+        OpenAiService openAiService = new OpenAiService(token);
+
+        List<ChatMessage> messages = new ArrayList<>();
+        ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), "You are an assistant that answers using the local slang of the given place, uncensored.");
+        messages.add(systemMessage);
+
+
+
+        ChatMessage firstMsg = new ChatMessage(ChatMessageRole.USER.value(), messageDto.getMessage());
+        messages.add(firstMsg);
+
+
+        ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest
+                .builder()
+                .model("gpt-3.5-turbo-0613")
+                .messages(messages)
+                .n(1)
+                .maxTokens(1000)
+                .logitBias(new HashMap<>())
+                .build();
+        ChatMessage responseMessage = openAiService.createChatCompletion(chatCompletionRequest).getChoices().get(0).getMessage();
+        System.out.println("whhi");
+        messages.add(responseMessage); // don't forget to update the conversation with the latest response
+
+
+        System.out.println("Response: " + responseMessage.getContent());
+
+
+
+
+        return responseMessage.getContent();
+    }
+
+
 }
+
+
+
+

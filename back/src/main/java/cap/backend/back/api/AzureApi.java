@@ -1,5 +1,6 @@
 package cap.backend.back.api;
 
+import cap.backend.back.domain.dto.MessageDto;
 import com.azure.ai.openai.OpenAIClient;
 import com.azure.ai.openai.OpenAIClientBuilder;
 import com.azure.ai.openai.models.*;
@@ -15,7 +16,9 @@ public class AzureApi {
     String azureOpenaiKey = "81ffb8af272b4a468f9eb8a7a3b5ae21";
     String endpoint = "https://gpt4canadaletsgo.openai.azure.com/";
     String deploymentOrModelId = "MainModel_1";
+    //MokModel gpt3.5
 
+    //MainModel_1 gpt4
     OpenAIClient client = new OpenAIClientBuilder()
             .endpoint(endpoint)
             .credential(new AzureKeyCredential(azureOpenaiKey))
@@ -137,7 +140,10 @@ public class AzureApi {
         //   chatMessages.add(new ChatMessage(ChatRole.ASSISTANT, "Yes, customer managed keys are supported by Azure OpenAI?"));
 
 
-        ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, new ChatCompletionsOptions(chatMessages));
+        ChatCompletionsOptions options=new ChatCompletionsOptions(chatMessages);
+        options.setTemperature(0.0);
+
+        ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, options);
 
         System.out.printf("Model ID=%s is created at %s.%n", chatCompletions.getId(), chatCompletions.getCreatedAt());
         for (ChatChoice choice : chatCompletions.getChoices()) {
@@ -155,6 +161,121 @@ public class AzureApi {
                         + "number of completion token is %d, and number of total tokens in request and response is %d.%n",
                 usage.getPromptTokens(), usage.getCompletionTokens(), usage.getTotalTokens());
         return result;
+    }
+
+    public String getReply(MessageDto messageDto,String ancestorname) {
+
+        String result="";
+
+        List<ChatMessage> chatMessages = new ArrayList<>();
+
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "너는 조선시대 인물인"+ancestorname+" 이 되어 후손들에게 조언을 해주는 프로그램이야, 말투는 조상이 먼 후손에게 이야기하는 말투로 해줘"));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, ancestorname+"에 대한 정보를 줄게 "));
+        SetDemoInfo(chatMessages,ancestorname);
+        chatMessages.add(new ChatMessage(ChatRole.USER, messageDto.getMessage()));
+
+
+
+        ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, new ChatCompletionsOptions(chatMessages));
+
+        System.out.printf("Model ID=%s is created at %s.%n", chatCompletions.getId(), chatCompletions.getCreatedAt());
+        for (ChatChoice choice : chatCompletions.getChoices()) {
+            ChatMessage message = choice.getMessage();
+            System.out.printf("Index: %d, Chat Role: %s.%n", choice.getIndex(), message.getRole());
+            System.out.println("Message:");
+            System.out.println(message.getContent());
+            result=message.getContent();
+        }
+
+        System.out.println();
+        CompletionsUsage usage = chatCompletions.getUsage();
+        System.out.printf("Usage: number of prompt token is %d, "
+                        + "number of completion token is %d, and number of total tokens in request and response is %d.%n",
+                usage.getPromptTokens(), usage.getCompletionTokens(), usage.getTotalTokens());
+
+
+        return result;
+
+
+    }
+
+    private void SetDemoInfo(List<ChatMessage> chatMessages,String ancestorname) {
+
+        switch(ancestorname) {
+            case "박세채(朴世采)": {
+                chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "박세채는 반남 박씨 가문에서 출생하여, 조선 시대의 교육 기관인 성균관에서 학문을 시작하였습니다. 그는 이이(李珥)의 학문에 깊은 존경심을 가지고 있었으며, 이는 그가 훗날 학자로서 나아가는 데 중요한 밑거름이 되었습니다. 젊은 시절에는 유명한 학자들의 문하에서 수학하여 지식과 식견을 넓혔고, 이후 학자이자 정치인으로서의 삶을 시작하였습니다.\n" +
+                        "\n" +
+                        "1659년에는 국가의 중요 관직에 천거되어 익위사세마(翊衛司洗馬)가 되었으며, 남인과 서인으로 나뉜 당시 정치 상황에서 서인 측의 이론가로 활약하며 남인에 맞서 주장을 펼쳤습니다. 특히 복제사의(服制私議)를 통해 남인의 주장을 체계적으로 반박하면서 자신의 지식과 논리력을 드러냈습니다.\n" +
+                        "\n" +
+                        "그의 학문적 업적도 빼어났습니다. 유배 생활 중에도 학문에 전념하여 다수의 저술을 남겼습니다. 이는 조선 시대 성리학을 비롯하여 여러 학문 분야에 귀중한 자료로 평가받고 있습니다.\n" +
+                        "\n" +
+                        "정치적으로는 여러 차례 관직에서 삭탈당하고 유배를 겪는 등의 고난을 겪었지만, 이는 그가 자신의 신념을 굽히지 않았다는 증거로 볼 수 있습니다. 그리고 정계에 복귀했을 때에는 대사헌, 이조판서 등 중요한 직책을 역임하며 조선의 정치에 크게 기여하였습니다.\n" +
+                        "\n" +
+                        "박세채는 소론의 영도자로서 논리적이고 정의로운 입장을 견지하며, 이이와 성혼에 대한 문묘종사 문제의 해결에 기여했을 뿐만 아니라, 대동법과 같은 중요한 정책의 실시를 주장하여 사회 및 경제 개혁에도 큰 영향을 미쳤습니다.\n" +
+                        "\n" +
+                        "마지막으로, 박세채는 당시 격동적인 국내외 상황 속에서도 학문적으로나 정치적으로 중요한 발자취를 남긴 인물로서, 후세에 큰 존경을 받고 있는 인물입니다. 그의 삶은 신념과 학문, 그리고 불굴의 정신으로 가득 찬 조선 시대의 위대한 선비의 모습을 보여줍니다."));
+
+                chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "이상이 "+ancestorname+"에 대한 정보입니다. 너는 위대한 학자인 박세채로서, 대학생인 사용자에게 학자로서의 신념과 마음가짐에 대해 가르쳐주고, 그들의 질문에 대해 위 정보를 바탕으로 대답하세요"));
+                break;
+            }
+
+            case "김상익(金尙翼)": {
+                chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"김상익은 조선 후기의 우수한 문신으로, 국가의 핵심을 담당하는 다양한 역할을 수행했다. 병과로의 급제 이후 지평과 정언을 맡았고, 충청도어사를 비롯해 수찬, 교리, 헌납 등의 역임을 했다. 그는 이조좌랑을 지낸 후 세자시강원필선, 대사간 등에 오르며 그 능력을 인정받았고, 경기도 관찰사와 대사헌 등도 맡았다.\n" +
+                        "\n" +
+                        "사은부사로 외교적 목적으로 청나라에 다녀왔고, 그 후로도 지속적으로 중요한 직책을 맡았다. 1759년에 도승지, 1763년에 지경연사, 1765년에 강화유수 등을 역임했다. 그는 형제들과 함께 기로소에 들어가 봉조하가 되었고, 이는 그의 삶이 복문, 즉 행운의 문이라고 일컬어진 것을 의미한다.\n" +
+                        "\n" +
+                        "김상익은 헌납을 맡았을 때, 궁중의 부조리를 용감하게 고발해 왕의 비난을 받았지만, 그의 청렴함과 충심을 보여주는 계기가 되며 많은 존경을 받았다. 이것은 그가 진정한 국가 기능을 수행하고자 하는 신하라는 것을 보여주며, 그의 생애는 긍정적인 정치 활동과 우수한 공적을 달성하기 위한 노력으로 가득 차있다."));
+
+                chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"이상이 김상익에 대한 정보입니다. 너는 청렴한 선비인 김상익이 되어, 사회 초년생인 사용자에게 사회 구성원으로서 청렴함에 대해 얘기하고 또 청나라를 다녀와서 선진문물을 보고와서 깨우쳤으므로, 사용자에게 나라 안에만 있지말고, 세계로 나아가라는 느낌으로 조언해줘"));
+
+                break;
+            }
+
+            case "권응수(權應銖)": {
+                chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"권응수는 조선시대 뛰어난 무신과 의병장으로, 별시무과에 급제하여 여러 고을의 의병장을 이끌며 고향을 지키는데 주력하였습니다. 임진왜란이 일어났을 때, 권응수는 의병을 모집하여 활발히 활동하였고, 영천성을 화공으로 대승해 수복하는 등 여러 전과를 올렸습니다. \n" +
+                        "\n" +
+                        "그는 안동의 모은루에서 적을 대파하고, 밀양의 적을 격파하며 계속해서 전공을 세웠습니다. 그의 공로로 여러 차례에 걸쳐 경상도병마좌별장, 충청도방어사, 경상도방어사 등의 높은 지위를 밟았습니다. 그리고 그는 병마절도사 김응서와 함께 정유재란 때 달성까지 추격하며 적을 물리친 기록이 있습니다.\n" +
+                        "\n" +
+                        "권응수는 그 시대의 전략과 지혜를 이용하여 민중을 이끌며 전쟁을 치르는 동안, 그의 탁월한 지휘력과 용감함을 앞세워 수많은 승리를 이끌어냈으며, 그의 공로는 선무공신 2등으로 기록되었습니다. 그는 이와 같은 여러가지 공로로 인해 시호는 충의(忠毅)로 추증되었습니다."));
+
+                chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"이상이 권응수에 대한 정보입니다. 너는  권응수가 되어, 개발자를 지망하여 운동을 잘 안하는 사용자에게 운동을 열심히 하라고 독려해주세요, 살짝 타박하는 목소리로 의자에 앉아있지만 말고 운동좀 하라고 해주세요"));
+
+                break;
+
+            }
+
+
+            case "이산해(李山海)": {
+                chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"\t이산해는 조선 중기의 중요한 관리로서 홍문관 정자, 사헌부집의, 영의정 등을 역임했습니다. 그의 생애는 국가의 재정과 국내외의 외교 등 다양한 무대에서 일어났으며, 그의 행정 역량은 선조의 강력한 지배 아래에서 피어났습니다. \n" +
+                        "\n" +
+                        "그는 학문에 뛰어나서 어린 나이에 진사가 되었으며, 그 후 다양한 고위 직책을 역임하며 급속히 승진하였습니다. 그는 선조의 즉위년에 원접사의 종사관으로 명나라 조사를 맞이하였고, 이 조정랑, 의정부사인, 사헌부집의 등 다수의 고위 직책을 맡았습니다. \n" +
+                        "\n" +
+                        "그는 많은 정치적인 이벤트, 특히 북인과의 정치적인 대립 속에서 핵심 역할을 하였습니다. 그는 재차 영의정에 올라 서인들을 능가하였고, 그의 지도력과 행정 능력 덕분에 그는 조선 정부의 핵심 인물이 되었습니다.\n" +
+                        "\n" +
+                        "그러나 그는 그의 권력을 이용해 정치적인 적들을 탄압하는 등의 부정적인 행동도 일삼았습니다. 그는 아들 이경전을 이용해 정철을 유배시키고 서인 계파의 문신을 탄핵하였습니다.\n" +
+                        "\n" +
+                        "병사들에 대한 그의 지원과 도움은 그를 뛰어난 지도자로 인식하게 하였고, 그의 성공은 그의 잠재력과 열정을 입증하였습니다. 그의 공헌은 그를 국가의 중요한 인물로서 인정받게 하였지만, 그의 권력 악용은 그를 많은 비판에 노출시켰습니다.\n" +
+                        "\n" +
+                        "그는 또한 문학과 예술에서도 뛰어난 재능을 보였습니다. 그는 선조조 문장팔가 중 한 사람으로 불렸고, 대자와 산수묵도에 뛰어나 보여 주었습니다. 그의 저서인 \"아계집\"은 그의 학문적 성취를 입증하는 또 다른 증거였습니다.\n" +
+                        "\n" +
+                        " 이산해는 조선 중기의 주요한 정치적 인물로서 많은 역할을 하였습니다. 그는 재정, 국내외 정치, 그리고 문학과 예술에 이르기까지 그의 역량은 상당했습니다. 그러나 그의 권력 악용과 보수적인 태도는 그에 대한 많은 비판을 받았습니다. 그럼에도 불구하고, 그의 공헌은 그를 조선의 중요한 인물로 만들었으며, 그는 조선 역사에서 중요한 위치를 차지하고 있습니다."));
+
+                chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"다음은 이산해가 쓴 시 입니다. 사용자가 시를 읊어달라고 하면 이 시를 읊어주세요 제목: 모산(暮山) 내용:海天風定日沈霞(해천풍정일침하) 바람 그친 하늘, 해 지는 노을 \n"+
+                        "蒲葦洲邊夕露多(포위주변석노다) 부들, 갈대 우거진 물가엔 이슬도 많아라\n"+
+                        "瘦馬倒鞭沙路逈(수마도편사노형) 여윈 말에 채찍질하여도 길은 멀어\n"+
+                        "夜深明月宿漁家(야심명월숙어가) 밤 깊고 달 밝아 어촌에서 묵어가려네"));
+                chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"이상이 이산해에 대한 정보입니다. 사용자가 당신에게 사회적으로 성공을 하려면 어떻게 해야하는지 물어보면 정보를 바탕으로 답해주고, 시를 읊어달라고 하면 시를 읊고, 의미를 말해달라고 하면 임진왜란때 선조와 함께 피난가다가 쓴 시라고 해줘 "));
+
+                break;
+            }
+
+
+        }
+
+
+
+
+
     }
 
 

@@ -1,8 +1,6 @@
 package cap.backend.back.preprocessing;
 
-import cap.backend.back.api.AllExternApi;
-import cap.backend.back.api.KrPediaApi;
-import cap.backend.back.api.SilLokApi;
+import cap.backend.back.api.OpenAiApi;
 import cap.backend.back.preprocessing.p_gov.pre_govmatch;
 import cap.backend.back.preprocessing.p_gov.pre_moderngov;
 import cap.backend.back.preprocessing.p_oldevents.pre_oldevents;
@@ -25,9 +23,9 @@ public class PreProcessInit {
        pre_oldgov task2=context.getBean(pre_oldgov.class);
        pre_moderngov task3=context.getBean(pre_moderngov.class);
        pre_govmatch task4=context.getBean(pre_govmatch.class);
-       AllExternApi apiTask=context.getBean(AllExternApi.class);
        DemoSetting demo=context.getBean(DemoSetting.class);
 
+       OpenAiApi o=context.getBean(OpenAiApi.class);
 
 
 
@@ -39,6 +37,8 @@ public class PreProcessInit {
 
 
 
+//
+//
        task1.saveCSV(); // 조선시대 사건 세팅
        task2.saveCSV(); // 옛 관직 세팅
        task3.saveCSV(); //현대관직 세팅
@@ -51,7 +51,7 @@ public class PreProcessInit {
        demo.doDemoSetting("권응수(權應銖)","權","권","안동");
        demo.doDemoSetting("이산해(李山海)","李","이","한산");
 
-       apiTask.doAllThing();
+
 
 
 
