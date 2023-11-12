@@ -42,6 +42,7 @@ public class AncestorController {
         Person ancestor = realservice.findOne(id);
 
 
+
         //id에 따라 타임라인을 위한 (년도, 설명)리스트 반환하는 서비스 필요
         Map<Integer, String> timeline = realservice.findPrivateHistoriesById(id);
 
