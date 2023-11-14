@@ -189,6 +189,7 @@ public class AzureApi {
 
         ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, new ChatCompletionsOptions(chatMessages));
 
+
         System.out.printf("Model ID=%s is created at %s.%n", chatCompletions.getId(), chatCompletions.getCreatedAt());
         for (ChatChoice choice : chatCompletions.getChoices()) {
             ChatMessage message = choice.getMessage();

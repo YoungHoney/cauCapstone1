@@ -112,5 +112,31 @@ public class VirtualService {
         return gptRepository.findMbtiById(id);
     }
 
+    public String[] findMatchBetweenAncestorAndModern(Long id) {
+        String[] result=new String[2];
+
+        Map<Integer,String> govseqs=realService.findGovSequenceById(id);
+
+
+
+        pre_govmatch.OLDRANK temp= pre_govmatch.OLDRANK.종9품;
+        String modernGovname = null;
+        for(int i=1;i<=govseqs.size();i++) {
+            String oldgovname=govseqs.get(i).split(",")[0];
+            String temp_modgovname=govseqs.get(i).split(",")[1];
+
+
+            if(temp.getI()<=pre_govmatch.OLDRANK.valueOf(govRepository.findOldgov(oldgovname).getRank()).getI()){
+                temp=pre_govmatch.OLDRANK.valueOf(govRepository.findOldgov(oldgovname).getRank());
+                modernGovname=temp_modgovname;
+            }
+
+        }
+        result[1]=modernGovname;
+        result[0]=govRepository.findModerngov(modernGovname).getPersonname();
+
+
+        return result;
+    }
 
 }

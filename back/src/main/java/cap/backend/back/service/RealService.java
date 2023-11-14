@@ -8,6 +8,7 @@ import cap.backend.back.domain.govrank.Moderngov;
 import cap.backend.back.domain.gptresults.Govsequence;
 import cap.backend.back.domain.gptresults.Lifesummary;
 import cap.backend.back.domain.gptresults.Privatehistory;
+import cap.backend.back.preprocessing.p_gov.pre_govmatch;
 import cap.backend.back.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -100,6 +101,10 @@ public class RealService {
     public String findPictureById(Long id){
         return personrepository.findPictureById(id);
     }
+
+    public String findDefById(Long id) { return krpediarepository.findDefById(id);}
+
+
 
 
 

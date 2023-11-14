@@ -11,12 +11,16 @@ import java.util.Map;
 @Builder
 public class SearchAncestorResponse {
     private Person ancestor;
+    private String definition;
     private String lifeSummary;
+
     private  Map<Integer, String> timeline;
     private Map<Integer, String> mainEvents;
     private Map<Integer, String> govSequence;
     private String personPicPath;
     private String imaginaryPicPath;
+
+    private String[] modernPersonandGov;
     private String mbti;
     private String mbtiContent;
 

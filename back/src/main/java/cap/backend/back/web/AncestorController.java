@@ -41,6 +41,9 @@ public class AncestorController {
         //id에 따라 person객체 반환하는 서비스 필요
         Person ancestor = realservice.findOne(id);
 
+        //조상의 definition
+        String definition=realservice.findDefById(id);
+
 
 
         //id에 따라 타임라인을 위한 (년도, 설명)리스트 반환하는 서비스 필요
@@ -77,6 +80,11 @@ public class AncestorController {
         String imaginaryPicPath = "www.imaginarypath.com";
 
 
+        //가상페이지에서 조상에 대응되는 현대인물 이름[0]과 관직명[1]
+        String[] modernPersonandGov= virtualService.findMatchBetweenAncestorAndModern(id);
+
+
+
 
         //해당하는 id의 mbti 타입을 string으로 반환
         //이건 id로 mbti객체 반환하는 서비스만 필요. 컨텐츠 꺼내는 건 여기서 하면 될듯
@@ -84,8 +92,8 @@ public class AncestorController {
         String mbti = mbti1.getMbti();
         String mbtiContent = mbti1.getContents();
 
-        SearchAncestorResponse searchAncestorResponse = new SearchAncestorResponse(ancestor, lifeSummary,
-                timeline, mainEvents, govSequence, personPicPath, imaginaryPicPath, mbti, mbtiContent);
+        SearchAncestorResponse searchAncestorResponse = new SearchAncestorResponse(ancestor,definition, lifeSummary,
+                timeline, mainEvents, govSequence, personPicPath, imaginaryPicPath,modernPersonandGov, mbti, mbtiContent);
 
 
         return EntityModel.of(searchAncestorResponse, linkTo(methodOn(AncestorController.class).ancestors(id,"real")).withRel("real"),

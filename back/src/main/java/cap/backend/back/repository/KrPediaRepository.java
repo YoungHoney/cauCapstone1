@@ -25,4 +25,7 @@ public class KrPediaRepository {
     }
 
 
+    public String findDefById(Long id) {
+        return this.findById(id).getDefinition();
+    }
 }

@@ -38,7 +38,7 @@ public class GovRepository {
 
     public Moderngov findModerngov(String modernname) {
         return em.find(Moderngov.class,modernname);
-    }
+    } //관직명을 넣어야함
 
     public Oldgov findOldgov(String oldname) {
         return em.find(Oldgov.class,oldname);
