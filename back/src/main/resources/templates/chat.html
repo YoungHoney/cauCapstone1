@@ -68,21 +68,39 @@
         #message::placeholder{
             text-align:center;
         }
-        #back-button {
+        #back-real-button {
             position:absolute;
-            top: 10px;
-            left: 10px;
+            bottom: 20px;
+            right: 250px;
             padding: 10px;
-            background-color: #ff0000;
+            background-color: #333333;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             z-index: 1000; /* 다른 요소 위에 표시하기 위해 */
         }
-        #back-button:hover {
-            background-color: #dc143c;
+        #back-real-button:hover {
+            background-color: #808080;
         }
+
+        #back-virtual-button {
+            position:absolute;
+            bottom: 20px;
+            right: 90px;
+            padding: 10px;
+            background-color: #333333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1000; /* 다른 요소 위에 표시하기 위해 */
+        }
+        #back-virtual-button:hover {
+            background-color: #808080;
+        }
+
+
         button {
             padding: 10px;
             background-color: #007bff;
@@ -105,11 +123,31 @@
     <input type="text" id="message" placeholder="조상님께 전할 말을 입력하세요" onkeypress="if(event.keyCode === 13) sendMessage();">
     <button onclick="sendMessage()">입력하기</button>
 </div>
-<button id="back-button" th:onclick="'window.location.href=\'/ancestor/' + ${ancestorId} + '\''">뒤로가기</button>
+<button id="back-real-button" data-name="${aname}" onclick="redirectToReal()">현실정보로전환</button>
+<button id="back-virtual-button" data-name="${aname}" onclick="redirectToVirtual()">가상정보로전환</button>
+
+
+
+
 
 
 <script th:inline="javascript">
-    /*<![CDATA[*/
+
+
+        /*<![CDATA[*/
+        function redirectToReal() {
+            var name = /*[[${aname}]]*/ 'defaultName';
+            window.location.href = 'http://3.39.127.44:3000'+'/ancestor/real/' + encodeURIComponent(name);
+        }
+
+        function redirectToVirtual() {
+            var name = /*[[${aname}]]*/ 'defaultName';
+            window.location.href = 'http://3.39.127.44:3000'+'/ancestor/virtual/' + encodeURIComponent(name);
+        }
+        /*]]>*/
+
+
+        /*<![CDATA[*/
 
     function sendMessage() {
         var messageInput = document.getElementById('message');

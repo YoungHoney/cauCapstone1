@@ -19,9 +19,12 @@ public class ChatController {
 
 
 
-    @GetMapping("/{id}/api/chat")
+    @GetMapping("/ancestor/{id}/chat")
     public String showChatPage(@PathVariable Long id, Model model) {
         model.addAttribute("ancestorId",id);
+        model.addAttribute("aname", realService.findOne(id).getName());
+
+
         return "chat"; // chat.html 템플릿을 렌더링
     }
 
