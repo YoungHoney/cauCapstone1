@@ -1,31 +1,22 @@
 package cap.backend.back.web;
 
-import cap.backend.back.domain.Clan;
-import cap.backend.back.domain.Oldevents;
 import cap.backend.back.domain.Person;
-import cap.backend.back.domain.compositekey.ClanId;
-import cap.backend.back.domain.govrank.Moderngov;
-import cap.backend.back.domain.gptresults.Govsequence;
-import cap.backend.back.domain.gptresults.Lifesummary;
+import cap.backend.back.domain.dto.SearchAncestorResponseDTO;
 import cap.backend.back.domain.gptresults.Mbti;
-import cap.backend.back.domain.gptresults.Privatehistory;
 import cap.backend.back.service.RealService;
 import cap.backend.back.service.VirtualService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/ancestor")
+@RequestMapping("/api/ancestor")
 @RequiredArgsConstructor
 @Slf4j
 public class AncestorController {
@@ -35,7 +26,7 @@ public class AncestorController {
     private final VirtualService virtualService;
 
     @GetMapping("/{id}")
-    public EntityModel<SearchAncestorResponse> ancestors(@PathVariable Long id, @RequestParam(defaultValue = "real") String type){
+    public EntityModel<SearchAncestorResponseDTO> ancestors(@PathVariable Long id, @RequestParam(defaultValue = "real") String type){
 
 
         //id에 따라 person객체 반환하는 서비스 필요
@@ -92,7 +83,7 @@ public class AncestorController {
         String mbti = mbti1.getMbti();
         String mbtiContent = mbti1.getContents();
 
-        SearchAncestorResponse searchAncestorResponse = new SearchAncestorResponse(ancestor,definition, lifeSummary,
+        SearchAncestorResponseDTO searchAncestorResponse = new SearchAncestorResponseDTO(ancestor,definition, lifeSummary,
                 timeline, mainEvents, govSequence, personPicPath, imaginaryPicPath,modernPersonandGov, mbti, mbtiContent);
 
 

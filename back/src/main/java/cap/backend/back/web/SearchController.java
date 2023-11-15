@@ -2,23 +2,17 @@ package cap.backend.back.web;
 
 
 import cap.backend.back.domain.Clan;
-import cap.backend.back.domain.Person;
-import cap.backend.back.repository.PersonRepository;
-import cap.backend.back.domain.compositekey.ClanId;
-import cap.backend.back.repository.PersonRepository;
 
+import cap.backend.back.domain.dto.SearchClanResponseDTO;
 import cap.backend.back.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/api/search")
 @RequiredArgsConstructor
 @Slf4j
 public class SearchController {
@@ -66,7 +60,7 @@ public class SearchController {
 
     @GetMapping("/initial/{letter}/{clan}")
     //clan optional value로 만들어서 합치는 것도 가능할 듯
-    public EntityModel<SearchClanResponse> searchByInitialClan(@PathVariable char letter, @PathVariable String clan){
+    public EntityModel<SearchClanResponseDTO> searchByInitialClan(@PathVariable char letter, @PathVariable String clan){
         String tempClan = null;
         if (clan.endsWith("씨")) {
             // 마지막 글자(씨)를 제외한 나머지 문자열을 추출
@@ -97,7 +91,7 @@ public class SearchController {
                 .collect(Collectors.toList());
 
         //map 사용?
-        SearchClanResponse searchClanResponse = new SearchClanResponse(ancestors, clans);
+        SearchClanResponseDTO searchClanResponse = new SearchClanResponseDTO(ancestors, clans);
 
         return EntityModel.of(searchClanResponse,
                 linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withSelfRel());

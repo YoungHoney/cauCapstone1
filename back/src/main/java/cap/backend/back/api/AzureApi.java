@@ -1,6 +1,6 @@
 package cap.backend.back.api;
 
-import cap.backend.back.domain.dto.MessageDto;
+import cap.backend.back.domain.dto.MessageDTO;
 import com.azure.ai.openai.OpenAIClient;
 import com.azure.ai.openai.OpenAIClientBuilder;
 import com.azure.ai.openai.models.*;
@@ -174,7 +174,7 @@ public class AzureApi {
         return result;
     }
 
-    public String getReply(MessageDto messageDto,String ancestorname) {
+    public String getReply(MessageDTO messageDto, String ancestorname) {
 
         String result="";
 

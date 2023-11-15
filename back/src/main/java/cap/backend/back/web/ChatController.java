@@ -1,6 +1,6 @@
 package cap.backend.back.web;
 
-import cap.backend.back.domain.dto.MessageDto;
+import cap.backend.back.domain.dto.MessageDTO;
 import cap.backend.back.service.ChatService;
 import cap.backend.back.service.RealService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class ChatController {
 
 
 
-    @GetMapping("/ancestor/{id}/chat")
+    @GetMapping("/api/ancestor/{id}/chat")
     public String showChatPage(@PathVariable Long id, Model model) {
         model.addAttribute("ancestorId",id);
         model.addAttribute("aname", realService.findOne(id).getName());
@@ -32,12 +32,12 @@ public class ChatController {
 
 
     @PostMapping("/{id}/api/chat")
-    public ResponseEntity<?> sendMessage(@RequestBody MessageDto messageDto, @PathVariable Long id) {
+    public ResponseEntity<?> sendMessage(@RequestBody MessageDTO messageDto, @PathVariable Long id) {
 
         try {
 
             String reply = chatService.getReplyFromAzure(messageDto,realService.findOne(id).getName());
-            return ResponseEntity.ok(new MessageDto(reply));
+            return ResponseEntity.ok(new MessageDTO(reply));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

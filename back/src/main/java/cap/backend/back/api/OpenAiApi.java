@@ -1,8 +1,7 @@
 package cap.backend.back.api;
 
-import cap.backend.back.domain.dto.MessageDto;
+import cap.backend.back.domain.dto.MessageDTO;
 import com.theokanning.openai.completion.chat.*;
-import com.theokanning.openai.service.FunctionExecutor;
 import com.theokanning.openai.service.OpenAiService;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
@@ -76,7 +75,7 @@ public class OpenAiApi {
         }
     }
 
-    public String getReply(MessageDto messageDto) {
+    public String getReply(MessageDTO messageDto) {
         OpenAiService openAiService = new OpenAiService(token);
 
         List<ChatMessage> messages = new ArrayList<>();
