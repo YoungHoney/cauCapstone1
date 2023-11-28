@@ -4,12 +4,16 @@ import cap.backend.back.domain.Person;
 import cap.backend.back.domain.dto.SearchAncestorResponseDTO;
 import cap.backend.back.domain.gptresults.Mbti;
 import cap.backend.back.service.RealService;
+import cap.backend.back.service.SearchService;
 import cap.backend.back.service.VirtualService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -23,6 +27,7 @@ public class AncestorController {
 
 
     private final RealService realservice;
+    private final SearchService searchService;
     private final VirtualService virtualService;
 
     @GetMapping("/{id}")
@@ -92,6 +97,19 @@ public class AncestorController {
 
 
     }
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Map<String, Long>> findID(@PathVariable String name){
+        Long id = null;
+        try{
+            id = searchService.findIdByName(name);
+        }
+        catch (Exception ignored){
 
+        }
+        Map<String, Long> responseMap = new HashMap<>();
+        responseMap.put("id", id);
+
+        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+    }
 
 }

@@ -43,7 +43,7 @@ public class SearchService {
         else return true;
 
     }
-    public long findIdByName(String personname) {
+    public Long findIdByName(String personname) {
         return personRepository.findPersonInDBByName(personname).getId();
     }
     public Clan findClanByWholeName(String clanwholename) {
