@@ -3,7 +3,6 @@ package cap.backend.back.web;
 
 import cap.backend.back.domain.Clan;
 
-import cap.backend.back.domain.dto.SearchClanResponseDTO;
 import cap.backend.back.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,19 +48,19 @@ public class SearchController {
     @GetMapping("/initial/{letter}")
     public CollectionModel<EntityModel<Clan>> searchByInitial(@PathVariable char letter){
 
-        List<EntityModel<Clan>> clans=  searchService.findClansByLetter(letter).stream()
+        List<EntityModel<Clan>> clans = searchService.findClansByLetter(letter).stream()
                 .map(clan -> EntityModel.of(clan,
-                        linkTo(methodOn(SearchController.class).searchByInitialClan(letter,
-                                clan.getClanid().getClanHangul()+clan.getClanid().getSurnameHangul()+"씨")).withSelfRel(),
+                        linkTo(methodOn(SearchController.class).searchByClan(clan.getClanid()
+                                .getClanHangul()+clan.getClanid().getSurnameHangul()+"씨")).withSelfRel(),
                         linkTo(methodOn(SearchController.class).searchByInitial(letter)).withRel("initial")))
                         .collect(Collectors.toList());
 
         return CollectionModel.of(clans, linkTo(methodOn(SearchController.class).searchByInitial(letter)).withSelfRel());
     }
 
-    @GetMapping("/initial/{letter}/{clan}")
+    @GetMapping("/clan/{clan}")
     //clan optional value로 만들어서 합치는 것도 가능할 듯
-    public EntityModel<SearchClanResponseDTO> searchByInitialClan(@PathVariable char letter, @PathVariable String clan){
+    public CollectionModel<?> searchByClan(@PathVariable String clan){
         String tempClan = null;
         if (clan.endsWith("씨")) {
             // 마지막 글자(씨)를 제외한 나머지 문자열을 추출
@@ -77,26 +77,12 @@ public class SearchController {
                     ancestorMap.put("name", ancestor); // Assign a field name "name" to the payload
                     return EntityModel.of(
                             ancestorMap,
-                            linkTo(methodOn(AncestorController.class).ancestors(searchService.findIdByName(ancestor), "real")).withSelfRel(),
-                            linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withRel("clan"));
-                })
-                .collect(Collectors.toList());
+                            linkTo(methodOn(AncestorController.class).ancestors(searchService.findIdByName(ancestor), "real")).withSelfRel());
+                }).toList();
 
 
-        //본관과 그에 해당하는 링크를 모아 반환
-        List<EntityModel<Clan>> clans = searchService.findClansByLetter(letter).stream()
-                .map(clan1 -> EntityModel.of(clan1,
-                        linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withSelfRel(),
-                        linkTo(methodOn(SearchController.class).searchByInitial(letter)).withRel("initial")))
-                .collect(Collectors.toList());
-
-        //map 사용?
-        SearchClanResponseDTO searchClanResponse = new SearchClanResponseDTO(ancestors, clans);
-
-        return EntityModel.of(searchClanResponse,
-                linkTo(methodOn(SearchController.class).searchByInitialClan(letter, clan)).withSelfRel());
-
-
+        return CollectionModel.of(ancestors,
+                linkTo(methodOn(SearchController.class).searchByClan(clan)).withSelfRel());
 
     }
 }
