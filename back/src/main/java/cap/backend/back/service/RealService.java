@@ -59,7 +59,9 @@ public class RealService {
     }
 
     public Map<Integer,String> findGovSequenceById(Long id) {
+
         List<Govsequence> orgseq=govrepository.findGovSequenceById(id);
+
         Collections.sort(orgseq,new GovsequenceComparator()); //sequence의 순서 보장
 
 
@@ -69,12 +71,25 @@ public class RealService {
 
         Random random=new Random(id);
 
+
         Map<Integer,String> result=new HashMap<>();
         for(Govsequence g : orgseq) {
-            List<String> mgovList= govrepository.findModernsByOld(g.getOldgov().getName());
-            int randInt=random.nextInt(mgovList.size());
-           // result.put(g.getOldgov().getName(),mgovList.get(randInt));
-            result.put(seq++,g.getOldgov().getName()+","+mgovList.get(randInt));
+
+            if(g.getOldgov().getGovmatches()!=null) {
+
+
+                List<String> mgovList= govrepository.findModernsByOld(g.getOldgov().getName());
+
+                int randInt=random.nextInt(mgovList.size());
+                // result.put(g.getOldgov().getName(),mgovList.get(randInt));
+                result.put(seq++,g.getOldgov().getName()+","+mgovList.get(randInt));
+
+            }
+            else {
+                result.put(seq++,g.getOldgov().getName()+","+"대상없음");
+            }
+
+
 
 
 

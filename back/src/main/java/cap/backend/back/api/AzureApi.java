@@ -36,11 +36,25 @@ public class AzureApi {
     }
 
 
-    public void getGovsequence(String INFO) {
+    public String getGovsequence(String INFO) {
+        String result="we";
         List<ChatMessage> chatMessages = new ArrayList<>();
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "너는 조선시대 인물에 대한 정보를 제공하는 가이드야, 몇가지정보가 주어지면, 그 인물에 대한 정보를 (년도):(해당년도에인물이 오른 대표적 관직 하나) 의 형식으로 알려줘 :의 오른쪽에 오는 값은 반드시 단일 관직명이어야 해"));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "예시를 줄게, 1582년(선조 15) 사마시에 급제하여 진사가 되고, 1595년 별시문과에 병과로 급제하여 승문원정자가 되었다. 할아버지의 공으로 성균관전적(成均館典籍)으로 특진하였으며, 내외의 관직을 역임하여 우승지에 이르렀다. 1613년(광해군 5) 계축옥사가 일어났을 때 첩의 남동생인 서양갑(徐羊甲)에게 연루되어 파직당하였다.\n" +
+                "\n" +
+                "그 뒤 1620년 무관직에 여러 번 임명되었으나, 병을 칭탁하고 당시 대북세력이 장악하고 있던 조정에 나가지 않았다. 1623년 인조반정 후 동지중추부사·오위도총부부총관, 한성부의 좌윤·우윤 등을 역임하였다.\n" +
+                "\n" +
+                "1624년(인조 2) 이괄(李适)의 난이 일어났을 때에는 인조를 공주에 호종하였으며, 그 뒤 가의대부(嘉義大夫)에 올랐다. 1627년 정묘호란 때에는 왕을 강화로 호종(護從: 호위하여 따름.)하였으며, 적과의 강화를 강력히 배척하는 소를 올렸다.\n" +
+                "\n" +
+                "1632·1635년에는 예조참판으로 재직하면서 인목대비(仁穆大妃)와 인열왕후(仁烈王后)의 국장업무에 참여하였다. 1636년 병자호란 때에는 왕을 남한산성에 호종하였으며, 다음해 서울에 돌아와 지중추부사에 임명되었다. 저서로는 『계음만필(溪陰漫筆)』·『도재수필』·『도재집』 등이 있다. 시호는 정민(靖敏)이다."));
+
+        chatMessages.add(new ChatMessage(ChatRole.ASSISTANT,"1582년:진사,1595년:승문원정자,1623년:동지중추부사,1624년:가의대부,1632년:예조참판,1635년:예조참판,1637년:지중추부사"));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "너는 조선시대 인물에 대한 정보를 제공하는 가이드야, 몇가지정보가 주어지면, 그 인물에 대한 정보를 (년도):(해당년도에인물이 오른 대표적 관직 하나) 의 형식으로 알려줘 :의 오른쪽에 오는 값은 반드시 단일 관직명이어야 해"));
+
         chatMessages.add(new ChatMessage(ChatRole.USER, INFO));
-        //   chatMessages.add(new ChatMessage(ChatRole.ASSISTANT, "Yes, customer managed keys are supported by Azure OpenAI?"));
+
+
+
 
 
         ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, new ChatCompletionsOptions(chatMessages));
@@ -51,6 +65,7 @@ public class AzureApi {
             System.out.printf("Index: %d, Chat Role: %s.%n", choice.getIndex(), message.getRole());
             System.out.println("Message:");
             System.out.println(message.getContent());
+            result=message.getContent();
         }
 
         System.out.println();
@@ -58,6 +73,8 @@ public class AzureApi {
         System.out.printf("Usage: number of prompt token is %d, "
                         + "number of completion token is %d, and number of total tokens in request and response is %d.%n",
                 usage.getPromptTokens(), usage.getCompletionTokens(), usage.getTotalTokens());
+
+        return result;
     }
 
 
@@ -90,7 +107,8 @@ public class AzureApi {
         return result;
     }
 
-    public void getPrivateHistory(String INFO, String ancestorname) {
+    public String getPrivateHistory(String INFO, String ancestorname) {
+        String result="as";
         List<ChatMessage> chatMessages = new ArrayList<>();
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "너는 조선시대 인물인 "+ancestorname+"에 대한 기록들을 입력받아 인물의 생애를 연도별로 요약하는 프로그램이야, 정보를 줄게"));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "인물정보를 입력받고 <년도>:<인물이 한 일>을 쭉 나열해봐"));
@@ -115,6 +133,7 @@ public class AzureApi {
             System.out.printf("Index: %d, Chat Role: %s.%n", choice.getIndex(), message.getRole());
             System.out.println("Message:");
             System.out.println(message.getContent());
+            result=message.getContent();
 
         }
 
@@ -123,12 +142,14 @@ public class AzureApi {
         System.out.printf("Usage: number of prompt token is %d, "
                         + "number of completion token is %d, and number of total tokens in request and response is %d.%n",
                 usage.getPromptTokens(), usage.getCompletionTokens(), usage.getTotalTokens());
+
+        return result;
     }
 
     public String getMBTI(String INFO, String ancestorname) {
         String result="";
         List<ChatMessage> chatMessages = new ArrayList<>();
-        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "너는 조선시대 인물인 "+ancestorname+"에 대한 기록들을 입력받아 인물의 MBTI가 어떤지 예측하는 프로그램이야, 비록 주관적일수 있지만 재미요소라서 상관없어 일단 예시를 줄게"));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "너는 조선시대 인물인 "+ancestorname+"에 대한 기록들을 입력받아 인물의 MBTI가 어떤지 예측하는 프로그램이야, 답장할때 중괄호 안에 MBTI를 입력하면 되, 예를들어, 예측결과가 ISTJ라면 [ISTJ]라고 하면 되, 비록 주관적일수 있지만 재미요소라서 상관없어 일단 예시를 줄게"));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"결과 예시를 줄게, 입력 : 곽은이라는 사람이고, 기록을 줄게 조선 전기에, 담양부사, 승지 등을 역임한 문신.\n" +
                 "접기/펼치기\n" +
                 "개설\n" +
@@ -141,7 +162,7 @@ public class AzureApi {
                 "그뒤 왕의 특명으로 담양부사로 나가 부역을 경감하는 등 선정을 베풀었다. 조정에서 치적을 높이 평가하여 승지로 승진시켰으나 부임 도중에 죽었다. 곽은이 죽자 부민들은 크게 비통해하였으며 오래도록 기신제(忌辰祭)를 지냈다.\n" +
                 "\n" +
                 "절의에 바르기로 유명한 남효온(南孝溫)도 그 죽음을 슬퍼하는 글을 지어 후세에 남겼고, 이이(李珥)도 곽은의 자손을 현인의 후예라 하여 등용할 것을 주청하였다. "));
-        chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"결과예시야, 답변 : 곽은의 기록을 통해 몇 가지 성격적 특성을 추측해 볼 수 있습니다:\n" +
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"결과예시: [ISFJ] 곽은의 기록을 통해 몇 가지 성격적 특성을 추측해 볼 수 있습니다:\n" +
                 "\n" +
                 "그는 공직에서 선정을 베푼 것으로 평가받았으며, 사후에도 부민들이 그를 오랫동안 기렸다고 합니다. 이는 그가 공동체와 그 구성원들에 대한 배려가 깊었으며, 그로 인해 사람들에게 존경받았음을 나타냅니다.\n" +
                 "그는 선산 곽씨 집안에서 출생하여 당대의 사회적 기대와 전통적 가치를 수호하는 역할을 했습니다. 이는 그가 전통을 중시하고 체계 및 구조 내에서 안정을 추구했을 가능성을 나타냅니다.\n" +

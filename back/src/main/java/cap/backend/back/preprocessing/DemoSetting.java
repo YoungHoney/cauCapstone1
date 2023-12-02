@@ -104,8 +104,8 @@ public class DemoSetting {
         person.setName(name);
         person.setClan(clan);
         person.setPersonpicture("resources/rawdata/ggg");
-        person.setBirthyear(Integer.parseInt(pediaInfo[0]));
-        person.setDeathyear(Integer.parseInt(pediaInfo[1]));
+        person.setBirthyear(pediaInfo[0]);
+        person.setDeathyear(pediaInfo[1]);
 
 
 
@@ -125,8 +125,8 @@ public class DemoSetting {
 
 
 
-        krpedia.setBirthyear(Integer.parseInt(pediaInfo[0]));
-        krpedia.setDeathyear(Integer.parseInt(pediaInfo[1]));
+        krpedia.setBirthyear(pediaInfo[0]);
+        krpedia.setDeathyear(pediaInfo[1]);
         krpedia.setClanHangul(clanHangul);
         krpedia.setSurnameHangul(surnameHangul);
         krpedia.setSurnameHanja(surnameHanja);
@@ -187,14 +187,18 @@ public class DemoSetting {
                 govsequences[0].setSequnce_num(1);
                 govsequences[0].setOldgov(govRepository.findOldgov("사헌부집의(司憲府執義)"));
 
+
                 govsequences[1].setSequnce_num(2);
                 govsequences[1].setOldgov(govRepository.findOldgov("동부승지(同副承旨)"));
+
 
                 govsequences[2].setSequnce_num(3);
                 govsequences[2].setOldgov(govRepository.findOldgov("공조참판(工曹參判)"));
 
+
                 govsequences[3].setSequnce_num(4);
                 govsequences[3].setOldgov(govRepository.findOldgov("이조판서(吏曹判書)"));
+
 
                 govsequences[4].setSequnce_num(5);
                 govsequences[4].setOldgov(govRepository.findOldgov("우참찬(右參贊)"));
@@ -529,8 +533,10 @@ public class DemoSetting {
 
 
 
+
         //^^ gpt 4가지 클래스 넣기 ^^
         Long temp=personrepository.findPersonInDBByName(name).getId();
+
 
         Integer[] abilities=virtualService.getAbilityById(temp); //id 를 요구하므로 save 이후에 나와야 함 + govsequence가 저장된 이후에 필요하므로 뒤에 등장
 
@@ -539,16 +545,6 @@ public class DemoSetting {
         person.setJi(abilities[2]);
         person.setJung(abilities[3]);
         person.setMae(abilities[4]);
-
-
-
-
-
-
-
-
-
-
 
 
     }

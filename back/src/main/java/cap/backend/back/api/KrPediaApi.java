@@ -19,6 +19,9 @@ public class KrPediaApi {
     public String[] getKrpediaInfo(String name) throws IOException, ParseException {
         String addURL=getReviceURL(name);
         String URL="https://suny.aks.ac.kr:5143/api/Article/"+addURL;
+
+        //System.out.println(URL);
+
         JSONParser jParser=new JSONParser();
         JSONObject jsonObj=new JSONObject();
         OkHttpClient client = new OkHttpClient();
@@ -34,6 +37,8 @@ public class KrPediaApi {
             }
             String responseBody=response.body().string();
             jsonObj=(JSONObject)jParser.parse(responseBody);
+
+
         }
 
         catch (IOException e){
@@ -52,12 +57,27 @@ public class KrPediaApi {
         JSONArray arr4Year=(JSONArray)articleObj.get("attributes");
         JSONObject arr4Birth=(JSONObject)arr4Year.get(1);
         JSONObject arr4Death=(JSONObject)arr4Year.get(2);
+        JSONObject arr4clan=(JSONObject)arr4Year.get(3);
 
 
         String birthYear=(String)arr4Birth.get("attrValue");
-        birthYear=birthYear.substring(0,4);
+
+        if(birthYear.length()>4) {
+
+            birthYear=birthYear.substring(0,4);
+        }
+
+
         String deathYear=(String)arr4Death.get("attrValue");
-        deathYear=deathYear.substring(0,4);
+
+        if(deathYear.length()>4) {
+
+            deathYear=deathYear.substring(0,4);
+
+        }
+
+        String clan=(String)arr4clan.get("attrValue");
+
 
 
 
@@ -74,7 +94,7 @@ public class KrPediaApi {
 
 
 
-        String[] result=new String[6];
+        String[] result=new String[7];
 
         result[0]=birthYear;
         result[1]=deathYear;
@@ -82,6 +102,7 @@ public class KrPediaApi {
         result[3]=def;
         result[4]=gaesol;
         result[5]=body;
+        result[6]=clan;
 
         return result;
 
@@ -138,7 +159,11 @@ public class KrPediaApi {
 
     }
 
-    public String getGaesol(String body) {
+//    public String[] getNameInfo(String wholename) { //홍길동(홍
+//
+//    }
+
+    private String getGaesol(String body) {
         //  String keyword="# 생애 및 활동사항";
         String result="";
         String[] temp=new String[2];

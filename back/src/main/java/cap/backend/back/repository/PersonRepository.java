@@ -34,10 +34,13 @@ public class PersonRepository {
 
     public Person findPersonInDBByName(String name) { //name은 PK가 아니므로 find로 못찾음
         try {
+
             Person entity = em.createQuery("SELECT s FROM Person s WHERE s.name = :NAME", Person.class)
                     .setParameter("NAME", name)
                     .getSingleResult();
+
             return entity;
+
             // use entity...
         } catch (NoResultException nre) {
             // Handle case where no result is found

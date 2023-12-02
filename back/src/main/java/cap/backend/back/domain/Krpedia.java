@@ -21,9 +21,9 @@ public class Krpedia {
     @Column(length=10)
     private String name;
 
-    private int birthyear;
+    private String birthyear;
 
-    private int deathyear;
+    private String deathyear;
 
     @Column
     private String clanHangul;

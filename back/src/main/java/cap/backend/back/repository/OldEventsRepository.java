@@ -26,23 +26,23 @@ public class OldEventsRepository {
 
     public List<Oldevents> findOldEventsById(Long id) {
         Person person=em.find(Person.class,id);
-        Integer birth;
-        Integer death;
+        String birth;
+        String death;
 
 
-        if(person.getBirthyear()==null && person.getDeathyear()==null) {
+        if(person.getBirthyear().equals("미상") && person.getDeathyear().equals("미상")) {
             return null;
         }
-        if(person.getBirthyear()==null && person.getDeathyear()!=null) {
+        else if(person.getBirthyear().equals("미상") && person.getDeathyear()!=null) {
 
             death=person.getDeathyear();
-            birth=death-100;
+            birth=Integer.toString(Integer.parseInt(death)-100);
 
         }
 
-        if(person.getBirthyear()!=null && person.getDeathyear()==null) {
+        else if(person.getBirthyear()!=null && person.getDeathyear().equals("미상")) {
             birth=person.getBirthyear();
-            death=birth+100;
+            death=Integer.toString(Integer.parseInt(birth)+100);
 
 
         }

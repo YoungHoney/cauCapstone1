@@ -33,9 +33,9 @@ public class Person {
 
     private String personpicture;
 
-    private Integer birthyear;
+    private String birthyear;
 
-    private Integer deathyear;
+    private String deathyear;
 
 
     //통무지정매 능력치 1~100 제한은 db단에서?

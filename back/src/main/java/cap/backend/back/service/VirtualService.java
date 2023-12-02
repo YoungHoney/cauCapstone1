@@ -28,7 +28,9 @@ public class VirtualService {
 
 
     public Integer[] getAbilityById(Long id) {
+
         Map<Integer,String> map=realService.findGovSequenceById(id);
+
 
         Random rd=new Random(id);
 
@@ -72,6 +74,7 @@ public class VirtualService {
 
 
             Integer randNum=rd.nextInt(2*rankInterval-1)-rankInterval;
+
             tong+=randNum;
             Mu+=randNum; //그냥 적당히 연산
 
@@ -104,6 +107,14 @@ public class VirtualService {
         result[2]=Ji;
         result[3]=Jung;
         result[4]=Mae;
+
+        for(int i=0;i<5;i++) {
+
+            if(result[i]<0) result[i]*=-1;
+            if(result[i]==0) result[i]+=10;
+
+
+        }
         return result;
 
     }
