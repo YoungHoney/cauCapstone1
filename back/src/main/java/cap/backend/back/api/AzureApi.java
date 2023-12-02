@@ -48,7 +48,7 @@ public class AzureApi {
                 "\n" +
                 "1632·1635년에는 예조참판으로 재직하면서 인목대비(仁穆大妃)와 인열왕후(仁烈王后)의 국장업무에 참여하였다. 1636년 병자호란 때에는 왕을 남한산성에 호종하였으며, 다음해 서울에 돌아와 지중추부사에 임명되었다. 저서로는 『계음만필(溪陰漫筆)』·『도재수필』·『도재집』 등이 있다. 시호는 정민(靖敏)이다."));
 
-        chatMessages.add(new ChatMessage(ChatRole.ASSISTANT,"1582년:진사,1595년:승문원정자,1623년:동지중추부사,1624년:가의대부,1632년:예조참판,1635년:예조참판,1637년:지중추부사"));
+        chatMessages.add(new ChatMessage(ChatRole.ASSISTANT,"1582년:진사,1595년:승문원정자1623년:동지중추부사,1624년:가의대부,1632년:예조참판,1635년:예조참판,1637년:지중추부사"));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "너는 조선시대 인물에 대한 정보를 제공하는 가이드야, 몇가지정보가 주어지면, 그 인물에 대한 정보를 (년도):(해당년도에인물이 오른 대표적 관직 하나) 의 형식으로 알려줘 :의 오른쪽에 오는 값은 반드시 단일 관직명이어야 해"));
 
         chatMessages.add(new ChatMessage(ChatRole.USER, INFO));
@@ -119,7 +119,7 @@ public class AzureApi {
                 "당시 문정왕후(文定王后)가 불교의 부흥을 꾀하자 이에 반대하는 상소를 하였다가 언관의 자리에서 밀려났다. 그러나 그 뒤 공조·형조·예조의 좌랑과 정랑·통례원통례·성균관사성·장악원판사·사제감·종부시정·영천군수·공주목사·강릉부사 등을 역임하였다.\n" +
                 "\n" +
                 "임진왜란이 일어나자 서사원(徐思遠)과 함께 초유사(招諭使) 김성일(金誠一)을 찾아가 싸우다가 김성일이 죽고 진영이 와해되어 돌아오던 중 죽었다. 저서로는 『죽재문집(竹齋文集)』 2권 1책이 있다. 월암사(月巖祠)에 봉향되었다"));
-        chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"너의 답변 : 1546년:증광문과에 병과로 급제,1550년:형조좌랑에 임명됨,1552년:대동찰방 겸 수은어사(大同察訪兼搜銀御史)로 있을 때 중국에 사신으로 갔다가 돌아오는 심통원(沈通源)의 짐이 너무 많은 것을 보고 모두 뒤져서 불살라버렸다,1566년:성균관전적에제수되었다,"));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM,"너의 답변 : 1546년:증광문과에 병과로 급제&1550년:형조좌랑에 임명됨&1552년:대동찰방 겸 수은어사(大同察訪兼搜銀御史)로 있을 때 중국에 사신으로 갔다가 돌아오는 심통원(沈通源)의 짐이 너무 많은 것을 보고 모두 뒤져서 불살라버렸다&1566년:성균관전적에제수되었다"));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "이제 "+ancestorname+"에 관한 정보를 줄게"));
         chatMessages.add(new ChatMessage(ChatRole.USER, INFO));
         //   chatMessages.add(new ChatMessage(ChatRole.ASSISTANT, "Yes, customer managed keys are supported by Azure OpenAI?"));

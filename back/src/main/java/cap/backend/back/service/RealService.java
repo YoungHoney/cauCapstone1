@@ -75,7 +75,11 @@ public class RealService {
         Map<Integer,String> result=new HashMap<>();
         for(Govsequence g : orgseq) {
 
-            if(g.getOldgov().getGovmatches()!=null) {
+
+
+
+
+            if(!g.getOldgov().getName().contains("현대미상")) {
 
 
                 List<String> mgovList= govrepository.findModernsByOld(g.getOldgov().getName());
@@ -88,11 +92,6 @@ public class RealService {
             else {
                 result.put(seq++,g.getOldgov().getName()+","+"대상없음");
             }
-
-
-
-
-
 
         }
 

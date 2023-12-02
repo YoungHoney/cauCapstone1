@@ -25,6 +25,14 @@ public class pre_moderngov {
     @Transactional
     public void saveCSV() {
 
+        Moderngov temp1=new Moderngov();
+        temp1.setName("현대미상");
+        temp1.setPersonname("현대미상");
+        temp1.setRank("9급");
+        temp1.setIswarrior(false);
+        temp1.setPersonpicture("/대한민국 행정부.png");
+
+
         BufferedReader br = null;
 
 

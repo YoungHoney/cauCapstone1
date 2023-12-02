@@ -10,6 +10,7 @@ import cap.backend.back.domain.Person;
 import cap.backend.back.domain.Silok;
 import cap.backend.back.domain.compositekey.ClanId;
 import cap.backend.back.domain.dto.SilokDocument;
+import cap.backend.back.domain.govrank.Govmatch;
 import cap.backend.back.domain.govrank.Oldgov;
 import cap.backend.back.domain.gptresults.Govsequence;
 import cap.backend.back.domain.gptresults.Lifesummary;
@@ -227,14 +228,21 @@ public class NewmanService {
                 }
 
                 else {
-
                     Oldgov temp=new Oldgov();
+
+                    Govmatch tmatch=new Govmatch();
+
+                    tmatch.setModerngov(govRepository.findModerngov("현대미상"));
+                    tmatch.setOldgov(temp);
+
                     temp.setName(govseq.get(i)+"(현대미상)");
                     temp.setIswarrior(false);
                     temp.setRank("종9품");
                     temp.setGovmatches(null);
 
+
                     govRepository.save(temp);
+                    govRepository.save(tmatch);
                     govsequences[i].setOldgov(temp);
                 }
 
@@ -280,7 +288,7 @@ public class NewmanService {
         orig_phistory=azureApi.getPrivateHistory(krpedia.getDefinition()+krpedia.getDescription()+krpedia.getMaintext()+
                 silokInfo.get(0).getContent() +silokInfo.get(1).getContent()+silokInfo.get(2).getContent(),name);
 
-        String[] ph_parts=orig_govsequence.split(",");
+        String[] ph_parts=orig_phistory.split("&");
         List<String> phistory_year=new ArrayList<>();
         List<String> phistory_content=new ArrayList<>();
 
@@ -297,6 +305,7 @@ public class NewmanService {
             else {
 
                 phistories[i].setEventyear(Integer.parseInt(phistory_year.get(i).trim()));
+
                 phistories[i].setContents(phistory_content.get(i));
 
 

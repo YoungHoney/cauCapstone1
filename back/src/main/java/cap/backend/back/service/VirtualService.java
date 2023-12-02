@@ -144,7 +144,12 @@ public class VirtualService {
 
         }
         result[1]=modernGovname;
-        result[0]=govRepository.findModerngov(modernGovname).getPersonname();
+        if(modernGovname.equals("대상없음")) {
+            result[0]="대상없음";
+        } else {
+            result[0]=govRepository.findModerngov(modernGovname).getPersonname();
+        }
+
 
 
         return result;
