@@ -52,8 +52,12 @@ public class RealService {
         List<Oldevents> orgList=oldeventsrepository.findOldEventsById(id);
         Map<Integer,String> result=new HashMap<>();
 
+
         for(Oldevents o:orgList) {
-            result.put(o.getYear(),o.getName());
+            if(result.size()<4) {
+                result.put(o.getYear(), o.getName());
+            }
+
         }
         return result;
     }

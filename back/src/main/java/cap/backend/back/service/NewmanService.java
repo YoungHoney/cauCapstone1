@@ -196,6 +196,7 @@ public class NewmanService {
             silok.setContents(silokInfo.get(i).getContent());
             // govInfo+=silok.getContents();
 
+            System.out.println("name = " + name);
 
             silok.setP_id(personrepository.findPersonInDBByName(name).getId()); //silok->person
 
