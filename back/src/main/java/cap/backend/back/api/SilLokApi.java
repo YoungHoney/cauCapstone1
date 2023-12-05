@@ -14,38 +14,60 @@ import java.security.GeneralSecurityException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 @Component
 public class SilLokApi {
     // 곽영헌(郭永憲)
-    public List<SilokDocument> SilokExtractor(String keyword) throws IOException, NoSuchAlgorithmException, KeyManagementException {
-        List<SilokDocument> silokDocuments = extractSilokDocument(keyword);
-        for(SilokDocument silokDocument:silokDocuments){
+    public List<SilokDocument> SilokExtractor(String keyword) throws IOException, NoSuchAlgorithmException,
+            KeyManagementException, IndexOutOfBoundsException  {
 
-            System.out.println("silokDocument.getDci() = "+silokDocument.getDci());
-            System.out.println("makeRequestToSilok(silokDocument.getDci()) = "+makeRequestToSilok(silokDocument.getDci()));
-            silokDocument.setContent(HtmlTextExtractor(makeRequestToSilok(silokDocument.getDci())));
+        List<SilokDocument> silokDocuments = extractSilokDocument(keyword);
+        Iterator<SilokDocument> iterator = silokDocuments.iterator();
+
+        while (iterator.hasNext()) {
+            SilokDocument silokDocument = iterator.next();
+            System.out.println(silokDocument.getArticleName());
+            System.out.println(silokDocument.getPublicationYear());
+            System.out.println(silokDocument.getDci());
+            Document tempDocument = makeRequestToSilok(silokDocument.getDci());
+            if (tempDocument == null) {
+                // tempDocument가 null인 경우 해당 silokDocument를 리스트에서 제거
+                System.out.println("tempDocument가 null이 너서 목록에서 삭제했습니다\n");
+                iterator.remove();
+            } else {
+                try {
+                    silokDocument.setContent(HtmlTextExtractor(tempDocument));
+                    System.out.println(silokDocument.getContent());
+                }catch (IndexOutOfBoundsException e){
+                    iterator.remove();
+                    System.out.println("silokDDocument 형식이 잘못되어 목록에 추가하지 않았습니다");
+                }
+            }
         }
         return silokDocuments;
     }
-    private String dciToUrl(String input) {
-        String[] parts = input.split("_");
+    private String dciToUrl(String input) throws IndexOutOfBoundsException{
+        try {
+            String[] parts = input.split("_");
 
+            String output1 = "k" + parts[2].substring(0, parts[2].length() - 1)
+                    .toLowerCase() + "a";
+            String output2 = ((parts[3].charAt(0) - 'A') + 1)
+                    + parts[3].substring(1)
+                    + parts[4].substring(0, parts[4].length() - 1);
+            String output3 = (parts[4].charAt(2) - 'A')
+                    + parts[5].substring(0, parts[5].length() - 1);
+            String output4 = parts[6].substring(1, parts[6].length() - 1);
 
-        String output1 = "k" + parts[2].substring(0, parts[2].length() - 1)
-                .toLowerCase() + "a";
-        String output2 = ((parts[3].charAt(0) - 'A')  + 1)
-                + parts[3].substring(1)
-                + parts[4].substring(0,parts[4].length() - 1);
-        String output3 = (parts[4].charAt(2) - 'A')
-                + parts[5].substring(0,parts[5].length() - 1);
-        String output4 = parts[6].substring(1,parts[6].length() - 1);
-
-        // Concatenating the outputs
-        return "https://sillok.history.go.kr/id/"
-                + output1 + "_" + output2 + output3 + "_" + output4;
+            // Concatenating the outputs
+            return "https://sillok.history.go.kr/id/"
+                    + output1 + "_" + output2 + output3 + "_" + output4;
+        }catch (IndexOutOfBoundsException e){
+            return "dummy";
+        }
     }
     private  Document makeRequestToSilok(String dci) throws IOException, NoSuchAlgorithmException, KeyManagementException {
         // Trust all certs
@@ -73,34 +95,35 @@ public class SilLokApi {
         // Now you can access an https URL without having the certificate in the truststore
         Document doc = null;
         try {
-
             String URL = dciToUrl(dci);
             doc = Jsoup.connect(URL).get();
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
         return doc;
     }
-    private String HtmlTextExtractor(Document doc){
+    private String HtmlTextExtractor(Document doc) throws IndexOutOfBoundsException {
         // Find the first <hr class="ins_view_line"> element
-       // System.out.println("doc = " + doc);
+try {
+    Element element = doc.select("div.ins_view").get(0);
+    // System.out.println("element = " + element);
+    StringBuilder extractedText = new StringBuilder();
 
-        Element element = doc.select("div.ins_view").get(0);
-       // System.out.println("element = " + element);
-        StringBuilder extractedText = new StringBuilder();
+    // Check if the element exists and process it further
+    if (element != null) {
+        // Select all paragraph elements
+        Elements paragraphs = element.select("p.paragraph");
 
-        // Check if the element exists and process it further
-        if (element != null) {
-            // Select all paragraph elements
-            Elements paragraphs = element.select("p.paragraph");
-
-            for (Element paragraph : paragraphs) {
-                extractedText.append(paragraph.text());
-                //.append("\n")하면 문단띄어씌기 함
-            }
-
+        for (Element paragraph : paragraphs) {
+            extractedText.append(paragraph.text());
+            //.append("\n")하면 문단띄어씌기 함
         }
-        return extractedText.toString();
+    }
+    return extractedText.toString();
+} catch (IndexOutOfBoundsException e){
+    throw e;
+}
     }
 
     public List<SilokDocument> extractSilokDocument(String keyword) {
@@ -132,6 +155,7 @@ public class SilLokApi {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return silokDocuments;
         }
         return silokDocuments;
     }
@@ -168,15 +192,17 @@ public class SilLokApi {
         return false;
     }
     private Document makeRequestToGoJongDB(String keyword) throws IOException {
-        //keyword = 검색어 ex)윤흔  row = 검색 갯수
-        String apiUrl = "http://db.itkc.or.kr/openapi/search?secId=JT_BD&keyword="
-                + keyword + "&start=0&rows=300";
+        try {//keyword = 검색어 ex)윤흔  row = 검색 갯수
+            String apiUrl = "http://db.itkc.or.kr/openapi/search?secId=JT_BD&keyword="
+                    + keyword + "&start=0&rows=300";
 
-        // Parse the HTML response using Jsoup
-        Document doc = Jsoup.connect (apiUrl).get();
+            // Parse the HTML response using Jsoup
+            Document doc = Jsoup.connect(apiUrl).get();
 
-        return doc;
+            return doc;
+        }catch (Exception e){
+            System.out.println("Illegal charcter in query!!");
+            throw e;
+        }
     }
-
-
 }
