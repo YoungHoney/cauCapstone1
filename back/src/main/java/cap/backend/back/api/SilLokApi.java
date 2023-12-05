@@ -21,11 +21,13 @@ import java.util.Random;
 public class SilLokApi {
     // 곽영헌(郭永憲)
     public List<SilokDocument> SilokExtractor(String keyword) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+        System.out.println("asdf");
         List<SilokDocument> silokDocuments = extractSilokDocument(keyword);
+        System.out.println("jkasdf");
         for(SilokDocument silokDocument:silokDocuments){
 
             System.out.println("silokDocument.getDci() = "+silokDocument.getDci());
-            System.out.println("makeRequestToSilok(silokDocument.getDci()) = "+makeRequestToSilok(silokDocument.getDci()));
+            //System.out.println("makeRequestToSilok(silokDocument.getDci()) = "+makeRequestToSilok(silokDocument.getDci()));
             silokDocument.setContent(HtmlTextExtractor(makeRequestToSilok(silokDocument.getDci())));
         }
         return silokDocuments;
@@ -105,19 +107,39 @@ public class SilLokApi {
 
     public List<SilokDocument> extractSilokDocument(String keyword) {
         List<SilokDocument> silokDocuments = new ArrayList<>();
+      //  System.out.println("SilLokApi.extractSilokDocument 시작 ");
 
         try {
             Document document = makeRequestToGoJongDB(keyword);
+            //System.out.println("SilLokApi.extractSilokDocument   try 내부에서 makeRequestToGoJongDB 실행완료");
 
             // Select all <doc> elements
             Elements docElements = document.select("response > result > doc");
 
+           // System.out.println("SilLokApi.extractSilokDocument Elements에 대한 document.select 다음");
+
             // Randomly select 3 documents
             int totalDocs = docElements.size();
-            int[] randomIndices = getRandomIndices(totalDocs, 3);
+            int[] randomIndices;
 
 
+            if(totalDocs<=3) {
+                randomIndices =new int[totalDocs];
+                for(int i=0;i<totalDocs;i++) {
+                    randomIndices[i]=i;
+                }
+
+            } else {
+                randomIndices = getRandomIndices(totalDocs, 3);
+            }
+
+
+
+
+
+           // System.out.println("SilLokApi.extractSilokDocument try문 안쪽 ");
             for (int index : randomIndices) {
+            //    System.out.println("SilLokApi.extractSilokDocument 안쪽");
                 Element docElement = docElements.get(index);
                 if(!docElement.select("field[name=DCI_s]").text().substring(11, 12).equals("C")) {
                     String dci = docElement.select("field[name=DCI_s]").text();
@@ -172,6 +194,7 @@ public class SilLokApi {
         String apiUrl = "http://db.itkc.or.kr/openapi/search?secId=JT_BD&keyword="
                 + keyword + "&start=0&rows=300";
 
+       // System.out.println("SilLokApi.makeRequestToGoJongDB 안쪽");
         // Parse the HTML response using Jsoup
         Document doc = Jsoup.connect (apiUrl).get();
 

@@ -55,9 +55,10 @@ public class AzureApi {
 
 
 
+        ChatCompletionsOptions options=new ChatCompletionsOptions(chatMessages);
+        options.setTemperature(0.0);
 
-
-        ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, new ChatCompletionsOptions(chatMessages));
+        ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, options);
 
         System.out.printf("Model ID=%s is created at %s.%n", chatCompletions.getId(), chatCompletions.getCreatedAt());
         for (ChatChoice choice : chatCompletions.getChoices()) {
@@ -87,7 +88,10 @@ public class AzureApi {
         //   chatMessages.add(new ChatMessage(ChatRole.ASSISTANT, "Yes, customer managed keys are supported by Azure OpenAI?"));
 
 
-        ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, new ChatCompletionsOptions(chatMessages));
+        ChatCompletionsOptions options=new ChatCompletionsOptions(chatMessages);
+        options.setTemperature(0.0);
+
+        ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, options);
 
         System.out.printf("Model ID=%s is created at %s.%n", chatCompletions.getId(), chatCompletions.getCreatedAt());
         for (ChatChoice choice : chatCompletions.getChoices()) {
@@ -125,7 +129,11 @@ public class AzureApi {
         //   chatMessages.add(new ChatMessage(ChatRole.ASSISTANT, "Yes, customer managed keys are supported by Azure OpenAI?"));
 
 
-        ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, new ChatCompletionsOptions(chatMessages));
+        ChatCompletionsOptions options=new ChatCompletionsOptions(chatMessages);
+        options.setTemperature(0.0);
+
+        ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, options);
+
 
         System.out.printf("Model ID=%s is created at %s.%n", chatCompletions.getId(), chatCompletions.getCreatedAt());
         for (ChatChoice choice : chatCompletions.getChoices()) {

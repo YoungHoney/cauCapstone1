@@ -302,8 +302,12 @@ public class NewmanService {
         // ^^ gpt 4개중 세번쨰, Mbti 입력
 
         String orig_phistory="asd";
-        orig_phistory=azureApi.getPrivateHistory(krpedia.getDefinition()+krpedia.getDescription()+krpedia.getMaintext()+
-                silokInfo.get(0).getContent() +silokInfo.get(1).getContent()+silokInfo.get(2).getContent(),name);
+       // System.out.println("silokInfo.size() = " + silokInfo.size());
+        String orig_phistory_food=krpedia.getDefinition()+krpedia.getDescription()+krpedia.getMaintext();
+        for(int i=0;i<silokInfo.size();i++) {
+            orig_phistory_food+=silokInfo.get(i).getContent();
+        }
+        orig_phistory=azureApi.getPrivateHistory(orig_phistory_food,name);
 
         String[] ph_parts=orig_phistory.split("&");
         List<String> phistory_year=new ArrayList<>();

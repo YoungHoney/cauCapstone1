@@ -107,8 +107,7 @@ public class RealService {
 
         @Override
         public int compare(Govsequence o1, Govsequence o2) {
-            System.out.println("o1.getOldgov().getName() = " + o1.getOldgov().getName());
-            System.out.println("o2.getOldgov().getName() = " + o2.getOldgov().getName());
+
             
             if(o1.getSequnce_num()>o2.getSequnce_num()) {
                 return 1;
