@@ -21,7 +21,7 @@ public class Lifesummary {
 
 
     @Lob
-    @Column(name="lifesummarycontents",columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
+    //@Column(name="lifesummarycontents",columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String contents;
 
     @OneToMany(mappedBy = "lifesummary")

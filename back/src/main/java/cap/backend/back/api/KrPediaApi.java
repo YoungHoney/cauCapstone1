@@ -17,7 +17,7 @@ import java.io.Reader;
 public class KrPediaApi {
 
     public String[] getKrpediaInfo(String name) throws IOException, ParseException {
-        String addURL=getReviceURL(name);
+        String addURL=getReviceURL(name); // E0001234
         String URL="https://suny.aks.ac.kr:5143/api/Article/"+addURL;
 
         //System.out.println(URL);
@@ -53,6 +53,15 @@ public class KrPediaApi {
         String origin=(String) articleObj.get("origin");
         String def=(String) articleObj.get("definition");
         String body=(String)articleObj.get("body");
+        JSONObject headMedia=(JSONObject)articleObj.get("headMedia");
+
+        //이미지 검색
+        String imageUrl=(String)headMedia.get("url");
+
+        if(imageUrl==null) {
+          imageUrl="shes'gone";
+        }
+
 
         JSONArray arr4Year=(JSONArray)articleObj.get("attributes");
         JSONObject arr4Birth=(JSONObject)arr4Year.get(1);
@@ -94,7 +103,7 @@ public class KrPediaApi {
 
 
 
-        String[] result=new String[7];
+        String[] result=new String[8];
 
         result[0]=birthYear;
         result[1]=deathYear;
@@ -103,6 +112,7 @@ public class KrPediaApi {
         result[4]=gaesol;
         result[5]=body;
         result[6]=clan;
+        result[7]=imageUrl;
 
         return result;
 
@@ -111,11 +121,6 @@ public class KrPediaApi {
         String[] arr=name.split("\\(");
         name=arr[1];
         name=name.substring(0,name.length()-1); //한자이름만 추출
-
-
-
-
-
 
         OkHttpClient client=new OkHttpClient();
         JSONParser jParser=new JSONParser();

@@ -1,4 +1,4 @@
-/*
+
 package cap.backend.back.preprocessing;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -19,13 +19,13 @@ public class S3DownloadExample {
     @Value("${aws.secaccesskey}")
     String seccesskey;
 
-    public void dodo() {
+    public void doDownload() {
         // AWS Credential 설정
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accesskey, seccesskey);
 
         // S3 클라이언트 생성
         try (S3Client s3 = S3Client.builder()
-               // .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
+                .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
                 .region(Region.AP_NORTHEAST_2) // 예: Region.US_EAST_1
                 .build()) {
 
@@ -43,4 +43,4 @@ public class S3DownloadExample {
         // 예외 처리 및 리소스 관리는 필요에 따라 추가
     }
 }
-*/
+

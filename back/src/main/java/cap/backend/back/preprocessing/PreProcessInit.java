@@ -15,6 +15,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
@@ -29,7 +31,13 @@ public class PreProcessInit {
        pre_govmatch task4=context.getBean(pre_govmatch.class);
        DemoSetting demo=context.getBean(DemoSetting.class);
        NewmanService newmanService=context.getBean(NewmanService.class);
-      // S3DownloadExample as=context.getBean(S3DownloadExample.class);
+       S3DownloadExample as=context.getBean(S3DownloadExample.class);
+       S3UploadExample sa=context.getBean(S3UploadExample.class);
+
+
+
+//       as.doDownload();
+
 
 
 
@@ -42,14 +50,20 @@ public class PreProcessInit {
        task4.doMatching(); //관직매칭해놓기
 
 
+  //     String home_dir=System.getProperty("user.dir"); //..... cauCapstone1/back디렉토리
+    //   sa.doUpload("바다.png",home_dir);
 
 
-       demo.doDemoSetting("박세채(朴世采)","朴","박","반남");
-       demo.doDemoSetting("김상익(金尙翼)","金","김","강릉");
-       demo.doDemoSetting("권응수(權應銖)","權","권","안동");
-       demo.doDemoSetting("이산해(李山海)","李","이","한산");
-
-       newmanService.doNewmanSetting("곽존중(郭存中)");
+//
+//
+//
+//
+       //demo.doDemoSetting("박세채(朴世采)","朴","박","반남");
+//       demo.doDemoSetting("김상익(金尙翼)","金","김","강릉");
+//       demo.doDemoSetting("권응수(權應銖)","權","권","안동");
+//       demo.doDemoSetting("이산해(李山海)","李","이","한산");
+//
+       newmanService.doNewmanSetting("곽순(郭珣)");
        System.out.println("pre setting end");
 
 

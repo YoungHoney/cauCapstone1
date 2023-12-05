@@ -103,7 +103,7 @@ public class DemoSetting {
 
         person.setName(name);
         person.setClan(clan);
-        person.setPersonpicture("resources/rawdata/ggg");
+        person.setPersonpicture(pediaInfo[7]);
         person.setBirthyear(pediaInfo[0]);
         person.setDeathyear(pediaInfo[1]);
 

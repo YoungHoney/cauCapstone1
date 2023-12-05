@@ -129,8 +129,8 @@ public class NewmanService {
 
         person.setName(name);
         person.setClan(clan);
-        person.setPersonpicture("resources/rawdata/ggg");
-        person.setBirthyear(pediaInfo[0]);
+        person.setPersonpicture(pediaInfo[7]);
+        person.setBirthyear(pediaInfo[0]); //처치필요
         person.setDeathyear(pediaInfo[1]);
 
 
