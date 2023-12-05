@@ -68,7 +68,36 @@ public class KrPediaApi {
         JSONObject arr4Death=(JSONObject)arr4Year.get(2);
         JSONObject arr4clan=(JSONObject)arr4Year.get(3);
 
+        JSONArray aff4ali=(JSONArray)articleObj.get("aliases");
 
+        String ja13="미상"; //자는 13번호(사이트 고유번호)
+        String ho17="미상"; //호는 17번
+        String siho8="미상"; //시호는 8번
+        for (int i = 0; i < aff4ali.size(); i++) {
+            JSONObject alias = (JSONObject)aff4ali.get(i);
+           // System.out.println("alias = " + alias);
+
+            Long aliasTypeLong = (Long) alias.get("aliasType");
+            int aliasType = aliasTypeLong.intValue(); // Long을 int로 변환
+            String word = (String) alias.get("word");
+
+            switch (aliasType) {
+                case 13:
+                    ja13 = word;
+                    break;
+                case 17:
+                    ho17 = word;
+                    break;
+                case 8:
+                    siho8 = word;
+                    break;
+            }
+        }
+
+
+       // System.out.println("자: " + ja13);
+       // System.out.println("호: " + ho17);
+       // System.out.println("시호: " + siho8);
         String birthYear=(String)arr4Birth.get("attrValue");
 
         if(birthYear.length()>4) {
@@ -103,7 +132,7 @@ public class KrPediaApi {
 
 
 
-        String[] result=new String[8];
+        String[] result=new String[11];
 
         result[0]=birthYear;
         result[1]=deathYear;
@@ -113,6 +142,10 @@ public class KrPediaApi {
         result[5]=body;
         result[6]=clan;
         result[7]=imageUrl;
+
+        result[8]=ja13;
+        result[9]=ho17;
+        result[10]=siho8;
 
         return result;
 
@@ -177,8 +210,7 @@ public class KrPediaApi {
         temp=result.split("# 개설\r\n|# 가계 및 인적 사항",2);
         result=temp[1];
 
-        System.out.println("temp[0] = " + temp[0]);
-        System.out.println("temp[1] = " + temp[1]);
+
 
         return result;
     }
@@ -205,9 +237,6 @@ public class KrPediaApi {
         result=temp[1];
 
 
-
-        System.out.println("sdf temp[0] = " + temp[0]);
-        System.out.println("sdf temp[1] = " + temp[1]);
 
         return result;
     }

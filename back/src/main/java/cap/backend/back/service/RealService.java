@@ -80,23 +80,25 @@ public class RealService {
         Map<Integer,String> result=new HashMap<>();
         for(Govsequence g : orgseq) {
 
+            if(g.getOldgov()!=null) {
+                if(!g.getOldgov().getName().contains("현대미상")) {
 
 
+                    List<String> mgovList= govrepository.findModernsByOld(g.getOldgov().getName());
 
+                    int randInt=random.nextInt(mgovList.size());
+                    // result.put(g.getOldgov().getName(),mgovList.get(randInt));
+                    result.put(seq++,g.getOldgov().getName()+","+mgovList.get(randInt));
 
-            if(!g.getOldgov().getName().contains("현대미상")) {
-
-
-                List<String> mgovList= govrepository.findModernsByOld(g.getOldgov().getName());
-
-                int randInt=random.nextInt(mgovList.size());
-                // result.put(g.getOldgov().getName(),mgovList.get(randInt));
-                result.put(seq++,g.getOldgov().getName()+","+mgovList.get(randInt));
-
+                }
+                else {
+                    result.put(seq++,g.getOldgov().getName()+","+"대상없음");
+                }
             }
-            else {
-                result.put(seq++,g.getOldgov().getName()+","+"대상없음");
-            }
+
+
+
+
 
         }
 
@@ -104,20 +106,32 @@ public class RealService {
     }
 
     class GovsequenceComparator implements Comparator<Govsequence> {
-
         @Override
         public int compare(Govsequence o1, Govsequence o2) {
-
-            
-            if(o1.getSequnce_num()>o2.getSequnce_num()) {
-                return 1;
+            // 두 객체 모두 null인 경우
+            if (o1.getSequnce_num() == null && o2.getSequnce_num() == null) {
+                return 0;
             }
-            else if(o1.getSequnce_num()<o2.getSequnce_num()) {
+            // 첫 번째 객체만 null인 경우
+            if (o1.getSequnce_num() == null) {
                 return -1;
             }
-            else return 0;
+            // 두 번째 객체만 null인 경우
+            if (o2.getSequnce_num() == null) {
+                return 1;
+            }
+
+            // 여기서부터는 기존의 비교 로직
+            if (o1.getSequnce_num() > o2.getSequnce_num()) {
+                return 1;
+            } else if (o1.getSequnce_num() < o2.getSequnce_num()) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
     }
+
 
     public String findPictureById(Long id){
         return personrepository.findPictureById(id);

@@ -112,6 +112,7 @@ public class VirtualService {
 
             if(result[i]<0) result[i]*=-1;
             if(result[i]==0) result[i]+=10;
+            if(result[i]>=100) result[i]=100;
 
 
         }

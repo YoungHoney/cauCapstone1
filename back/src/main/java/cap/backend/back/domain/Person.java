@@ -30,6 +30,13 @@ public class Person {
     @Column(length=10)
     private String name;
 
+    private String ja;
+
+    private String ho;
+
+    private String siho;
+
+
 
     private String personpicture;
 
