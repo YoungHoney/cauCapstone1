@@ -65,6 +65,7 @@ public class RealService {
     public Map<Integer,String> findGovSequenceById(Long id) {
 
         List<Govsequence> orgseq=govrepository.findGovSequenceById(id);
+        System.out.println("orgseq.size() = " + orgseq.size());
 
         Collections.sort(orgseq,new GovsequenceComparator()); //sequence의 순서 보장
 
@@ -108,6 +109,7 @@ public class RealService {
         public int compare(Govsequence o1, Govsequence o2) {
             System.out.println("o1.getOldgov().getName() = " + o1.getOldgov().getName());
             System.out.println("o2.getOldgov().getName() = " + o2.getOldgov().getName());
+            
             if(o1.getSequnce_num()>o2.getSequnce_num()) {
                 return 1;
             }

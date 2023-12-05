@@ -24,6 +24,8 @@ public class SilLokApi {
         List<SilokDocument> silokDocuments = extractSilokDocument(keyword);
         for(SilokDocument silokDocument:silokDocuments){
 
+            System.out.println("silokDocument.getDci() = "+silokDocument.getDci());
+            System.out.println("makeRequestToSilok(silokDocument.getDci()) = "+makeRequestToSilok(silokDocument.getDci()));
             silokDocument.setContent(HtmlTextExtractor(makeRequestToSilok(silokDocument.getDci())));
         }
         return silokDocuments;

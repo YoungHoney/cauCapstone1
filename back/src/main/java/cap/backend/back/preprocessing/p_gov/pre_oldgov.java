@@ -50,7 +50,7 @@ public class pre_oldgov {
                 //System.out.println(stringArray[0]+"   "+stringArray[1]+"   "+stringArray[2]);
 
                 Oldgov temp=new Oldgov();
-                temp.setName(stringArray[0]);
+                temp.setName(stringArray[0].split("\\(")[0]);
                 temp.setRank(stringArray[2]);
                 temp.setGovmatches(null);
 

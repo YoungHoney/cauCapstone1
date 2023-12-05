@@ -174,8 +174,12 @@ public class KrPediaApi {
         String[] temp=new String[2];
         temp=body.split("\r\n\r\n|\n\r\n",2);
         result=temp[0];
-        temp=result.split("# 개설\r\n",2);
+        temp=result.split("# 개설\r\n|# 가계 및 인적 사항",2);
         result=temp[1];
+
+        System.out.println("temp[0] = " + temp[0]);
+        System.out.println("temp[1] = " + temp[1]);
+
         return result;
     }
 
@@ -197,10 +201,13 @@ public class KrPediaApi {
         String keyword="# 생애 및 활동사항";
         String result="";
         String[] temp=new String[2];
-        temp=body.split("# 생애 및 활동사항",2);
+        temp=body.split("# 생애 및 활동사항|# 주요활동|# 주요 활동",2);
         result=temp[1];
 
 
+
+        System.out.println("sdf temp[0] = " + temp[0]);
+        System.out.println("sdf temp[1] = " + temp[1]);
 
         return result;
     }
