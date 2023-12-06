@@ -36,6 +36,12 @@ public class RealService {
     public Map<Integer,String> findPrivateHistoriesById(Long id) {
         List<Privatehistory> orgList= gptrepository.findPrivateHistoriesById(id);
         Map<Integer,String> result=new HashMap<>();
+        if(orgList==null) {
+            result.put(1,"대상없음");
+            return result;
+        }
+
+
 
         for(Privatehistory p:orgList) {
             result.put(p.getEventyear(),p.getContents());
@@ -51,6 +57,13 @@ public class RealService {
     public Map<Integer,String> findOldEventsById(Long id) {
         List<Oldevents> orgList=oldeventsrepository.findOldEventsById(id);
         Map<Integer,String> result=new HashMap<>();
+        if(orgList==null) {
+            result.put(1,"대상없음");
+            return result;
+
+        }
+
+
 
 
         for(Oldevents o:orgList) {

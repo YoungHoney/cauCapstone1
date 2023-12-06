@@ -3,15 +3,20 @@ package cap.backend.back.web;
 
 import cap.backend.back.domain.Clan;
 
+import cap.backend.back.service.NewmanService;
 import cap.backend.back.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.parser.ParseException;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +33,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class SearchController {
 
     private final SearchService searchService;
+    private final NewmanService newmanService;
 
     @PostMapping
     public ResponseEntity<String> searchByName(@RequestParam String name){
@@ -38,10 +44,16 @@ public class SearchController {
                     + searchService.findIdByName(name)).build();
         }
         //ancestor not in DB
-        /* db에는 없고 민족에는 있는 경우
-        민족에서 정보 가져와 db 저장
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).header("Location", "/people/" + newId).build();
-         */
+        Long person_id= (long) -1;
+        try {
+            person_id=newmanService.doNewmanSetting(name);
+            return ResponseEntity.status(HttpStatus.SEE_OTHER).header("Location", "/ancestor/"
+                    + searchService.findIdByName(name)).build();
+        } catch(Exception e) {
+              e.printStackTrace();
+        }
+
+
         //db에도 없고 민족에도 없는 경우
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sorry, we don’t have any information about the person.");
     }

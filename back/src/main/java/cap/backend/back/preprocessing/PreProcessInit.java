@@ -63,7 +63,7 @@ public class PreProcessInit {
 //       demo.doDemoSetting("권응수(權應銖)","權","권","안동");
 //       demo.doDemoSetting("이산해(李山海)","李","이","한산");
 //
-       newmanService.doNewmanSetting("김소(金遡)");
+       //newmanService.doNewmanSetting("윤은로(尹殷老)");
        System.out.println("pre setting end");
 
 

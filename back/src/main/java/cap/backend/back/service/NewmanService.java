@@ -68,7 +68,7 @@ public class NewmanService {
         return result;
     }
     @Transactional
-    public void doNewmanSetting(String name) throws IOException, ParseException, NoSuchAlgorithmException, KeyManagementException { //홍길동(洪吉洞) 형식으로 입력
+    public Long doNewmanSetting(String name) throws IOException, NoSuchAlgorithmException, KeyManagementException, ParseException { //홍길동(洪吉洞) 형식으로 입력
 
         String[] pediaInfo=krPediaApi.getKrpediaInfo(name);
         List<SilokDocument> silokInfo=silLokApi.SilokExtractor(name);
@@ -354,6 +354,11 @@ public class NewmanService {
         person.setJung(abilities[3]);
         person.setMae(abilities[4]);
 
+
+        Long result=personrepository.findPersonInDBByName(name).getId();
+
+        System.out.println("personrepository.findPersonInDBByName(name).getId() = " + result);
+        return result;
 
     }
 
