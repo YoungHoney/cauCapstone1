@@ -9,17 +9,19 @@ import lombok.Setter;
 public class MessageDTO {
 
     private String message;
-    private String ancestorId;
+    private Long ancestorId;
     private Long messageId;
 
     public MessageDTO(String message) {
         this.message=message;
     }
-
-    public MessageDTO(String message, String ancestorId) {
+/*
+    public MessageDTO(String message, Long ancestorId) {
         this.message=message;
         this.ancestorId = ancestorId;
     }
+
+ */
     public MessageDTO(String message, Long messageId){
         this.message=message;
         this.messageId=messageId;

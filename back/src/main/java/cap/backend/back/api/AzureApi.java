@@ -223,7 +223,8 @@ public class AzureApi {
         AtomicReference<Long> messageId = new AtomicReference<>(1L);
         List<String> gptResponses = new ArrayList<>();
         List<ChatMessage> chatMessages = new ArrayList<>();
-        Long ancestorId = messageDto.getMessageId();
+        Long ancestorId = messageDto.getAncestorId();
+        System.out.println("조상의 id:" + ancestorId + "\n");
         String ancestorName = realService.findOne(ancestorId).getName();
 
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "너는 조선시대 인물인 '" + ancestorName + "' 이 되어 후손들에게 조언을 해주는 프로그램이야, 말투는 조상이 먼 후손에게 이야기하는 말투로 해줘"));
@@ -235,10 +236,10 @@ public class AzureApi {
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, ancestorInfo + "\n"));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "여기까지가 '" + ancestorName));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "' 에 대한 정보야. 다시 말하지만 이 정보를 가지고 '" + ancestorName));
-        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "'이 되어 후손들에게 조언을 해주고, 묻는 질문에 대답을 해줘" + ancestorName));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "'이 되어 후손들에게 조언을 해주고, 묻는 질문에 대답을 해줘.\n"));
 
         
-        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "\n그리고 이것은 지금까지 우리가 나눈 대화의 일부야:\n"));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "그리고 이것은 지금까지 우리가 나눈 대화의 일부야:\n"));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, chatHistories.historiesToString()));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "이제부터 진짜 대화를 시작할게.\n"));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, ". 대답은 간결하게 해 " + ancestorName + "야\n"));
