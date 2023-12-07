@@ -51,7 +51,7 @@ public class DemoSetting {
 
 
     @Transactional
-    public void doDemoSetting(String name,String surnameHanja,String surnameHangul, String clanHangul) throws IOException, ParseException, NoSuchAlgorithmException, KeyManagementException {
+    public void doDemoSetting(String name,String surnameHanja,String surnameHangul, String clanHangul) throws Exception {
         Clan clan=new Clan();
         ClanId clanid=new ClanId();
 

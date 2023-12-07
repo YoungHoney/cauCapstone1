@@ -58,7 +58,7 @@ public class AzureApi {
                 "\n" +
                 "1632·1635년에는 예조참판으로 재직하면서 인목대비(仁穆大妃)와 인열왕후(仁烈王后)의 국장업무에 참여하였다. 1636년 병자호란 때에는 왕을 남한산성에 호종하였으며, 다음해 서울에 돌아와 지중추부사에 임명되었다. 저서로는 『계음만필(溪陰漫筆)』·『도재수필』·『도재집』 등이 있다. 시호는 정민(靖敏)이다."));
 
-        chatMessages.add(new ChatMessage(ChatRole.ASSISTANT,"1582년:진사,1595년:승문원정자1623년:동지중추부사,1624년:가의대부,1632년:예조참판,1635년:예조참판,1637년:지중추부사"));
+        chatMessages.add(new ChatMessage(ChatRole.ASSISTANT,"1582년:진사,1595년:승문원정자,1623년:동지중추부사,1624년:가의대부,1632년:예조참판,1635년:예조참판,1637년:지중추부사"));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "너는 조선시대 인물에 대한 정보를 제공하는 가이드야, 몇가지정보가 주어지면, 그 인물에 대한 정보를 (년도):(해당년도에인물이 오른 대표적 관직 하나) 의 형식으로 알려줘 :의 오른쪽에 오는 값은 반드시 단일 관직명이어야 해"));
 
         chatMessages.add(new ChatMessage(ChatRole.USER, INFO));

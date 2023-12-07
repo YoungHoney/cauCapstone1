@@ -30,6 +30,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Component
 @RequiredArgsConstructor
@@ -68,7 +69,7 @@ public class NewmanService {
         return result;
     }
     @Transactional
-    public Long doNewmanSetting(String name) throws IOException, NoSuchAlgorithmException, KeyManagementException, ParseException { //홍길동(洪吉洞) 형식으로 입력
+    public Long doNewmanSetting(String name) throws Exception { //홍길동(洪吉洞) 형식으로 입력
 
         String[] pediaInfo=krPediaApi.getKrpediaInfo(name);
         List<SilokDocument> silokInfo=silLokApi.SilokExtractor(name);
@@ -138,6 +139,9 @@ public class NewmanService {
         person.setSiho(pediaInfo[10]);
 
 
+        System.out.println("person.getName() = " + person.getName());
+        System.out.println("person.getClan().getCho() = " + person.getClan().getCho());
+        
 
         personrepository.save(person); //krpedia보다 먼저 나와야함
 
@@ -146,6 +150,7 @@ public class NewmanService {
 
 
         person.setKrpedia(krpedia); //person -> krpedia
+        System.out.println("person.getKrpedia() = " + person.getKrpedia());
 
 
         // ^^ 인물 저장 ^^
@@ -193,6 +198,8 @@ public class NewmanService {
         govInfo=krpedia.getDefinition()+krpedia.getDefinition()+krpedia.getMaintext();
         orig_govsequence=azureApi.getGovsequence(govInfo);
 
+        int upsm_count=0;
+
         String[] gov_parts=orig_govsequence.split(",");
         List<String> govseq=new ArrayList<>();
 
@@ -205,7 +212,21 @@ public class NewmanService {
                     Govsequence temp_govseq=new Govsequence();
                     temp_govseq.setKrpedia(krpedia);
                     govsequences.add(temp_govseq);
+                    System.out.println("govseq.get(i) = " + govseq.get(i));
                     gptRepository.save(temp_govseq);
+
+                } else {
+                    govseq.add("없음");
+                    Govsequence temp_govseq=new Govsequence();
+                    temp_govseq.setKrpedia(krpedia);
+                    govsequences.add(temp_govseq);
+                    System.out.println("else govseq.get(i) = " + govseq.get(i));
+
+
+                    if(upsm_count==0) {
+                        gptRepository.save(temp_govseq);
+                        upsm_count=1;
+                    }
 
                 }
             }
@@ -254,6 +275,7 @@ public class NewmanService {
             }
 
         int numOfSilok=silokInfo.size();
+        System.out.println("numOfSilok = " + numOfSilok);
 
         for(int i=0;i<numOfSilok;i++) {
             Silok silok=new Silok();
@@ -263,8 +285,10 @@ public class NewmanService {
 
             // System.out.println("name = " + name);
 
+            System.out.println("실록 내용 silok.getContents() = " + silok.getContents());
             silok.setP_id(personrepository.findPersonInDBByName(name).getId()); //silok->person
 
+            System.out.println("넌뭐냐 silok.getP_id() = " + silok.getP_id());
             silokRepository.save(silok);
         }
 
@@ -322,27 +346,33 @@ public class NewmanService {
         List<String> phistory_content=new ArrayList<>();
 
         for(int i=0;i<ph_parts.length;i++) {
-            if(i<6) {
-                String part=ph_parts[i];
-                String[] splitPart=part.split(":");
-                if(splitPart.length>1) {
+            if (i < 6) {
+                String part = ph_parts[i];
+                String[] splitPart = part.split(":");
+                if (splitPart.length > 1) { //
 
 
-                    Privatehistory ph=new Privatehistory();
-                    String year_info=splitPart[0].substring(0,4);
+                    Privatehistory ph = new Privatehistory();
+                    String year_info = splitPart[0].substring(0, 4);
 
-                    phistory_year.add(year_info);
-                    System.out.println("p year : "+splitPart[0].substring(0,splitPart[0].length()-1));
-                    phistory_content.add(splitPart[1]);
-                    System.out.println("p content : " + splitPart[1]);
+                    Pattern pattern = Pattern.compile("\\d{4}");
+                    if (pattern.matcher(year_info).matches()) {
+                        phistory_year.add(year_info);
+                        System.out.println("p year : " + splitPart[0].substring(0, splitPart[0].length() - 1));
+                        phistory_content.add(splitPart[1]);
+                        System.out.println("p content : " + splitPart[1]);
 
-                    ph.setKrpedia(krpedia);
 
-                    gptRepository.save(ph);
-                    phistories.add(ph);
+                        ph.setKrpedia(krpedia);
+                        gptRepository.save(ph);
+                        phistories.add(ph);
+                    } else {
+                        // year_info가 형식에 맞지 않으면, 이 부분에서 처리 (예: 로깅, 에러 메시지 등)
+                        System.out.println("Invalid year format: " + year_info);
+                    }
                 }
-            }
 
+            }
         }
 
         for(int i=0;i<phistory_year.size();i++) {
@@ -371,7 +401,9 @@ public class NewmanService {
         person.setJung(abilities[3]);
         person.setMae(abilities[4]);
 
+        System.out.println("person.getMae() = " + person.getMae());
 
+        System.out.println("끝물 name = " + name);
         Long result=personrepository.findPersonInDBByName(name).getId();
 
         System.out.println("personrepository.findPersonInDBByName(name).getId() = " + result);

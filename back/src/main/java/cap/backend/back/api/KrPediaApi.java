@@ -16,7 +16,7 @@ import java.io.Reader;
 @Component
 public class KrPediaApi {
 
-    public String[] getKrpediaInfo(String name) throws IOException, ParseException {
+    public String[] getKrpediaInfo(String name) throws Exception {
         String addURL=getReviceURL(name); // E0001234
         String URL="https://suny.aks.ac.kr:5143/api/Article/"+addURL;
 
@@ -55,7 +55,7 @@ public class KrPediaApi {
         String body=(String)articleObj.get("body");
         JSONObject headMedia=(JSONObject)articleObj.get("headMedia");
 
-        //이미지 검색
+
         String imageUrl=(String)headMedia.get("url");
 
         if(imageUrl==null) {
@@ -70,9 +70,9 @@ public class KrPediaApi {
 
         JSONArray aff4ali=(JSONArray)articleObj.get("aliases");
 
-        String ja13="미상"; //자는 13번호(사이트 고유번호)
-        String ho17="미상"; //호는 17번
-        String siho8="미상"; //시호는 8번
+        String ja13="미상";
+        String ho17="미상";
+        String siho8="미상";
         for (int i = 0; i < aff4ali.size(); i++) {
             JSONObject alias = (JSONObject)aff4ali.get(i);
            // System.out.println("alias = " + alias);
@@ -117,17 +117,24 @@ public class KrPediaApi {
         String clan=(String)arr4clan.get("attrValue");
 
 
-
+        String gaesol = "";
 
         //body 처리 로직
+        try {
+            gaesol = getGaesol(body);
+            gaesol=remove_article_thing(gaesol);
+        }catch (Exception e){
+        }
 
-        String gaesol=getGaesol(body);
-        gaesol=remove_article_thing(gaesol);
+        try {
+            body=after_sang_ae(body);
 
-        body=after_sang_ae(body);
+            body=remove_article_thing(body);
+            body=moondan_moosi(body);
+        } catch(Exception e) {
+            body="";
+        }
 
-        body=remove_article_thing(body);
-        body=moondan_moosi(body);
 
 
 
@@ -201,15 +208,19 @@ public class KrPediaApi {
 //
 //    }
 
-    private String getGaesol(String body) {
+    private String getGaesol(String body) throws Exception{
         //  String keyword="# 생애 및 활동사항";
-        String result="";
-        String[] temp=new String[2];
-        temp=body.split("\r\n\r\n|\n\r\n",2);
-        result=temp[0];
-        temp=result.split("# 개설\r\n|# 가계 및 인적 사항",2);
-        result=temp[1];
-
+        String result = "";
+        try {
+            String[] temp = new String[2];
+            temp = body.split("\r\n\r\n|\n\r\n", 2);
+            result = temp[0];
+            temp = result.split("# 개설\r\n|# 가계 및 인적 사항", 2);
+            result = temp[1];
+        }catch (Exception e){
+            System.out.println("개설을 가져오는 동안 문제가 발생했습니다\n");
+            throw e;
+        }
 
 
         return result;

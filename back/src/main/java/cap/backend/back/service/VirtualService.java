@@ -37,12 +37,13 @@ public class VirtualService {
         int oldgovIter=1;
         Oldgov resultOg=null;
         Integer[] result=new Integer[5]; //통 무 지 정 매 순서
-        Integer tong;
-        Integer Mu;
-        Integer Ji;
-        Integer Jung;
-        Integer Mae;
+        Integer tong=64;
+        Integer Mu=76;
+        Integer Ji=67;
+        Integer Jung=87;
+        Integer Mae=72;
         int rankInterval=10;
+
 
 
 
@@ -56,6 +57,7 @@ public class VirtualService {
             if(resultOg==null) {
                 resultOg=og;
             }
+
             if(pre_govmatch.OLDRANK.valueOf(resultOg.getRank()).getI()<=or.getI()) {
                 resultOg=og;
             }
@@ -68,37 +70,43 @@ public class VirtualService {
 
 
 
-        if(resultOg.isIswarrior()) { //무관, 통솔 무력  관여
-            tong= (int) (((double)pre_govmatch.OLDRANK.valueOf(resultOg.getRank()).getI())*(95.0/26.0));
-            Mu= (int) (((double)pre_govmatch.OLDRANK.valueOf(resultOg.getRank()).getI())*(95.0/26.0));
+        try{
+            if(resultOg.isIswarrior()) { //무관, 통솔 무력  관여
+                tong= (int) (((double)pre_govmatch.OLDRANK.valueOf(resultOg.getRank()).getI())*(95.0/26.0));
+                Mu= (int) (((double)pre_govmatch.OLDRANK.valueOf(resultOg.getRank()).getI())*(95.0/26.0));
 
 
-            Integer randNum=rd.nextInt(2*rankInterval-1)-rankInterval;
+                Integer randNum=rd.nextInt(2*rankInterval-1)-rankInterval;
 
-            tong+=randNum;
-            Mu+=randNum; //그냥 적당히 연산
-
-
-            
-
-            Ji=rd.nextInt(50,100);
-            Jung=rd.nextInt(40,80);
-            Mae=rd.nextInt(30,100);
+                tong+=randNum;
+                Mu+=randNum; //그냥 적당히 연산
 
 
-        } else { //문관 지력 정치력  관여
 
-            tong=rd.nextInt(40,80);
-            Mu=rd.nextInt(0,30);
 
-            Ji=(int) (((double)pre_govmatch.OLDRANK.valueOf(resultOg.getRank()).getI())*(95.0/26.0));
-            Jung=(int) (((double)pre_govmatch.OLDRANK.valueOf(resultOg.getRank()).getI())*(95.0/26.0));
-            Integer randNum=rd.nextInt(2*rankInterval-1)-rankInterval;
-            Ji+=randNum;
-            Jung+=randNum; //그냥 적당히 연산
+                Ji=rd.nextInt(50,100);
+                Jung=rd.nextInt(40,80);
+                Mae=rd.nextInt(30,100);
 
-            Mae=rd.nextInt(30,100);
+
+            } else { //문관 지력 정치력  관여
+
+                tong=rd.nextInt(40,80);
+                Mu=rd.nextInt(0,30);
+
+                Ji=(int) (((double)pre_govmatch.OLDRANK.valueOf(resultOg.getRank()).getI())*(95.0/26.0));
+                Jung=(int) (((double)pre_govmatch.OLDRANK.valueOf(resultOg.getRank()).getI())*(95.0/26.0));
+                Integer randNum=rd.nextInt(2*rankInterval-1)-rankInterval;
+                Ji+=randNum;
+                Jung+=randNum; //그냥 적당히 연산
+
+                Mae=rd.nextInt(30,100);
+            }
+        } catch (Exception e){
+            System.out.println("통무지정매를 설정하는 동안 에러가 발생했습니다\n");
+
         }
+
 
 
 
