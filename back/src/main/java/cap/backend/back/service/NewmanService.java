@@ -116,7 +116,14 @@ public class NewmanService {
         clan.setClanid(clanid);
         clan.setCho(cho);
 
-        personrepository.saveClan(clan);
+
+
+
+        if(personrepository.findClanByWholeName(clanHangul+surnameHangul)==null) {
+            personrepository.saveClan(clan);
+        }
+
+
 
         //^^ 데모인물의 가문 설정 ^^
 
@@ -232,10 +239,15 @@ public class NewmanService {
                     temp.setGovmatches(null);
 
 
-                    govRepository.save(temp);
-                    govRepository.save(tmatch);
-                    govsequences.get(i).setOldgov(temp);
+
+                    if(govRepository.findOldgov(temp.getName())==null) {
+                        govRepository.save(temp);
+                        govRepository.save(tmatch);
+                        govsequences.get(i).setOldgov(temp);
+
+                    }
                     System.out.println("없어요"+temp.getName());
+
                 }
 
 
@@ -264,6 +276,9 @@ public class NewmanService {
 
         String orig_ls="";
         String orig_ls_food=krpedia.getDefinition()+krpedia.getDescription()+krpedia.getMaintext();
+
+
+
         for(int i=0;i<silokInfo.size();i++) {
             orig_ls_food+=silokInfo.get(i).getContent();
         }
@@ -314,7 +329,9 @@ public class NewmanService {
 
 
                     Privatehistory ph=new Privatehistory();
-                    phistory_year.add(splitPart[0].substring(0,4));
+                    String year_info=splitPart[0].substring(0,4);
+
+                    phistory_year.add(year_info);
                     System.out.println("p year : "+splitPart[0].substring(0,splitPart[0].length()-1));
                     phistory_content.add(splitPart[1]);
                     System.out.println("p content : " + splitPart[1]);

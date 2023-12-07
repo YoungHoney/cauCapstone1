@@ -4,6 +4,7 @@ package cap.backend.back.service;
 import cap.backend.back.domain.Krpedia;
 import cap.backend.back.domain.Oldevents;
 import cap.backend.back.domain.Person;
+import cap.backend.back.domain.Silok;
 import cap.backend.back.domain.govrank.Moderngov;
 import cap.backend.back.domain.gptresults.Govsequence;
 import cap.backend.back.domain.gptresults.Lifesummary;
@@ -28,6 +29,8 @@ public class RealService {
 
     private final OldEventsRepository oldeventsrepository;
     private final GovRepository govrepository;
+
+    private final SilokRepository silokRepository;
 
     public Person findOne(Long id) {
         return personrepository.findOne(id);
@@ -154,6 +157,24 @@ public class RealService {
 
 
 
+    public String getGPTfood(Long id) {
+        String INFO="";
+
+        Krpedia kr=krpediarepository.findById(id);
+        INFO+=kr.getDefinition()+kr.getDescription()+kr.getMaintext();
+
+        List<Silok> ls=silokRepository.getSiloksBypersonId(id);
+
+
+        for(int i=0;i<ls.size();i++) {
+            INFO+=ls.get(i).getContents();
+        }
+
+
+
+
+        return INFO;
+    }
 
 
 
