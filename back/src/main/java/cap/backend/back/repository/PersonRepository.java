@@ -96,10 +96,18 @@ public class PersonRepository {
         String clanHangulTemp=clanwholename.substring(0,2);
         String surnameHangulTemp=clanwholename.substring(2);
 
-        return em.createQuery("select c from Clan c where c.clanid.clanHangul=:Clanhangul and c.clanid.surnameHangul=:Surnamehangul",Clan.class)
-                .setParameter("Clanhangul",clanHangulTemp)
-                .setParameter("Surnamehangul",surnameHangulTemp)
-                .getSingleResult();
+        System.out.println("clanHangulTemp = " + clanHangulTemp);
+        System.out.println("surnameHangulTemp = " + surnameHangulTemp);
+
+
+        try {
+            return em.createQuery("select c from Clan c where c.clanid.clanHangul=:Clanhangul and c.clanid.surnameHangul=:Surnamehangul", Clan.class)
+                    .setParameter("Clanhangul", clanHangulTemp)
+                    .setParameter("Surnamehangul", surnameHangulTemp)
+                    .getSingleResult();
+        } catch(Exception e) {
+            return null;
+        }
     }
 
     public String findPictureById(Long id) {
