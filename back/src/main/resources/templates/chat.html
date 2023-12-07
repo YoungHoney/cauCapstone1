@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>조상님과의 대화</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -146,6 +148,12 @@
 
 <script th:inline="javascript">
 
+    var stompClient = Stomp.over(new SockJS('/ws-chat'));
+    var ancestorId = [[${ancestorId}]];
+
+    window.onload = function() {
+        connectWebSocket(ancestorId);
+    };
 
         /*<![CDATA[*/
         function redirectToReal() {
@@ -163,46 +171,116 @@
         }
         /*]]>*/
 
+    var chatWindow;
+    var chatbotMessageDiv;
+    var streamEnded = true;
+    var messageQueue = [];
+    var lastProcessedMessageId = 0;
+    function connectWebSocket(ancestorId) {
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
 
-        /*<![CDATA[*/
+            // WebSocket 연결이 활성화된 후, 선택한 Persona 정보를 서버로 전송, chatbot 초기화 요청
+            stompClient.send("/app/init", {}, JSON.stringify({ message:
+                    "Request for initializing Chatbot", ancestorId: ancestorId}));
+
+            stompClient.subscribe('/topic/messages', function (response) {
+                var responseText = JSON.parse(response.body).message;
+                var messageId = JSON.parse(response.body).messageId;
+                // 큐에 메시지 추가
+                messageQueue.push({ id: messageId, text: responseText});
+
+                // 큐를 정렬하여 순서를 보장하고, 처리되지 않은 메시지가 있는지 확인
+                processMessageQueue();
+            });
+
+            // gpt 스트림 응답이 끝났으니 새로운 메세지 창을 만들기 위해 값 초기화
+            stompClient.subscribe('/topic/messageEnd', function (response) {
+                if(JSON.parse(response.body).message === "response ended"){
+                    streamEnded = true;
+                    messageQueue = [];
+                    lastProcessedMessageId = 0;
+                }
+            });
+        });
+    }
+    function displayStreamingResponse(responseText) {
+        if(streamEnded === true) {
+            chatWindow = document.getElementById('chat');
+            chatbotMessageDiv = document.createElement('div');
+            chatbotMessageDiv.classList.add('message', 'chatgpt');
+            streamEnded = false;
+        }
+        var currentIndex = 0;
+        function appendUnit() {
+            // Check if there are more characters to display
+            if (currentIndex < responseText.length) {
+                // Find the end index of the current unit (word or special character)
+                var endIndex = currentIndex + 1;
+                while (endIndex < responseText.length && !isSeparator(responseText.charAt(endIndex))) {
+                    endIndex++;
+                }
+
+                // Append the current unit to the chatbot message div
+                chatbotMessageDiv.textContent += responseText.substring(currentIndex, endIndex);
+                chatWindow.appendChild(chatbotMessageDiv);
+
+                currentIndex = endIndex;
+
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+
+                // 타이핑 효과 주기 위해 딜레이
+                setTimeout(appendUnit, 50);
+            }
+        }
+
+        function isSeparator(char) {
+            // Define a function to check if a character is a separator (e.g., space)
+            return char === ' ' || char === '\t' || char === '\n';
+        }
+
+        // Start the process by calling the appendUnit function
+        appendUnit();
+    }
+    function processMessageQueue() {
+        // 큐를 메시지 ID를 기준으로 정렬
+        messageQueue.sort((a, b) => a.id - b.id);
+        console.log(messageQueue[0].id);
+
+
+        // 큐에서 처리되지 않은 메시지 중에서 순서에 맞는 메시지를 찾아 처리
+        while (messageQueue.length > 0 && messageQueue[0].id === lastProcessedMessageId + 1) {
+            var nextMessage = messageQueue.shift();
+            lastProcessedMessageId = nextMessage.id;
+
+            // 메시지 출력
+            console.log(nextMessage.text);
+            displayStreamingResponse(nextMessage.text);
+        }
+    }
 
     function sendMessage() {
         var messageInput = document.getElementById('message');
         var message = messageInput.value.trim();
-        var chatWindow = document.getElementById('chat');
-        var ancestorId = [[${ancestorId}]];
 
         if (message) {
-            // 사용자 메시지를 채팅 창에 말풍선으로 추가
+            // 사용자 메시지를 채팅 창에 추가
             var userMessageDiv = document.createElement('div');
             userMessageDiv.classList.add('message', 'you');
             userMessageDiv.textContent = message;
+            var chatWindow = document.getElementById('chat');
             chatWindow.appendChild(userMessageDiv);
             chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll to bottom
 
-            // Ajax를 사용하여 서버에 메시지를 보냄
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var response = JSON.parse(this.responseText);
-                    var chatbotMessageDiv = document.createElement('div');
-                    chatbotMessageDiv.classList.add('message', 'chatgpt');
-                    chatbotMessageDiv.textContent = response.message;
-                    chatWindow.appendChild(chatbotMessageDiv);
-                    chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll to bottom
-                }
-            };
-            xhttp.open('POST', '/' + ancestorId + '/api/chat', true);
-            xhttp.setRequestHeader('Content-type', 'application/json');
-            xhttp.send(JSON.stringify({ message: message }));
+            // WebSocket을 통해 메시지를 서버로 전송
+            stompClient.send("/app/chat", {}, JSON.stringify({ message: message, ancestorId: ancestorId}));
         }
 
         // 입력란을 비움
         messageInput.value = '';
-        messageInput.focus(); // Refocus input for next message
+        messageInput.focus();
     }
-
-    /*]]>*/
+        /*]]>*/
 </script>
 </body>
 </html>

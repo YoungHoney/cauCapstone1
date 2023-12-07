@@ -1,6 +1,5 @@
 package cap.backend.back.domain.dto;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,9 +9,20 @@ import lombok.Setter;
 public class MessageDTO {
 
     private String message;
+    private String ancestorId;
+    private Long messageId;
 
     public MessageDTO(String message) {
         this.message=message;
+    }
+
+    public MessageDTO(String message, String ancestorId) {
+        this.message=message;
+        this.ancestorId = ancestorId;
+    }
+    public MessageDTO(String message, Long messageId){
+        this.message=message;
+        this.messageId=messageId;
     }
 
 }

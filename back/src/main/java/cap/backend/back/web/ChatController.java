@@ -1,45 +1,39 @@
 package cap.backend.back.web;
 
 import cap.backend.back.domain.dto.MessageDTO;
-import cap.backend.back.service.ChatService;
-import cap.backend.back.service.RealService;
+import cap.backend.back.service.ChatbotService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.messaging.handler.annotation.*;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+
 
 @Controller
 @RequiredArgsConstructor
 public class ChatController {
-
-    private final ChatService chatService;
-    private final RealService realService;
-
-
-
-    @GetMapping("/api/ancestor/{id}/chat")
-    public String showChatPage(@PathVariable Long id, Model model) {
-        model.addAttribute("ancestorId",id);
-        model.addAttribute("aname", realService.findOne(id).getName());
+    private final ChatbotService chatbotService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
+    //private final RealService realService;
 
 
-        return "chat"; // chat.html 템플릿을 렌더링
+    @MessageMapping("/chat")
+    public void sendMessage(@Payload MessageDTO messageDto) {
+        try {// 사용자가 보낸 메시지를 처리하고 대화 응답을 생성
+            chatbotService.generateChatbotResponse(messageDto);
+        } catch (Exception e){
+            simpMessagingTemplate.convertAndSend("/topic/messages", new MessageDTO("Error occured while " +
+                    "fetching GPT Response. " + "Please try again"));
+        }
     }
 
-
-
-
-    @PostMapping("/{id}/api/chat")
-    public ResponseEntity<?> sendMessage(@RequestBody MessageDTO messageDto, @PathVariable Long id) {
-
-        try {
-
-            String reply = chatService.getReplyFromAzure(messageDto,realService.findOne(id).getName());
-            return ResponseEntity.ok(new MessageDTO(reply));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    @MessageMapping("/init")
+    public void initChatbotService(){
+        try{
+            chatbotService.initChatbot();
+        } catch(Exception e){
+            simpMessagingTemplate.convertAndSend("/topic/messages", new MessageDTO("Error occured while " +
+                    "initializing Chatbot " + "Please try again"));
         }
     }
 }

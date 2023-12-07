@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Getter @Setter
 public class Lifesummary {
-
     @Id
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="person_id")

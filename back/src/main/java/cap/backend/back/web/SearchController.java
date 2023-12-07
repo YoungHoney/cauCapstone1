@@ -35,27 +35,35 @@ public class SearchController {
     private final SearchService searchService;
     private final NewmanService newmanService;
 
-    @PostMapping
-    public ResponseEntity<String> searchByName(@RequestParam String name){
+    @PostMapping("/{name}")
+    public ResponseEntity<Map<String, Long>> searchByName(@PathVariable String name){
+        Long id = -1L;
+        Map<String, Long> responseMap = new HashMap<>();
         if(searchService.isPersoninDBByName(name)) {
             // Ancestor found in the database
+            id = searchService.findIdByName(name);
+            responseMap.put("id", id);
+
+            return new ResponseEntity<>(responseMap, HttpStatus.OK);
             // 나중에 동명이인 처리하려면 서비스 확장해서 두명이상이면 다른 페이지 리다이렉트하게 하면 될 듯
+            /*
             return ResponseEntity.status(HttpStatus.SEE_OTHER).header("Location", "/ancestor/"
                     + searchService.findIdByName(name)).build();
+
+             */
         }
         //ancestor not in DB
-        Long person_id= (long) -1;
         try {
-            person_id=newmanService.doNewmanSetting(name);
-            return ResponseEntity.status(HttpStatus.SEE_OTHER).header("Location", "/ancestor/"
-                    + searchService.findIdByName(name)).build();
+            id=newmanService.doNewmanSetting(name);
         } catch(Exception e) {
-              e.printStackTrace();
+            System.out.println(name);
+            System.out.println("의 조상 정보 가져오는 동안 오류가 발생했습니다\n");
+            e.printStackTrace();
+            responseMap.put("id", id);
+            return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
         }
-
-
-        //db에도 없고 민족에도 없는 경우
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sorry, we don’t have any information about the person.");
+        responseMap.put("id", id);
+        return new ResponseEntity<>(responseMap, HttpStatus.OK);
     }
     @GetMapping("/initial/{letter}")
     public CollectionModel<EntityModel<Clan>> searchByInitial(@PathVariable char letter){
