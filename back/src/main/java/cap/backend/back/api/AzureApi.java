@@ -231,11 +231,17 @@ public class AzureApi {
         //SetDemoInfo(chatMessages,ancestorName);
 
         //동적으로 정보 받아와서 넘겨주기
+        String ancestorInfo = realService.getGPTfood(ancestorId);
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, ancestorInfo + "\n"));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "여기까지가 '" + ancestorName));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "' 에 대한 정보야. 다시 말하지만 이 정보를 가지고 '" + ancestorName));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "'이 되어 후손들에게 조언을 해주고, 묻는 질문에 대답을 해줘" + ancestorName));
 
+        
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "\n그리고 이것은 지금까지 우리가 나눈 대화의 일부야:\n"));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, chatHistories.historiesToString()));
         chatMessages.add(new ChatMessage(ChatRole.SYSTEM, "이제부터 진짜 대화를 시작할게.\n"));
-        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, ". 대답은 간결하게 해 " + ancestorName + "야"));
+        chatMessages.add(new ChatMessage(ChatRole.SYSTEM, ". 대답은 간결하게 해 " + ancestorName + "야\n"));
         chatMessages.add(new ChatMessage(ChatRole.USER, messageDto.getMessage()));
 
         // 프롬포트 출력
