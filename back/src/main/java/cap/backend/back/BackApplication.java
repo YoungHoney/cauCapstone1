@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 @SpringBootApplication
 public class BackApplication {
 
-	public static void main(String[] args) throws IOException, ParseException, NoSuchAlgorithmException, KeyManagementException {
+	public static void main(String[] args) throws Exception {
 
 
 

@@ -60,7 +60,7 @@ public class SearchController {
             System.out.println("의 조상 정보 가져오는 동안 오류가 발생했습니다\n");
             e.printStackTrace();
             responseMap.put("id", id);
-            return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(responseMap, HttpStatus.OK);
         }
         responseMap.put("id", id);
         return new ResponseEntity<>(responseMap, HttpStatus.OK);
