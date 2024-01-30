@@ -1,0 +1,346 @@
+.timeline {
+    position: relative;
+    width: 1000px;
+    background: #000;
+    margin: auto;
+    top: 200px;
+  }
+  
+  .horizontal-line1 {
+    width: 100%;
+    height: 3px;
+    background: hsl(0, 0%, 0%);
+    
+  }
+
+  .horizontal-line2 {
+    width: 100%;
+    height: 3px;
+    background: hsl(0, 0%, 0%);
+    
+  }
+
+  .horizontal-line3 {
+    width: 100%;
+    height: 3px;
+    background: hsl(0, 0%, 0%);
+    
+  }
+
+  .horizontal-line4 {
+    width: 100%;
+    height: 3px;
+    background: hsl(0, 0%, 0%);
+    
+  }
+  
+  .mainvertical-line {
+    position: absolute;
+    width: 1px;
+    background: #000;
+    height: 100px;
+    top: -100px
+    
+    
+    
+    
+  }
+  
+ 
+  
+  .maincontainer {
+    text-align: center;
+    position: absolute;
+    top: -52px;
+    
+    /* Align the container to the bottom of the vertical line */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid #000; /* Add a border for the rectangle */
+    width: 110px;
+    height: 30px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    
+
+    
+    
+    
+    
+  }
+  .maincontainer p {
+    margin: 0;
+    
+    font-size: 16px;
+    font-weight: bold; /* 텍스트 크기 설정 */
+  }
+  
+  
+  
+  
+  .one1 {
+    left: 10%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .two1 {
+    left: 38%; /* 오른쪽 수직선의 위치 설정 */
+  }
+  .three1 {
+    left: 67%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .four1 {
+    left: 80%; /* 왼쪽 수직선의 위치 설정 */
+  }
+
+  .one2 {
+    left: 20%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .two2 {
+    left: 33%; /* 오른쪽 수직선의 위치 설정 */
+  }
+  .three2 {
+    left: 46%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .four2 {
+    left: 59%; /* 왼쪽 수직선의 위치 설정 */
+  }
+
+  .one3 {
+    left: 15%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .two3 {
+    left: 35%; /* 오른쪽 수직선의 위치 설정 */
+  }
+  .three3 {
+    left: 65%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .four3 {
+    left: 78%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .five3 {
+    left: 91%; /* 왼쪽 수직선의 위치 설정 */
+  }
+
+  .one4 {
+    left: 15%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .two4 {
+    left: 45%; /* 오른쪽 수직선의 위치 설정 */
+  }
+  .three4 {
+    left: 76%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .four4 {
+    left: 90%; /* 왼쪽 수직선의 위치 설정 */
+  }
+
+
+  .a1 {
+    left: 3%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .b1 {
+    left: 69%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .c1 {
+    left: 80%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .d1 {
+    left: 87%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .e1{
+    left: 90%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .f1 {
+    left: 96%; /* 왼쪽 수직선의 위치 설정 */
+  }
+
+  .a2 {
+    left: 38%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .b2 {
+    left: 60%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .c2 {
+    left: 65%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .d2 {
+    left: 75%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .e2 {
+    left: 85%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .f2 {
+    left: 90%; /* 왼쪽 수직선의 위치 설정 */
+  }
+
+  .a3 {
+    left: 64%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .b3 {
+    left: 78%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .c3 {
+    left: 82%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .d3 {
+    left: 86%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .e3 {
+    left: 95%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .f3 {
+    left: 100%; /* 왼쪽 수직선의 위치 설정 */
+  }
+
+  .a4{
+    left: 44%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .b4 {
+    left: 48%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .c4 {
+    left: 60%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .d4 {
+    left: 68%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .e4 {
+    left: 77%; /* 왼쪽 수직선의 위치 설정 */
+  }
+  .f4 {
+    left: 90%; /* 왼쪽 수직선의 위치 설정 */
+  }
+ 
+
+  .eventvertical-line {
+    position: absolute;
+    width: 1px;
+    background: #000;
+    height: 100px;
+    
+  }
+    
+  .eventcontainer {
+    
+    position: absolute;
+    top: 100px;
+    
+    /* Align the container to the bottom of the vertical line */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid #000; /* Add a border for the rectangle */
+    width: auto;
+   
+    padding: 10px;
+    border-radius: 15px;
+     /* 세로 방향에서 가로로 정렬 */
+  
+  }
+
+  .eventcontainer p {
+    margin: 0;
+    
+    font-size: 12px; /* 텍스트 크기 설정 */
+  }
+
+  .horizontal-line1::before {
+    content: '1631년';
+    font-size: 12px;
+    position: absolute;
+    left: 0;
+    top: 0%;
+    transform: translateY(-30%) translateX(-120%);
+    
+   
+  }
+
+  .horizontal-line1::after {
+    content: '1695년';
+    font-size: 12px;
+    position: absolute;
+    right: 0;
+    top: 0%;
+    transform: translateY(-30%) translateX(120%);
+  }
+
+
+  .horizontal-line2::before {
+    content: '1699년';
+    font-size: 12px;
+    position: absolute;
+    left: 0;
+    top: 0%;
+    
+    transform: translateY(-30%) translateX(-120%);
+    
+   
+  }
+
+  .horizontal-line2::after {
+    content: '1777년';
+    font-size: 12px;
+    position: absolute;
+    right: 0;
+    top: 0%;
+    transform: translateY(-30%) translateX(120%);
+   
+  }
+
+
+
+  .horizontal-line3::before {
+    content: '1546년';
+    font-size: 12px;
+    position: absolute;
+    left: 0;
+    top: 0%;
+    transform: translateY(-30%) translateX(-120%);
+    
+   
+  }
+
+  .horizontal-line3::after {
+    content: '1608년';
+    font-size: 12px;
+    position: absolute;
+    right: 0;
+    top: 0%;
+    transform: translateY(-30%) translateX(120%);
+  }
+
+
+
+  .horizontal-line4::before {
+    content: '1539년';
+    font-size: 12px;
+    position: absolute;
+    left: 0;
+    top: 0%;
+    transform: translateY(-30%) translateX(-120%);
+    
+   
+  }
+
+  .horizontal-line4::after {
+    content: '1609년';
+    font-size: 12px;
+    position: absolute;
+    right: 0;
+    top: 0%;
+    transform: translateY(-30%) translateX(120%);
+  }
+
+
+
+  
+
+  .cross-point {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #000000; /* 점의 색상을 지정하세요 */
+    border-radius: 50%; /* 동그랗게 만듭니다. */
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
