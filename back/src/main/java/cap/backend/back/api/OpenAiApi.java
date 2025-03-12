@@ -1,5 +1,5 @@
 package cap.backend.back.api;
-
+//deprecate예정
 import cap.backend.back.domain.dto.MessageDTO;
 import com.theokanning.openai.completion.chat.*;
 import com.theokanning.openai.service.OpenAiService;

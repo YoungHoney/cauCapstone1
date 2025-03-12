@@ -1,6 +1,6 @@
 package cap.backend.back.preprocessing;
 
-import cap.backend.back.api.OpenAiApi;
+
 
 import cap.backend.back.preprocessing.p_gov.pre_govmatch;
 import cap.backend.back.preprocessing.p_gov.pre_moderngov;
@@ -29,10 +29,10 @@ public class PreProcessInit {
        pre_oldgov task2=context.getBean(pre_oldgov.class);
        pre_moderngov task3=context.getBean(pre_moderngov.class);
        pre_govmatch task4=context.getBean(pre_govmatch.class);
-       DemoSetting demo=context.getBean(DemoSetting.class);
+       //DemoSetting demo=context.getBean(DemoSetting.class);
        NewmanService newmanService=context.getBean(NewmanService.class);
-       S3DownloadExample as=context.getBean(S3DownloadExample.class);
-       S3UploadExample sa=context.getBean(S3UploadExample.class);
+       //S3DownloadExample as=context.getBean(S3DownloadExample.class);
+       //S3UploadExample sa=context.getBean(S3UploadExample.class);
 
 
 

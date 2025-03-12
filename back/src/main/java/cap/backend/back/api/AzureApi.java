@@ -1,5 +1,5 @@
 package cap.backend.back.api;
-
+//deprecate예정
 import cap.backend.back.domain.dto.ChatHistoriesDTO;
 import cap.backend.back.domain.dto.MessageDTO;
 import cap.backend.back.service.RealService;
