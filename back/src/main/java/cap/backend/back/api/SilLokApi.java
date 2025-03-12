@@ -20,7 +20,7 @@ import java.util.Random;
 
 @Component
 public class SilLokApi {
-    // 곽영헌(郭永憲)
+
 
     public List<SilokDocument> SilokExtractor(String keyword) throws IOException, NoSuchAlgorithmException,
             KeyManagementException, IndexOutOfBoundsException  {
