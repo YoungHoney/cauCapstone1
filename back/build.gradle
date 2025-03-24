@@ -26,7 +26,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-	implementation 'org.springframework:spring-webflux' //
+
 	implementation 'org.jsoup:jsoup:1.16.1'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	compileOnly 'org.projectlombok:lombok'
@@ -41,12 +41,9 @@ dependencies {
 	implementation group: 'com.azure', name: 'azure-ai-openai',version: '1.0.0-beta.3'
 	implementation'org.slf4j:slf4j-simple:1.7.9'
 
-	implementation 'com.theokanning.openai-gpt3-java:api:0.16.1'
-	implementation 'com.theokanning.openai-gpt3-java:client:0.16.1'
-	implementation 'com.theokanning.openai-gpt3-java:service:0.16.1'
 	implementation 'org.mariadb.jdbc:mariadb-java-client'
 
-	implementation 'software.amazon.awssdk:s3:2.21.0'
+
 
 }
 
