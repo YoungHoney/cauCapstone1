@@ -1,6 +1,7 @@
 package cap.backend.back.service;
 
 
+import cap.backend.back.api.AiApi;
 import cap.backend.back.api.AzureApi;
 import cap.backend.back.api.KrPediaApi;
 import cap.backend.back.api.SilLokApi;
@@ -44,7 +45,7 @@ public class NewmanService {
 
     private final KrPediaApi krPediaApi;
     private final SilLokApi silLokApi;
-    private final AzureApi azureApi;
+    private final AiApi aiApi;
 
     private final VirtualService virtualService;
 
@@ -196,7 +197,7 @@ public class NewmanService {
 
         String orig_govsequence="we";
         govInfo=krpedia.getDefinition()+krpedia.getDefinition()+krpedia.getMaintext();
-        orig_govsequence=azureApi.getGovsequence(govInfo);
+        orig_govsequence=aiApi.getGovsequence(govInfo);
 
         int upsm_count=0;
 
@@ -306,7 +307,7 @@ public class NewmanService {
         for(int i=0;i<silokInfo.size();i++) {
             orig_ls_food+=silokInfo.get(i).getContent();
         }
-        orig_ls=azureApi.getLifesummary(orig_ls_food,name);
+        orig_ls=aiApi.getLifesummary(orig_ls_food,name);
 
         lifesummary.setContents(orig_ls);
 
@@ -318,7 +319,7 @@ public class NewmanService {
         for(int i=0;i<silokInfo.size();i++) {
             orig_MBTI_food+=silokInfo.get(i).getContent();
         }
-        orig_MBTI=azureApi.getMBTI(orig_MBTI_food,name);
+        orig_MBTI=aiApi.getMBTI(orig_MBTI_food,name);
 
         String[] real_mbti=orig_MBTI.split("\\]");
         mbti.setContents(real_mbti[1]);
@@ -339,7 +340,7 @@ public class NewmanService {
         for(int i=0;i<silokInfo.size();i++) {
             orig_phistory_food+=silokInfo.get(i).getContent();
         }
-        orig_phistory=azureApi.getPrivateHistory(orig_phistory_food,name);
+        orig_phistory=aiApi.getPrivateHistory(orig_phistory_food,name);
 
         String[] ph_parts=orig_phistory.split("\\$");
         List<String> phistory_year=new ArrayList<>();

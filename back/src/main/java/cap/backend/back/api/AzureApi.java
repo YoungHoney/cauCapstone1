@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-@Component
+@Component("azureapi")
 @RequiredArgsConstructor
-public class AzureApi {
+public class AzureApi implements AiApi{
 
     @Value("${azure.openaikey}")
     String azureOpenaiKey;

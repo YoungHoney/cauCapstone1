@@ -1,5 +1,6 @@
 package cap.backend.back.api;
 
+import cap.backend.back.config.OpenApiConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,9 +17,16 @@ import java.io.Reader;
 @Component
 public class KrPediaApi {
 
+    private final OpenApiConfig config;
+
+    public KrPediaApi(OpenApiConfig config) {
+        this.config = config;
+    }
+
     public String[] getKrpediaInfo(String name) throws Exception {
         String addURL=getReviceURL(name); // E0001234
         String URL="https://suny.aks.ac.kr:5143/api/Article/"+addURL;
+
 
         //System.out.println(URL);
 
@@ -28,7 +36,7 @@ public class KrPediaApi {
 
         Request request = new Request.Builder()
                 .url(URL)
-                .addHeader("accessKey","ADE0FA5F-8B9B-40EA-9DF4-9991804D1CDB")
+                .addHeader("accessKey",config.getKrpediaApiKey())
                 .build();
 
         try(Response response=client.newCall(request).execute()) {
@@ -171,7 +179,7 @@ public class KrPediaApi {
 
         Request request=new Request.Builder()
                 .url(url_1)
-                .addHeader("accessKey","ADE0FA5F-8B9B-40EA-9DF4-9991804D1CDB")
+                .addHeader("accessKey",config.getKrpediaApiKey())
                 .build();
 
         try(Response response=client.newCall(request).execute()) {
