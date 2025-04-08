@@ -2,6 +2,7 @@ package cap.backend.back.service;
 
 import cap.backend.back.domain.Clan;
 import cap.backend.back.domain.Person;
+import cap.backend.back.repository.ClanRepository;
 import cap.backend.back.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,11 @@ public class SearchService {
 
 
     private final PersonRepository personRepository;
+    private final ClanRepository clanRepository;
 
     public List<String> findPersonnamesByClan(Clan clan) {
 
-        List<Person> plist=personRepository.findPersonsByClan(clan);
+        List<Person> plist=personRepository.findAllByClan(clan);
 
         return plist.stream()
                 .map(Person::getName)
@@ -47,9 +49,12 @@ public class SearchService {
         return personRepository.findPersonInDBByName(personname).getId();
     }
     public Clan findClanByWholeName(String clanwholename) {
-        return personRepository.findClanByWholeName(clanwholename);
-    }
+        String clanHangul = clanwholename.substring(0, 2); // ex) 해평
+        String surnameHangul = clanwholename.substring(2); // ex) 윤
 
+
+        return clanRepository.findByClanHangulAndSurnameHangul(clanHangul, surnameHangul);
+    }
 
 
 

@@ -37,6 +37,7 @@ public class SearchController {
 
     @PostMapping("/{name}")
     public ResponseEntity<Map<String, Long>> searchByName(@PathVariable String name){
+        System.out.println(">>> searchByName 실행됨 "+name);
         Long id = -1L;
         Map<String, Long> responseMap = new HashMap<>();
         if(searchService.isPersoninDBByName(name)) {

@@ -90,27 +90,39 @@ public class OllamaApi implements AiApi {
 
         chatHistories.add(userPrompt, response);
     }
-
-    private Mono<String> callOllamaAPI(String... messages) {
+    private Mono<String> callOllamaAPI(String systemPrompt, String... contents) {
         List<Map<String, String>> chatMessages = new ArrayList<>();
-        for (int i = 0; i < messages.length; i++) {
-            chatMessages.add(Map.of(
-                    "role", i == messages.length - 1 ? "user" : "system",
-                    "content", messages[i]
-            ));
+
+        // 1. system prompt 설정 (단 1회만)
+        chatMessages.add(Map.of("role", "system", "content", systemPrompt));
+
+
+        // 3. 나머지 전달된 content를 모두 user 입력으로 추가
+        for (String content : contents) {
+            chatMessages.add(Map.of("role", "user", "content", content));
         }
 
+        // 4. API 요청 구성
         Map<String, Object> request = Map.of(
                 "model", model,
                 "messages", chatMessages,
-                "stream", false
+                "stream", false,
+                "temperature", 0.3,      // 낮게 설정해 일관성 확보
+                "top_p", 0.9,
+                "seed", 42               // 항상 동일 결과
         );
 
         return webClient.post()
-                .uri("/api/generate")
+                .uri("/api/chat")
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(Map.class)
-                .map(response -> (String) response.get("response"));
+                .doOnNext(response -> System.out.println("DEBUG 응답: " + response))
+                .doOnError(error -> System.err.println("Ollama API 오류: " + error.getMessage()))
+                .map(response -> Optional.ofNullable(response)
+                        .map(r -> (Map<String, Object>) r.get("message"))
+                        .map(m -> (String) m.get("content"))
+                        .orElseThrow(() -> new IllegalStateException("올바르지 않은 응답 형식: " + response)));
     }
+
 }

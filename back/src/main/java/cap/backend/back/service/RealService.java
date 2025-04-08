@@ -33,7 +33,7 @@ public class RealService {
     private final SilokRepository silokRepository;
 
     public Person findOne(Long id) {
-        return personrepository.findOne(id);
+        return personrepository.findById(id).orElse(null);
     }
 
     public Map<Integer,String> findPrivateHistoriesById(Long id) {

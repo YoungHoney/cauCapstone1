@@ -41,11 +41,4 @@ public class Silok {
 
 
     private Integer eventyear;
-
-
-
-
-
-
-
 }
