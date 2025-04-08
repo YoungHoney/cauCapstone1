@@ -96,7 +96,7 @@ public class PersonRepository {
         String clanHangulTemp=clanwholename.substring(0,2);
         String surnameHangulTemp=clanwholename.substring(2);
 
-        System.out.println("clanHangulTemp = " + clanHangulTemp);
+        System.out.println("NewmanService->PersonRepository.findClanByWholeName.clanHangulTemp = " + clanHangulTemp);
         System.out.println("surnameHangulTemp = " + surnameHangulTemp);
 
 

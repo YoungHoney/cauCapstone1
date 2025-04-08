@@ -90,7 +90,7 @@ console.log(jsondata)
               console.log('없나?:', jsonconvert); 
               if (jsonconvert && jsonconvert.id) {
                 console.log('chatidaaaaa:', jsonconvert.id); 
-                window.location.href = `http://3.39.127.44:8080/api/ancestor/${jsonconvert.id}/chat`;
+                window.location.href = `http://localhost:8080/api/ancestor/${jsonconvert.id}/chat`;
                 scrollToTop();
               } else {
                 console.error('jsonconvert가 유효하지 않습니다. 아직 데이터가 로딩 중일 수 있습니다.');

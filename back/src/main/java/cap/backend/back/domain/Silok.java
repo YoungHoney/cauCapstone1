@@ -35,7 +35,7 @@ public class Silok {
     private Privatehistory privatehistory;
 
     @Lob
-    @Column(name="silokcontents",columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
+  //  @Column(name="silokcontents",columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String contents;
 
 

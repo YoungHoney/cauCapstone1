@@ -39,7 +39,7 @@ public class SilLokApi {
             } else {
                 try {
                     silokDocument.setContent(HtmlTextExtractor(tempDocument));
-                    System.out.println(silokDocument.getContent());
+                    System.out.println("SilLokApi.SilokExtractor : "+silokDocument.getContent());
                 }catch (IndexOutOfBoundsException e){
                     iterator.remove();
                  //   System.out.println("silokDDocument 형식이 잘못되어 목록에 추가하지 않았습니다");
@@ -47,6 +47,7 @@ public class SilLokApi {
             }
 
         }
+        System.out.println("SilLokApi.SilokExtractor종료");
         return silokDocuments;
     }
     private String dciToUrl(String input) throws IndexOutOfBoundsException{

@@ -41,7 +41,7 @@ public class KrPediaApi {
 
         try(Response response=client.newCall(request).execute()) {
             if(!response.isSuccessful()) {
-                throw new IOException("응답오류, 내용 : "+response);
+                throw new IOException(" KrPediaApi의 getKrpediaInfo 응답오류, 내용 : "+response);
             }
             String responseBody=response.body().string();
             jsonObj=(JSONObject)jParser.parse(responseBody);
@@ -162,6 +162,8 @@ public class KrPediaApi {
         result[9]=ho17;
         result[10]=siho8;
 
+        System.out.println("KrePediaApi.getKrpediaInfo 종료 ");
+
         return result;
 
     }
@@ -184,7 +186,7 @@ public class KrPediaApi {
 
         try(Response response=client.newCall(request).execute()) {
             if(!response.isSuccessful()) {
-                throw new IOException("응답오류, 내용 : "+response);
+                throw new IOException("KrPediaApi.getReviceURL 응답오류, 내용 : "+response);
             }
             String responseBody=response.body().string();
             

@@ -32,7 +32,7 @@ public class Privatehistory {
     private List<Silok> siloks=new ArrayList<>();
 
     @Lob
-    @Column(name="privatehistorycontents",columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
+    //@Column(name="privatehistorycontents",columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String contents;
 
 }
